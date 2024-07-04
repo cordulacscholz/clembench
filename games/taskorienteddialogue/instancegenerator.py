@@ -20,7 +20,7 @@ class DialogueInstanceGenerator(GameInstanceGenerator):
         GameInstanceGenerator (_type_): _description_
     """
     def __init__(self):
-        super().__init__("dialoguegame")
+        super().__init__("taskorienteddialogue")
 
     # TODO: Specify on_generate
     # Variations on topic, variations with same topic...
