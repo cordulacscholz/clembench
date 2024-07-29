@@ -5,6 +5,12 @@ Implementation of a GameMaster to control game mechanisms.
 from typing import Dict, List
 from backends import Model
 from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer, Player
+from clemgame import get_logger
+import constants
+
+
+logger = get_logger(__name__)
+GAME_NAME = constants.GAME_NAME
 
 
 class Questioner(Player):
@@ -51,20 +57,47 @@ class DialogueQuest(DialogueGameMaster):
         experiment
         player_models
     """
-    def __init__(self):
-        pass
+    # TODO: Check params!
+    def __init__(self, experiment: Dict, player_models: List[Model]):
+        super().__init__(GAME_NAME, experiment, player_models)
+        self.max_turns: int = experiment["max_turns"]
+        self.questioner_initial_prompt = self.experiment["prompt_a_initial_prompt"]
+        self.answerer_initial_prompt = self.experiment["prompt_b_initial_prompt"]
 
     # functions:
-    # _on_setup
-    # _does_game_proceed
-    # def _validate_player_response(self, player: Player, utterance: str) -> bool
+    # - `def _on_setup(self, **kwargs)` which must be implemented. Use `add_player()` here to add the players.
+
+    def _on_setup(self, **game_instance):
+        logger.info("_on_setup")
+        self.game_instance = game_instance
+
+        self.questioner = Questioner(self.player_models[0], self.max_turns)
+        self.answerer = Answerer(self.player_models[1])
+
+        self.add_player(self.questioner)
+        self.add_player(self.answerer)
+
+    def _on_before_game(self):
+        self.add_user_message(self.questioner, self.questioner_initial_prompt)
+        self.add_user_message(self.answerer, self.answerer_initial_prompt)
+
+    # TODO: Design + Implementation! Refine
+    def _does_game_proceed(self) -> bool:
+        """Proceed as long as there are still unfilled slots and max number of turns has not been reached.
+
+        Returns:
+            bool: True if proceed, False if not proceed
+        """
+        proceed = True if not self.current_turn >= self.max_turns else False
+        return proceed
+    
+    # - `def _validate_player_response(self, player: Player, utterance: str) -> bool` to decide if an utterance should be added. This is also the place to check for game end conditions.
     #     - `def _on_parse_response(self, player: Player, utterance: str) -> Tuple[str, bool]` to decide if a response utterance should be modified. If not simply return the utterance.
     #         When a modified utterance and a true value is returned, then a 'parse' event is logged.
     # - `def _after_add_player_response(self, player: Player, utterance: str)` to add the utterance to other player's history, if necessary.
     #         To do this use the method `add_user_message(other_player,utterance)`.
     # - the general game hooks `_on_before_game()` and `_on_before_game()`
     # - the general turn hooks `_on_before_turn(turn_idx)` and `_on_after_turn(turn_idx)`
-
 
     def compute_score(self, episode_interactions: Dict):
         """Computes the game's scores.
