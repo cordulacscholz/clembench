@@ -19,18 +19,17 @@ class DialogueQuest(DialogueGameMaster):
     def __init__(self):
         pass
 
-    def setup(self, **kwargs):
-        """Sets the background information of the game.
+    # functions:
+    # _on_setup
+    # _does_game_proceed
+    # def _validate_player_response(self, player: Player, utterance: str) -> bool
+    #     - `def _on_parse_response(self, player: Player, utterance: str) -> Tuple[str, bool]` to decide if a response utterance should be modified. If not simply return the utterance.
+    #         When a modified utterance and a true value is returned, then a 'parse' event is logged.
+    # - `def _after_add_player_response(self, player: Player, utterance: str)` to add the utterance to other player's history, if necessary.
+    #         To do this use the method `add_user_message(other_player,utterance)`.
+    # - the general game hooks `_on_before_game()` and `_on_before_game()`
+    # - the general turn hooks `_on_before_turn(turn_idx)` and `_on_after_turn(turn_idx)`
 
-        Returns:
-            _type_: _description_
-        """
-        return super().setup(**kwargs)
-
-    def play(self):
-        """Executes game logic and performs turns of the game.
-        """
-        pass
 
     def compute_score(self, episode_interactions: Dict):
         """Computes the game's scores.
