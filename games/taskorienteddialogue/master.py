@@ -4,11 +4,11 @@ Implementation of a GameMaster to control game mechanisms.
 
 from typing import Dict, List
 from backends import Model
-from clemgame.clemgame import GameMaster, GameBenchmark, GameScorer
+from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer
 
 
 # Extend from DialogueGameMaster here? Moderator between 2 players. If so, several functions to be implemented: https://github.com/clp-research/clembench/blob/main/docs/howto_add_games.md
-class Dialogue(GameMaster):
+class Dialogue(DialogueGameMaster):
     """Play a single instance of a Dialogue Game.
 
     Args:
