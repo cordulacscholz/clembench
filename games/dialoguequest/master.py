@@ -4,7 +4,42 @@ Implementation of a GameMaster to control game mechanisms.
 
 from typing import Dict, List
 from backends import Model
-from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer
+from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer, Player
+
+
+class Questioner(Player):
+    """_summary_
+
+    Args:
+        Player (_type_): _description_
+    """
+    def __init__(self, model_name: str, player: str) -> None:
+        super().__init__(model_name)
+        self.player: str = player
+
+        # list for storing dialogue history
+        self.history: List = []
+
+    # TODO: Define custom response - "Find all slots needed"
+    def _custom_response(self, messages, turn_idx) -> str:
+        return "question"
+
+
+class Answerer(Player):
+    """_summary_
+
+    Args:
+        Player (_type_): _description_
+    """
+    def __init__(self, model_name: str, player: str) -> None:
+        super().__init__(model_name)
+        self.player: str = player
+
+        self.history: List = []
+
+    # TODO: Define custom response for Answerer - "I suggest..."
+    def _custom_response(self, messages, turn_idx) -> str:
+        return "answer"
 
 
 # Extend from DialogueGameMaster here? Moderator between 2 players. If so, several functions to be implemented: https://github.com/clp-research/clembench/blob/main/docs/howto_add_games.md
