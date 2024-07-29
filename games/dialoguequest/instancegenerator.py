@@ -1,4 +1,4 @@
-"""Generate instances as json files for DialogueGame.
+"""Generate instances as json files for DialogueQuest.
 """
 
 import random
@@ -8,19 +8,19 @@ from clemgame.clemgame import GameInstanceGenerator
 import constants
 
 
-GAME_NAME = 'dialogue'
+GAME_NAME = 'dialoguequest'
 N_INSTANCES = 10
 SEED = 9191
 
 
-class DialogueInstanceGenerator(GameInstanceGenerator):
+class DialogueQuestInstanceGenerator(GameInstanceGenerator):
     """generate() method creates JSON file with key 'experiments', list of experiments.
 
     Args:
         GameInstanceGenerator (_type_): _description_
     """
     def __init__(self):
-        super().__init__("taskorienteddialogue")
+        super().__init__("dialoguequest")
 
     # TODO: Specify on_generate
     # Variations on topic, variations with same topic...
@@ -35,7 +35,7 @@ class DialogueInstanceGenerator(GameInstanceGenerator):
         prompt_b = self.load_template('resources/initial_prompts/dummy_prompt_b_hotel')
 
         # TODO: Set up relevant params
-        for n in range(0,5):
+        for n in range(0, 5):
             experiment = self.add_experiment(n)
 
             for game_id in range(N_INSTANCES):
@@ -58,4 +58,4 @@ class DialogueInstanceGenerator(GameInstanceGenerator):
 
 if __name__ == '__main__':
     random.seed(SEED)
-    DialogueInstanceGenerator().generate()
+    DialogueQuestInstanceGenerator().generate()

@@ -1,4 +1,4 @@
-"""Constants for the DialogueGame.
+"""Constants for the DialogueQuest game.
 """
 
 N_INSTANCES = 20  # how many different target words; zero means "all"

@@ -8,7 +8,7 @@ from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer
 
 
 # Extend from DialogueGameMaster here? Moderator between 2 players. If so, several functions to be implemented: https://github.com/clp-research/clembench/blob/main/docs/howto_add_games.md
-class Dialogue(DialogueGameMaster):
+class DialogueQuest(DialogueGameMaster):
     """Play a single instance of a Dialogue Game.
 
     Args:
@@ -26,7 +26,7 @@ class Dialogue(DialogueGameMaster):
             _type_: _description_
         """
         return super().setup(**kwargs)
-    
+
     def play(self):
         """Executes game logic and performs turns of the game.
         """
@@ -41,7 +41,7 @@ class Dialogue(DialogueGameMaster):
         pass
 
 
-class DialogueGameBenchmark(GameBenchmark):
+class DialogueQuestBenchmark(GameBenchmark):
     """_summary_
 
     Args:
@@ -54,8 +54,8 @@ class DialogueGameBenchmark(GameBenchmark):
         return "This is a TOD-Game."
 
     # experiment from instances.json, player_models == dialogue pair
-    def create_game_master(self, experiment: Dict, player_models: List[Model]) -> GameMaster:
-        return Dialogue(experiment, player_models)
+    def create_game_master(self, experiment: Dict, player_models: List[Model]) -> DialogueGameMaster:
+        return DialogueQuest(experiment, player_models)
 
     def is_single_player(self) -> bool:
         return False
