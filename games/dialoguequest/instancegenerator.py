@@ -8,9 +8,9 @@ from clemgame.clemgame import GameInstanceGenerator
 import constants
 
 
-GAME_NAME = 'dialoguequest'
-N_INSTANCES = 10
-SEED = 9191
+GAME_NAME = constants.GAME_NAME
+N_INSTANCES = constants.N_INSTANCES
+SEED = constants.SEED
 
 
 class DialogueQuestInstanceGenerator(GameInstanceGenerator):
@@ -42,6 +42,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 instance = self.add_game_instance(experiment, game_id)
                 instance['prompt_player_a'] = prompt_a
                 instance['prompt_player_b'] = prompt_b
+                instance['max_turns'] = 10
 
     # Fill prompt template
     # TODO: Modify!
