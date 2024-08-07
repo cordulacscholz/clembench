@@ -71,16 +71,24 @@ class DialogueQuest(DialogueGameMaster):
         super().__init__(GAME_NAME, experiment, player_models)
         # self.max_turns: int = experiment["max_turns"]
         self.max_turns: int = 10
-        print(f"EXPERIMENT: {experiment}")
+        # self.experiment: str = experiment["name"]
+        # TODO: Where should the prompts be coming from?!
         # self.questioner_initial_prompt = self.experiment["prompt_player_a"]
         # self.answerer_initial_prompt = self.experiment["prompt_player_b"]
+        # print(f"Prompt: {self.questioner_initial_prompt}")
 
     # functions:
     # - `def _on_setup(self, **kwargs)` which must be implemented. Use `add_player()` here to add the players.
 
     def _on_setup(self, **game_instance):
         logger.info("_on_setup")
+
         self.game_instance = game_instance
+
+        self.initial_prompt = game_instance["prompt_player_a"]
+        print(self.initial_prompt)
+        self.initial_prompt_b = game_instance["prompt_player_b"]
+        print(self.initial_prompt_b)
 
         self.questioner = Questioner(self.player_models[0], "A")
         self.answerer = Answerer(self.player_models[1], "B")
@@ -89,8 +97,9 @@ class DialogueQuest(DialogueGameMaster):
         self.add_player(self.answerer)
 
     def _on_before_game(self):
-        self.add_user_message(self.questioner, self.questioner_initial_prompt)
-        self.add_user_message(self.answerer, self.answerer_initial_prompt)
+        pass
+        # self.add_user_message(self.questioner, self.questioner_initial_prompt)
+        # self.add_user_message(self.answerer, self.answerer_initial_prompt)
 
     # TODO: Design + Implementation! Refine
     def _does_game_proceed(self) -> bool:
@@ -140,6 +149,11 @@ class DialogueQuest(DialogueGameMaster):
         pass
 
 
+class DialogueQuestScorer(GameScorer):
+    def __init__(self, experiment: Dict, game_instance: Dict):
+        super().__init__(GAME_NAME, experiment, game_instance)
+
+
 class DialogueQuestBenchmark(GameBenchmark):
     """_summary_
 
@@ -155,8 +169,11 @@ class DialogueQuestBenchmark(GameBenchmark):
 
     # experiment from instances.json, player_models == dialogue pair
     def create_game_master(self, experiment: Dict, player_models: List[Model]) -> DialogueGameMaster:
-        print(f"Hello! {self.name}")
+        print(f"Hello! {experiment}")
         return DialogueQuest(experiment, player_models)
+    
+    def create_game_scorer(self, experiment: Dict, game_instance: Dict) -> GameScorer:
+        return DialogueQuestScorer(experiment, game_instance)
 
     def is_single_player(self) -> bool:
         return False
