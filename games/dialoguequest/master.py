@@ -68,8 +68,6 @@ class DialogueQuest(DialogueGameMaster):
         experiment
         player_models
     """
-    # TODO: Check params!
-    # ??? key errors - not in instances file ???
     def __init__(self, experiment: Dict, player_models: List[Model]):
         super().__init__(GAME_NAME, experiment, player_models)
         # self.max_turns: int = experiment["max_turns"]
@@ -79,9 +77,6 @@ class DialogueQuest(DialogueGameMaster):
         # self.questioner_initial_prompt = self.experiment["prompt_player_a"]
         # self.answerer_initial_prompt = self.experiment["prompt_player_b"]
         # print(f"Prompt: {self.questioner_initial_prompt}")
-
-    # functions:
-    # - `def _on_setup(self, **kwargs)` which must be implemented. Use `add_player()` here to add the players.
 
     def _on_setup(self, **game_instance):
         logger.info("_on_setup")
@@ -104,6 +99,7 @@ class DialogueQuest(DialogueGameMaster):
         self.add_user_message(self.answerer, self.initial_prompt_b)
 
     # TODO: Design + Implementation! Refine
+    # TODO: Add specialised error messages
     def _does_game_proceed(self) -> bool:
         """Proceed as long as there are still unfilled slots and max number of turns has not been reached.
 
