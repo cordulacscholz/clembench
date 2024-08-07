@@ -36,7 +36,9 @@ class Questioner(Player):
 
     # TODO: Define custom response - "Find all slots needed"
     def _custom_response(self, messages, turn_idx) -> str:
-        return "question"
+        utterance = f"{messages} TURN: {turn_idx}"
+        print(utterance)
+        return utterance
 
 
 class Answerer(Player):
@@ -53,10 +55,11 @@ class Answerer(Player):
 
     # TODO: Define custom response for Answerer - "I suggest..."
     def _custom_response(self, messages, turn_idx) -> str:
-        return "answer"
+        utterance = f"{messages} TURN: {turn_idx}"
+        print(utterance)
+        return utterance
 
 
-# Extend from DialogueGameMaster here? Moderator between 2 players. If so, several functions to be implemented: https://github.com/clp-research/clembench/blob/main/docs/howto_add_games.md
 class DialogueQuest(DialogueGameMaster):
     """Play a single instance of a Dialogue Game.
 
@@ -85,8 +88,8 @@ class DialogueQuest(DialogueGameMaster):
 
         self.game_instance = game_instance
 
-        self.initial_prompt = game_instance["prompt_player_a"]
-        print(self.initial_prompt)
+        self.initial_prompt_a = game_instance["prompt_player_a"]
+        print(self.initial_prompt_a)
         self.initial_prompt_b = game_instance["prompt_player_b"]
         print(self.initial_prompt_b)
 
@@ -97,9 +100,8 @@ class DialogueQuest(DialogueGameMaster):
         self.add_player(self.answerer)
 
     def _on_before_game(self):
-        pass
-        # self.add_user_message(self.questioner, self.questioner_initial_prompt)
-        # self.add_user_message(self.answerer, self.answerer_initial_prompt)
+        self.add_user_message(self.questioner, self.initial_prompt_a)
+        self.add_user_message(self.answerer, self.initial_prompt_b)
 
     # TODO: Design + Implementation! Refine
     def _does_game_proceed(self) -> bool:
