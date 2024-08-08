@@ -7,19 +7,11 @@ from backends import Model
 from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer, Player
 from clemgame import get_logger
 from clemgame import file_utils
-# import constants
-# from dialoguequest import constants
+from games.dialoguequest.constants import (
+    GAME_NAME, MAX_TURNS)
 
 
 logger = get_logger(__name__)
-GAME_NAME = "dialoguequest"
-# GAME_NAME = constants.GAME_NAME
-
-
-# def print_constants(value):
-#     print(value)
-
-# print_constants(GAME_NAME)
 
 
 class Questioner(Player):
@@ -71,13 +63,7 @@ class DialogueQuest(DialogueGameMaster):
     """
     def __init__(self, experiment: Dict, player_models: List[Model]):
         super().__init__(GAME_NAME, experiment, player_models)
-        # self.max_turns: int = experiment["max_turns"]
-        self.max_turns: int = 10
-        # self.experiment: str = experiment["name"]
-        # TODO: Where should the prompts be coming from?!
-        # self.questioner_initial_prompt = self.experiment["prompt_player_a"]
-        # self.answerer_initial_prompt = self.experiment["prompt_player_b"]
-        # print(f"Prompt: {self.questioner_initial_prompt}")
+        self.max_turns: int = MAX_TURNS
 
     def _on_setup(self, **game_instance):
         logger.info("_on_setup")
@@ -177,15 +163,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-def main():
-    # select one instance
-    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-    instance = experiments["experiments"][0]["game_instances"][0]
-    master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
+# def main():
+#     # select one instance
+#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+#     instance = experiments["experiments"][0]["game_instances"][0]
+#     master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
 
-    master.setup(**instance)
-    master.play()
+#     master.setup(**instance)
+#     master.play()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
