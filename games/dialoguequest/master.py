@@ -6,6 +6,7 @@ from typing import Dict, List, Tuple
 from backends import Model
 from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer, Player
 from clemgame import get_logger
+from clemgame import file_utils
 # import constants
 # from dialoguequest import constants
 
@@ -167,23 +168,24 @@ class DialogueQuestBenchmark(GameBenchmark):
 
     # experiment from instances.json, player_models == dialogue pair
     def create_game_master(self, experiment: Dict, player_models: List[Model]) -> DialogueGameMaster:
-        print(f"Hello! {experiment}")
         return DialogueQuest(experiment, player_models)
-    
+
     def create_game_scorer(self, experiment: Dict, game_instance: Dict) -> GameScorer:
         return DialogueQuestScorer(experiment, game_instance)
 
     def is_single_player(self) -> bool:
         return False
 
-# def main():
-#     # select one instance
-#     experiments = file_utils.load_json("in/instances.json", "referencegame")
-#     instance = experiments["experiments"][0]["game_instances"][0]
-#     master = ReferenceGameMaster(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
-#     master.setup(**instance)
-#     master.play()
+
+def main():
+    # select one instance
+    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+    instance = experiments["experiments"][0]["game_instances"][0]
+    master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
+
+    master.setup(**instance)
+    master.play()
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == "__main__":
+    main()
