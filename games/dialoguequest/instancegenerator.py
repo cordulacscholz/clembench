@@ -5,12 +5,8 @@ import random
 import string
 
 from clemgame.clemgame import GameInstanceGenerator
-import constants
-
-
-GAME_NAME = constants.GAME_NAME
-N_INSTANCES = constants.N_INSTANCES
-SEED = constants.SEED
+from games.dialoguequest.constants import (
+    GAME_NAME, N_INSTANCES, MAX_TURNS, SEED, TOPICS)
 
 
 class DialogueQuestInstanceGenerator(GameInstanceGenerator):
@@ -42,19 +38,19 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 instance = self.add_game_instance(experiment, game_id)
                 instance['prompt_player_a'] = prompt_a
                 instance['prompt_player_b'] = prompt_b
-                instance['max_turns'] = 10
+                instance['max_turns'] = MAX_TURNS
 
-    # Fill prompt template
-    # TODO: Modify!
-    def create_prompt(self,
-                      topic: str,
-                      prompt: str,
-                      letter: str,
-                      n_turns: int) -> str:
-        """Replace a prompt template with slot values."""
-        text = string.Template(prompt).substitute(topic=topic, letter=letter,
-                                                  nturns=n_turns)
-        return text
+    # # Fill prompt template
+    # # TODO: Modify!
+    # def create_prompt(self,
+    #                   topic: str,
+    #                   prompt: str,
+    #                   letter: str,
+    #                   n_turns: int) -> str:
+    #     """Replace a prompt template with slot values."""
+    #     text = string.Template(prompt).substitute(topic=topic, letter=letter,
+    #                                               nturns=n_turns)
+    #     return text
 
 
 if __name__ == '__main__':
