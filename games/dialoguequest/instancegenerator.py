@@ -45,8 +45,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                     example_object = self.sample_random_json_object(topic)
                 categorical_slots, non_categorical_slots = self.get_cat_and_non_cat_keys(topic)
                 # Select NUMBER of cat slots for SLOTS_GIVEN
-                slots_given = categorical_slots
-                slots_to_fill = non_categorical_slots
+                internal_object, slots_given, slots_to_fill = self.select_slots(goal_object, categorical_slots, non_categorical_slots)
                 # Select NUMBER of non_cat / unsued cat slots for SLOTS_TO_FILL
                 instance = self.add_game_instance(experiment, game_id)
                 instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, slots_given, slots_to_fill, example_object)
@@ -74,8 +73,14 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         return text
 
     def select_slots(self, goal_object, categorical_slots, non_categorical_slots):
-        
-        pass
+        goal_object_empty = {key: None for key in goal_object}
+        # TODO: See what could be a good way to choose/modify this
+        number_of_slots = 2
+        slots_given = random.sample(categorical_slots, number_of_slots)
+        slots_to_fill = random.sample(non_categorical_slots, number_of_slots)
+        # TODO: Pick the according slots from the goal object
+        # TODO: Filter out "no" values
+        return goal_object_empty, slots_given, slots_to_fill
 
     def load_database_file(self, topic):
         file_path = os.path.join(os.path.dirname(__file__), 'resources/database_files', f'{topic}.json')
