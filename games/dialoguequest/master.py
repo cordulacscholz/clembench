@@ -26,6 +26,7 @@ class Questioner(Player):
 
         # list for storing dialogue history
         self.history: List = []
+        self.goal = {}
 
     # TODO: Define custom response - "Find all slots needed"
     def _custom_response(self, messages, turn_idx) -> str:
@@ -81,11 +82,13 @@ class DialogueQuest(DialogueGameMaster):
         self.add_player(self.questioner)
         self.add_player(self.answerer)
 
+        self.goal = game_instance["goal"]
+
     def _on_before_game(self):
         self.add_user_message(self.questioner, self.initial_prompt_a)
         self.add_user_message(self.answerer, self.initial_prompt_b)
 
-    # TODO: Design + Implementation! Refine
+    # TODO: Add working mechanism to check slots / internal object!
     # TODO: Add specialised error messages
     def _does_game_proceed(self) -> bool:
         """Proceed as long as there are still unfilled slots and max number of turns has not been reached.
@@ -100,6 +103,8 @@ class DialogueQuest(DialogueGameMaster):
     # not valid: empty
     # end of game: all slots filled
     def _validate_player_response(self, player: Player, utterance: str) -> bool:
+        # not empty?
+        # json structure given at end of utterance?
         return True
 
     # TODO: Implement + design validation
@@ -121,7 +126,9 @@ class DialogueQuest(DialogueGameMaster):
         return super()._on_before_turn(turn_idx)
 
     def _on_after_turn(self, turn_idx: int):
-        return super()._on_after_turn(turn_idx)
+        # return super()._on_after_turn(turn_idx)
+        print(self.goal)
+        #TODO: check internal_object
 
     # - the general turn hooks `_on_before_turn(turn_idx)` and `_on_after_turn(turn_idx)`
 
@@ -163,15 +170,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-# def main():
-#     # select one instance
-#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-#     instance = experiments["experiments"][0]["game_instances"][0]
-#     master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
+def main():
+    # select one instance
+    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+    instance = experiments["experiments"][0]["game_instances"][0]
+    master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
 
-#     master.setup(**instance)
-#     master.play()
+    master.setup(**instance)
+    master.play()
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()

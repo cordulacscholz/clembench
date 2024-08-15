@@ -8,7 +8,10 @@ import string
 
 from clemgame.clemgame import GameInstanceGenerator
 from games.dialoguequest.constants import (
-    GAME_NAME, N_INSTANCES, MAX_TURNS, SEED, TOPICS)
+    GAME_NAME, N_INSTANCES, MAX_TURNS, SEED, TOPICS, WORDS_PATH)
+
+LANG = 'en'
+JSON_PREFIX = 'JSON'
 
 
 class DialogueQuestInstanceGenerator(GameInstanceGenerator):
@@ -49,8 +52,9 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 # Select NUMBER of non_cat / unsued cat slots for SLOTS_TO_FILL
                 instance = self.add_game_instance(experiment, game_id)
                 instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, slots_given, slots_to_fill, example_object)
-                instance['prompt_player_b'] = self.create_prompt_b(prompt_b, topic)
+                instance['prompt_player_b'] = self.create_prompt_b(prompt_b, topic, example_object)
                 instance['max_turns'] = MAX_TURNS
+                instance['goal'] = goal_object
 
     def _select_topic(self):
         """Selects a topic out of possible lists of topics
@@ -67,9 +71,11 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         print(text)
         return text
 
-    def create_prompt_b(self, prompt: str, topic: str):
+    def create_prompt_b(self, prompt: str, topic: str, example_object):
         data = self.load_database_file(topic)
         text = prompt.replace('$DATA$', str(data))
+        text = text.replace('$JSON_PREFIX', JSON_PREFIX)
+        text = text.replace('$EXAMPLE$', str(example_object))
         return text
 
     def select_slots(self, goal_object, categorical_slots, non_categorical_slots):

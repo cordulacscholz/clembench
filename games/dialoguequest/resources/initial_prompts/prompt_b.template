@@ -3,3 +3,6 @@ Make sure that you provide them with all relevant information.
 In case you need some more information, ask them.
 Bet helpful and nice.
 Here is the relevant data: $DATA$
+
+After each answer in natural language, add a paragraph which starts with the word $JSON_PREFIX$. After that, please provide your request in the following structure:
+$EXAMPLE$
