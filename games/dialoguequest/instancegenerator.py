@@ -93,7 +93,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         try:
             with open(file_path, 'r') as file:
                 data = json.load(file)
-                return(data)
+                return (data)
         except (FileNotFoundError, json.JSONDecodeError) as e:
             print(f"An error occurred: {e}")
             return None

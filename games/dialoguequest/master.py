@@ -7,6 +7,7 @@ from backends import Model
 from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer, Player
 from clemgame import get_logger
 from clemgame import file_utils
+import json
 from games.dialoguequest.constants import (
     GAME_NAME, MAX_TURNS)
 
@@ -26,12 +27,12 @@ class Questioner(Player):
 
         # list for storing dialogue history
         self.history: List = []
-        self.goal = {}
+
 
     # TODO: Define custom response - "Find all slots needed"
     def _custom_response(self, messages, turn_idx) -> str:
         utterance = f"{messages} TURN: {turn_idx}"
-        print(utterance)
+        # print(utterance)
         return utterance
 
 
@@ -50,7 +51,7 @@ class Answerer(Player):
     # TODO: Define custom response for Answerer - "I suggest..."
     def _custom_response(self, messages, turn_idx) -> str:
         utterance = f"{messages} TURN: {turn_idx}"
-        print(utterance)
+        # print(utterance)
         return utterance
 
 
@@ -72,9 +73,7 @@ class DialogueQuest(DialogueGameMaster):
         self.game_instance = game_instance
 
         self.initial_prompt_a = game_instance["prompt_player_a"]
-        print(self.initial_prompt_a)
         self.initial_prompt_b = game_instance["prompt_player_b"]
-        print(self.initial_prompt_b)
 
         self.questioner = Questioner(self.player_models[0], "A")
         self.answerer = Answerer(self.player_models[1], "B")
@@ -82,6 +81,7 @@ class DialogueQuest(DialogueGameMaster):
         self.add_player(self.questioner)
         self.add_player(self.answerer)
 
+        # Make this the incomplete item with only the desired slots filled - delete all other ones
         self.goal = game_instance["goal"]
 
     def _on_before_game(self):
@@ -100,11 +100,24 @@ class DialogueQuest(DialogueGameMaster):
         return proceed
 
     # TODO: Implement + design validation / end of game!
-    # not valid: empty
-    # end of game: all slots filled
+    # Error messages!
     def _validate_player_response(self, player: Player, utterance: str) -> bool:
+        """_summary_
+
+        Args:
+            player (Player): _description_
+            utterance (str): _description_
+
+        Returns:
+            bool: _description_
+        """
         # not empty?
         # json structure given at end of utterance?
+        if not utterance:
+            return False
+        if player == self.answerer:
+            if not utterance.find('{'):
+                return False
         return True
 
     # TODO: Implement + design validation
@@ -131,6 +144,17 @@ class DialogueQuest(DialogueGameMaster):
         #TODO: check internal_object
 
     # - the general turn hooks `_on_before_turn(turn_idx)` and `_on_after_turn(turn_idx)`
+
+    def extract_json_from_response(utterance):
+        try:
+            # Find the start of the JSON structure in the response
+            json_start = utterance.find('{')
+            # Parse the JSON
+            json_data = json.loads(utterance[json_start:])
+            return json_data
+        except json.JSONDecodeError:
+            print("Invalid JSON structure detected. Please try again.")
+            return None
 
     def compute_score(self, episode_interactions: Dict):
         """Computes the game's scores.
@@ -170,15 +194,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-def main():
-    # select one instance
-    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-    instance = experiments["experiments"][0]["game_instances"][0]
-    master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
+# def main():
+#     # select one instance
+#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+#     instance = experiments["experiments"][0]["game_instances"][0]
+#     master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
 
-    master.setup(**instance)
-    master.play()
+#     master.setup(**instance)
+#     master.play()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
