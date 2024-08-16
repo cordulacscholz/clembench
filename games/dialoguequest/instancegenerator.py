@@ -5,6 +5,7 @@ import os
 import random
 import json
 import string
+import math
 
 from clemgame.clemgame import GameInstanceGenerator
 from games.dialoguequest.constants import (
@@ -81,8 +82,11 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
     def select_slots(self, goal_object, categorical_slots, non_categorical_slots):
         goal_object_empty = {key: None for key in goal_object}
         # TODO: See what could be a good way to choose/modify this
-        number_of_slots = 2
-        slots_given = random.sample(categorical_slots, number_of_slots)
+        filtered_goal_object = {key: goal_object[key] for key in categorical_slots if key in goal_object}
+        number_of_slots = math.floor(len(filtered_goal_object)/2)
+        random_keys_given = random.sample(list(filtered_goal_object.keys()), number_of_slots)
+        slots_given = {key: filtered_goal_object[key] for key in random_keys_given}
+
         slots_to_fill = random.sample(non_categorical_slots, number_of_slots)
         # TODO: Pick the according slots from the goal object
         # TODO: Filter out "no" values
@@ -123,8 +127,8 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             data = json.load(file)
             for service in data:
                 if service['service_name'] == topic:
-                    categorical_slots = [slot['name'] for slot in service['slots'] if slot['is_categorical']]
-                    non_categorical_slots = [slot['name'] for slot in service['slots'] if not slot['is_categorical']]
+                    categorical_slots = [slot['name'].split('-')[1] for slot in service['slots'] if slot['is_categorical']]
+                    non_categorical_slots = [slot['name'].split('-')[1] for slot in service['slots'] if not slot['is_categorical']]
                     return categorical_slots, non_categorical_slots
 
 
