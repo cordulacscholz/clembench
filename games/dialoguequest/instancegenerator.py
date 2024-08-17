@@ -49,7 +49,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                     example_object = self.sample_random_json_object(topic)
                 categorical_slots, non_categorical_slots = self.get_cat_and_non_cat_keys(topic)
                 # Select NUMBER of cat slots for SLOTS_GIVEN
-                internal_object, slots_given, slots_to_fill = self.select_slots(goal_object, categorical_slots, non_categorical_slots)
+                slots_given, slots_to_fill = self.select_slots(goal_object, categorical_slots, non_categorical_slots)
                 # Select NUMBER of non_cat / unsued cat slots for SLOTS_TO_FILL
                 instance = self.add_game_instance(experiment, game_id)
                 instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, slots_given, slots_to_fill, example_object)
@@ -69,7 +69,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         text = text.replace('$SLOTS_GIVEN$', str(slots_given))
         text = text.replace('$SLOTS_TO_FILL$', str(slots_to_fill))
         text = text.replace('$EXAMPLE$', str(example_object))
-        print(text)
+        # print(text)
         return text
 
     def create_prompt_b(self, prompt: str, topic: str, example_object):
@@ -79,10 +79,16 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         text = text.replace('$EXAMPLE$', str(example_object))
         return text
 
+    # Deal with "ref" keys
+    # Filter out "no" vals
+    # Refine key selection
     def select_slots(self, goal_object, categorical_slots, non_categorical_slots):
-        goal_object_empty = {key: None for key in goal_object}
         # TODO: See what could be a good way to choose/modify this
-        filtered_goal_object = {key: goal_object[key] for key in categorical_slots if key in goal_object}
+        # Check if slots make sense to be selected
+        # Remove key-values pairs with val=='no', as this does not work for a goal ("need hotel with no internet")
+        filtered_goal_object = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
+        print(f"FILTERED GOAL OBJ: {filtered_goal_object}")
+        # Filter number_of_slots by difficulty or some similar category?
         number_of_slots = math.floor(len(filtered_goal_object)/2)
         random_keys_given = random.sample(list(filtered_goal_object.keys()), number_of_slots)
         slots_given = {key: filtered_goal_object[key] for key in random_keys_given}
@@ -90,7 +96,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         slots_to_fill = random.sample(non_categorical_slots, number_of_slots)
         # TODO: Pick the according slots from the goal object
         # TODO: Filter out "no" values
-        return goal_object_empty, slots_given, slots_to_fill
+        return slots_given, slots_to_fill
 
     def load_database_file(self, topic):
         file_path = os.path.join(os.path.dirname(__file__), 'resources/database_files', f'{topic}.json')
