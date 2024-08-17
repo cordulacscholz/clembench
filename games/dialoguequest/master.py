@@ -31,8 +31,9 @@ class Questioner(Player):
 
     # TODO: Define custom response - "Find all slots needed"
     def _custom_response(self, messages, turn_idx) -> str:
+        placeholder_response = "I am looking for a restaurant."
         utterance = f"{messages} TURN: {turn_idx}"
-        # print(utterance)
+        return placeholder_response
         return utterance
 
 
@@ -48,10 +49,10 @@ class Answerer(Player):
 
         self.history: List = []
 
-    # TODO: Define custom response for Answerer - "I suggest..."
     def _custom_response(self, messages, turn_idx) -> str:
+        placeholder_response = "Here is my restaurant suggestion. {'address': '33 Bridge Street', 'area': 'centre', 'food': 'european', 'id': '6780', 'introduction': '', 'location': [52.20951, 0.11669], 'name': 'galleria', 'phone': '01223362054', 'postcode': 'cb21uw', 'pricerange': 'moderate', 'signature': 'poached fillets of monkfish in lemongrass with sweet red chilli cream sauce and tiger prawns with leeks and mushrooms served with rice', 'type': 'restaurant'}"
         utterance = f"{messages} TURN: {turn_idx}"
-        # print(utterance)
+        return placeholder_response
         return utterance
 
 
@@ -83,6 +84,13 @@ class DialogueQuest(DialogueGameMaster):
 
         # Make this the incomplete item with only the desired slots filled - delete all other ones
         self.goal = game_instance["goal"]
+        self.current_response = None
+
+        self.invalid_response = False
+        self.invalid_json = False
+        self.all_slots_filled = False
+
+    # !! Overwrite for testing purposes
 
     def _on_before_game(self):
         self.add_user_message(self.questioner, self.initial_prompt_a)
@@ -96,8 +104,18 @@ class DialogueQuest(DialogueGameMaster):
         Returns:
             bool: True if proceed, False if not proceed
         """
-        proceed = True if not self.current_turn >= self.max_turns else False
-        return proceed
+        if self.invalid_response:
+            self.log_to_self("invalid format", "abort game")
+            return False
+        if self.invalid_json:
+            self.log_to_self("invalid json format", "abort game")
+            return False
+        if self.current_turn >= self.max_turns:
+            self.log_to_self("max turns reached", str(self.max_turns))
+            return False
+        if self.all_slots_filled:
+            self.log_to_self("all slots successfully filled", "end game")
+        return True
 
     # TODO: Implement + design validation / end of game!
     # Error messages!
@@ -114,49 +132,78 @@ class DialogueQuest(DialogueGameMaster):
         # not empty?
         # json structure given at end of utterance?
         if not utterance:
+            self.invalid_response = True
             return False
         if player == self.answerer:
             if not utterance.find('{'):
+                self.invalid_json = True
                 return False
+        self.log_to_self("valid format", "continue")
         return True
 
     # TODO: Implement + design validation
     # json object?
     def _on_parse_response(self, player: Player, utterance: str) -> Tuple[str, bool]:
+        if player == self.answerer:
+            self.log_to_self("suggestion", self.extract_json_from_response(utterance))
+            self.current_response = self.extract_json_from_response(utterance)
+            # print(f"CURRENT RESPONSE: {self.current_response}")
         return utterance, True
 
-    # TODO: Design + modify logging events!
     def _after_add_player_response(self, player: Player, utterance: str):
-        if player == Questioner:
-            self.add_user_message(self.questioner, utterance)
-        elif player == Answerer:
-            self.add_user_message(self.answerer, utterance)
+        """Adds response to history of other player.
 
-    # - the general game hooks `_on_before_game()` and `_on_before_game()`
+        Args:
+            player (Player): _description_
+            utterance (str): _description_
+        """
+        if player == Questioner:
+            self.add_user_message(self.answerer, utterance)
+        elif player == Answerer:
+            self.add_user_message(self.questioner, utterance)
 
     # TODO: Check these general turn defs
     def _on_before_turn(self, turn_idx: int):
-        return super()._on_before_turn(turn_idx)
+        if turn_idx == 0:
+            self.log_message_to(self.questioner, self.initial_prompt_a)
 
     def _on_after_turn(self, turn_idx: int):
-        # return super()._on_after_turn(turn_idx)
-        print(self.goal)
-        #TODO: check internal_object
+        """Checks if the json object of the current response contains all the keys from the goal object; if so, the all_slots_filled flag is activated.
 
-    # - the general turn hooks `_on_before_turn(turn_idx)` and `_on_after_turn(turn_idx)`
+        Args:
+            turn_idx (int): Number of current turn.
+        """
+        if all(key in self.current_response for key in self.goal):
+            self.all_slots_filled = True
+        print(f"GOAL: {self.goal}")
+        print(type(self.goal))
+        print(f"CURRENT RESP: {self.current_response}")
+        print(type(self.current_response))
+        print(f"SLOTS FILLED: {self.all_slots_filled}")
 
-    def extract_json_from_response(utterance):
+    def extract_json_from_response(self, utterance):
+        """Extracts json code from a string.
+
+        Args:
+            utterance (str): String which contains potential json code.
+
+        Returns:
+            _type_: _description_
+        """
         try:
             # Find the start of the JSON structure in the response
             json_start = utterance.find('{')
             # Parse the JSON
-            json_data = json.loads(utterance[json_start:])
+            # FIXME: Check for double quotes!!
+            json_data = json.loads(utterance[json_start:].replace("\'", "\""))
+            # print(f"JSON DATA: {json_data}")
             return json_data
         except json.JSONDecodeError:
+            print(utterance[json_start:])
             print("Invalid JSON structure detected. Please try again.")
             return None
 
-    def compute_score(self, episode_interactions: Dict):
+    def compute_scores(self, episode_interactions: Dict):
         """Computes the game's scores.
 
         Args:
@@ -194,15 +241,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-# def main():
-#     # select one instance
-#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-#     instance = experiments["experiments"][0]["game_instances"][0]
-#     master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
+def main():
+    # select one instance
+    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+    instance = experiments["experiments"][0]["game_instances"][0]
+    master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
 
-#     master.setup(**instance)
-#     master.play()
+    master.setup(**instance)
+    master.play()
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
