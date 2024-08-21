@@ -6,6 +6,7 @@ import random
 import json
 import string
 import math
+from copy import deepcopy
 
 from clemgame.clemgame import GameInstanceGenerator
 from games.dialoguequest.constants import (
@@ -44,6 +45,16 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 topic = self._select_topic()
                 goal_object = self.sample_random_json_object(topic)
                 example_object = self.sample_random_json_object(topic)
+
+                # For testing purposes, select only 3 items from whole database
+                sample_data = self.sample_multi_random_json_object(topic)
+
+                # Insert goal object at random index in list of sample data
+                # TODO: Integrate switch for 'level' selection (goal object included, goal object not necessarily included)
+                selected_data = deepcopy(sample_data)
+                random_index = random.randint(0, len(selected_data))
+                selected_data.insert(random_index, goal_object)
+
                 # Ensure that goal and example object are not the same
                 while example_object == goal_object:
                     example_object = self.sample_random_json_object(topic)
@@ -53,9 +64,10 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 # Select NUMBER of non_cat / unsued cat slots for SLOTS_TO_FILL
                 instance = self.add_game_instance(experiment, game_id)
                 instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, slots_given, slots_to_fill, example_object)
-                instance['prompt_player_b'] = self.create_prompt_b(prompt_b, topic, example_object)
+                instance['prompt_player_b'] = self.create_prompt_b(prompt_b, topic, example_object, selected_data)
                 instance['max_turns'] = MAX_TURNS
                 instance['goal'] = goal_object
+                instance['data'] = selected_data
 
     def _select_topic(self):
         """Selects a topic out of possible lists of topics
@@ -72,8 +84,9 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         # print(text)
         return text
 
-    def create_prompt_b(self, prompt: str, topic: str, example_object):
-        data = self.load_database_file(topic)
+    def create_prompt_b(self, prompt: str, topic: str, example_object, selected_data):
+        # data = self.load_database_file(topic)
+        data = selected_data
         text = prompt.replace('$DATA$', str(data))
         text = text.replace('$JSON_PREFIX', JSON_PREFIX)
         text = text.replace('$EXAMPLE$', str(example_object))
@@ -94,8 +107,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         slots_given = {key: filtered_goal_object[key] for key in random_keys_given}
 
         slots_to_fill = random.sample(non_categorical_slots, number_of_slots)
-        # TODO: Pick the according slots from the goal object
-        # TODO: Filter out "no" values
         return slots_given, slots_to_fill
 
     def load_database_file(self, topic):
@@ -127,6 +138,11 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         selected_object = random.choice(data)
         return selected_object
 
+    def sample_multi_random_json_object(self, topic):
+        data = self.load_database_file(topic)
+        selected_objects = random.sample(data, 3)
+        return selected_objects
+    
     def get_cat_and_non_cat_keys(self, topic):
         file_path = os.path.join(os.path.dirname(__file__), 'resources/database_files', 'schema.json')
         with open(file_path, 'r') as file:
