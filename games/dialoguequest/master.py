@@ -7,7 +7,9 @@ from backends import Model
 from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer, Player
 from clemgame import get_logger
 from clemgame import file_utils
+from clemgame import metrics as ms
 import json
+import numpy as np
 from games.dialoguequest.constants import (
     GAME_NAME, MAX_TURNS)
 
@@ -86,6 +88,7 @@ class DialogueQuest(DialogueGameMaster):
         self.goal = game_instance["goal"]
         self.current_response = None
 
+        # flags for keeping track of the game status
         self.invalid_response = False
         self.invalid_json = False
         self.all_slots_filled = False
@@ -145,8 +148,9 @@ class DialogueQuest(DialogueGameMaster):
     # json object?
     def _on_parse_response(self, player: Player, utterance: str) -> Tuple[str, bool]:
         if player == self.answerer:
-            self.log_to_self("suggestion", self.extract_json_from_response(utterance))
-            self.current_response = self.extract_json_from_response(utterance)
+            # self.log_to_self("suggestion", self.extract_json_from_response(utterance))
+            self.log_to_self("suggestion", utterance)
+            # self.current_response = self.extract_json_from_response(utterance)
             # print(f"CURRENT RESPONSE: {self.current_response}")
         return utterance, True
 
@@ -176,9 +180,7 @@ class DialogueQuest(DialogueGameMaster):
         if all(key in self.current_response for key in self.goal):
             self.all_slots_filled = True
         print(f"GOAL: {self.goal}")
-        print(type(self.goal))
         print(f"CURRENT RESP: {self.current_response}")
-        print(type(self.current_response))
         print(f"SLOTS FILLED: {self.all_slots_filled}")
 
     def extract_json_from_response(self, utterance):
@@ -193,6 +195,7 @@ class DialogueQuest(DialogueGameMaster):
         try:
             # Find the start of the JSON structure in the response
             json_start = utterance.find('{')
+            # TODO: Maybe add a var for closing bracket?
             # Parse the JSON
             # FIXME: Check for double quotes!!
             json_data = json.loads(utterance[json_start:].replace("\'", "\""))
@@ -203,13 +206,41 @@ class DialogueQuest(DialogueGameMaster):
             print("Invalid JSON structure detected. Please try again.")
             return None
 
+    # copied from Vorlage - MODIFY !!
+    # Only general scores logged, add specific ones!
+    # Check if in line with interactions.json
     def compute_scores(self, episode_interactions: Dict):
-        """Computes the game's scores.
+        """Compute episode-level and turn-level scores.
 
         Args:
             episode_interactions (Dict): _description_
         """
-        pass
+        played_turns = episode_interactions['Played turns']
+        complete_turns = episode_interactions['Complete turns']
+        # turn 0 was only the initial prompts, so we disregard it here
+        reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][1:]
+        p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][1:]
+        v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][1:]
+        n_turns = len(reqs)
+
+        for turn in range(0, played_turns):
+            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
+            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
+            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
+
+        aborted = int(episode_interactions[ms.METRIC_ABORTED])
+        lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
+        success = 1 - lose if not aborted else 0
+        bench_score = complete_turns / n_turns if not aborted else np.nan
+
+        self.log_episode_score(ms.METRIC_ABORTED, aborted)
+        self.log_episode_score(ms.METRIC_LOSE, lose)
+        self.log_episode_score(ms.METRIC_SUCCESS, success)
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
+        self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
+        self.log_episode_score(ms.BENCH_SCORE, bench_score)
 
 
 class DialogueQuestScorer(GameScorer):
@@ -241,15 +272,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-def main():
-    # select one instance
-    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-    instance = experiments["experiments"][0]["game_instances"][0]
-    master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
+# def main():
+#     # select one instance
+#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+#     instance = experiments["experiments"][0]["game_instances"][0]
+#     master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
 
-    master.setup(**instance)
-    master.play()
+#     master.setup(**instance)
+#     master.play()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
