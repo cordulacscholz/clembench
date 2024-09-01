@@ -35,7 +35,7 @@ class Questioner(Player):
     def _custom_response(self, messages, turn_idx) -> str:
         placeholder_response = "I am looking for a restaurant."
         utterance = f"{messages} TURN: {turn_idx}"
-        return placeholder_response
+        # return placeholder_response
         return utterance
 
 
@@ -54,7 +54,7 @@ class Answerer(Player):
     def _custom_response(self, messages, turn_idx) -> str:
         placeholder_response = "Here is my restaurant suggestion. {'address': '33 Bridge Street', 'area': 'centre', 'food': 'european', 'id': '6780', 'introduction': '', 'location': [52.20951, 0.11669], 'name': 'galleria', 'phone': '01223362054', 'postcode': 'cb21uw', 'pricerange': 'moderate', 'signature': 'poached fillets of monkfish in lemongrass with sweet red chilli cream sauce and tiger prawns with leeks and mushrooms served with rice', 'type': 'restaurant'}"
         utterance = f"{messages} TURN: {turn_idx}"
-        return placeholder_response
+        # return placeholder_response
         return utterance
 
 
@@ -91,9 +91,7 @@ class DialogueQuest(DialogueGameMaster):
         # flags for keeping track of the game status
         self.invalid_response = False
         self.invalid_json = False
-        self.all_slots_filled = False
-
-    # !! Overwrite for testing purposes
+        self.booking = False
 
     def _on_before_game(self):
         self.add_user_message(self.questioner, self.initial_prompt_a)
@@ -116,8 +114,9 @@ class DialogueQuest(DialogueGameMaster):
         if self.current_turn >= self.max_turns:
             self.log_to_self("max turns reached", str(self.max_turns))
             return False
-        if self.all_slots_filled:
+        if self.booking:
             self.log_to_self("all slots successfully filled", "end game")
+            return False
         return True
 
     # TODO: Implement + design validation / end of game!
@@ -137,21 +136,26 @@ class DialogueQuest(DialogueGameMaster):
         if not utterance:
             self.invalid_response = True
             return False
-        if player == self.answerer:
-            if not utterance.find('{'):
-                self.invalid_json = True
-                return False
+        # if player == self.answerer:
+        #     if not utterance.find('{'):
+        #         self.invalid_json = True
+        #         return False
         self.log_to_self("valid format", "continue")
         return True
 
     # TODO: Implement + design validation
     # json object?
     def _on_parse_response(self, player: Player, utterance: str) -> Tuple[str, bool]:
+        # if player == self.questioner:
+        #     print(f"Player A: {utterance}")
         if player == self.answerer:
             # self.log_to_self("suggestion", self.extract_json_from_response(utterance))
             self.log_to_self("suggestion", utterance)
             # self.current_response = self.extract_json_from_response(utterance)
+            self.current_response = utterance
             # print(f"CURRENT RESPONSE: {self.current_response}")
+            if "BOOKED" in utterance:
+                self.booking = True
         return utterance, True
 
     def _after_add_player_response(self, player: Player, utterance: str):
@@ -161,27 +165,26 @@ class DialogueQuest(DialogueGameMaster):
             player (Player): _description_
             utterance (str): _description_
         """
-        if player == Questioner:
+        if player == self.questioner:
+            # print(f"HISTORY QUESTIONER: {self.questioner.history}")
             self.add_user_message(self.answerer, utterance)
-        elif player == Answerer:
+            # print(f"HISTORY QUESTIONER AFTER ADDITION: {self.questioner.history}")
+        elif player == self.answerer:
+            # print(f"HISTORY ANSWERER: {self.answerer.history}")
             self.add_user_message(self.questioner, utterance)
-
-    # TODO: Check these general turn defs
-    def _on_before_turn(self, turn_idx: int):
-        if turn_idx == 0:
-            self.log_message_to(self.questioner, self.initial_prompt_a)
+            # print(f"HISTORY ANSWERER AFTER ADDITION: {self.answerer.history}")
 
     def _on_after_turn(self, turn_idx: int):
-        """Checks if the json object of the current response contains all the keys from the goal object; if so, the all_slots_filled flag is activated.
+        """Checks if the json object of the current response contains all the keys from the goal object; if so, the booking flag is activated.
 
         Args:
             turn_idx (int): Number of current turn.
         """
-        if all(key in self.current_response for key in self.goal):
-            self.all_slots_filled = True
-        print(f"GOAL: {self.goal}")
-        print(f"CURRENT RESP: {self.current_response}")
-        print(f"SLOTS FILLED: {self.all_slots_filled}")
+        # if all(key in self.current_response for key in self.goal):
+        #     self.booking = True
+        # print(f"GOAL: {self.goal}")
+        # print(f"CURRENT RESP: {self.current_response}")
+        # print(f"ALL SLOTS SUGGESTED: {self.booking}")
 
     def extract_json_from_response(self, utterance):
         """Extracts json code from a string.
@@ -215,23 +218,23 @@ class DialogueQuest(DialogueGameMaster):
         Args:
             episode_interactions (Dict): _description_
         """
-        played_turns = episode_interactions['Played turns']
-        complete_turns = episode_interactions['Complete turns']
+        # played_turns = episode_interactions['Played turns']
+        # complete_turns = episode_interactions['Complete turns']
         # turn 0 was only the initial prompts, so we disregard it here
         reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][1:]
         p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][1:]
         v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][1:]
         n_turns = len(reqs)
 
-        for turn in range(0, played_turns):
-            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
-            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
-            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
+        # for turn in range(0, played_turns):
+        #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
+        #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
+        #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
 
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
         lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
         success = 1 - lose if not aborted else 0
-        bench_score = complete_turns / n_turns if not aborted else np.nan
+        # bench_score = complete_turns / n_turns if not aborted else np.nan
 
         self.log_episode_score(ms.METRIC_ABORTED, aborted)
         self.log_episode_score(ms.METRIC_LOSE, lose)
