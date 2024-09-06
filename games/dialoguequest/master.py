@@ -30,12 +30,8 @@ class Questioner(Player):
         # list for storing dialogue history
         self.history: List = []
 
-
-    # TODO: Define custom response - "Find all slots needed"
     def _custom_response(self, messages, turn_idx) -> str:
-        placeholder_response = "I am looking for a restaurant."
         utterance = f"{messages} TURN: {turn_idx}"
-        # return placeholder_response
         return utterance
 
 
@@ -52,9 +48,16 @@ class Answerer(Player):
         self.history: List = []
 
     def _custom_response(self, messages, turn_idx) -> str:
-        placeholder_response = "Here is my restaurant suggestion. {'address': '33 Bridge Street', 'area': 'centre', 'food': 'european', 'id': '6780', 'introduction': '', 'location': [52.20951, 0.11669], 'name': 'galleria', 'phone': '01223362054', 'postcode': 'cb21uw', 'pricerange': 'moderate', 'signature': 'poached fillets of monkfish in lemongrass with sweet red chilli cream sauce and tiger prawns with leeks and mushrooms served with rice', 'type': 'restaurant'}"
+        """_summary_
+
+        Args:
+            messages (str): _description_
+            turn_idx (int): _description_
+
+        Returns:
+            str: message including number of turn
+        """
         utterance = f"{messages} TURN: {turn_idx}"
-        # return placeholder_response
         return utterance
 
 
@@ -87,6 +90,7 @@ class DialogueQuest(DialogueGameMaster):
         # Make this the incomplete item with only the desired slots filled - delete all other ones
         self.goal = game_instance["goal"]
         self.current_response = None
+        self.current_suggestion = None
 
         # flags for keeping track of the game status
         self.invalid_response = False
@@ -97,8 +101,7 @@ class DialogueQuest(DialogueGameMaster):
         self.add_user_message(self.questioner, self.initial_prompt_a)
         self.add_user_message(self.answerer, self.initial_prompt_b)
 
-    # TODO: Add working mechanism to check slots / internal object!
-    # TODO: Add specialised error messages
+    # TODO: How to proceed with incomplete json?
     def _does_game_proceed(self) -> bool:
         """Proceed as long as there are still unfilled slots and max number of turns has not been reached.
 
@@ -114,6 +117,7 @@ class DialogueQuest(DialogueGameMaster):
         if self.current_turn >= self.max_turns:
             self.log_to_self("max turns reached", str(self.max_turns))
             return False
+        # TODO: shorten key
         if self.booking:
             self.log_to_self("all slots successfully filled", "end game")
             return False
@@ -150,8 +154,8 @@ class DialogueQuest(DialogueGameMaster):
         #     print(f"Player A: {utterance}")
         if player == self.answerer:
             # self.log_to_self("suggestion", self.extract_json_from_response(utterance))
-            self.log_to_self("suggestion", utterance)
-            # self.current_response = self.extract_json_from_response(utterance)
+            self.log_to_self("utterance", utterance)
+            self.current_suggestion = self.extract_json_from_response(utterance)
             self.current_response = utterance
             # print(f"CURRENT RESPONSE: {self.current_response}")
             if "BOOKED" in utterance:
@@ -207,9 +211,29 @@ class DialogueQuest(DialogueGameMaster):
         except json.JSONDecodeError:
             print(utterance[json_start:])
             print("Invalid JSON structure detected. Please try again.")
-            return None
+            return utterance
+            # return None
 
-    # copied from Vorlage - MODIFY !!
+    # TODO: Decide on metrics to log!
+    def _log_eval_assets(self) -> None:
+        """Log everything needed for the evaluation."""
+        pass
+        # self.log_key(ms.METRIC_REQUEST_COUNT,
+        #              self.request_counts)
+        # self.log_key(ms.METRIC_REQUEST_COUNT_PARSED,
+        #              self.parsed_request_counts)
+        # self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED,
+        #              self.violated_request_counts)
+        # self.log_key('Filled Slots', self.filled_slots)
+        # self.log_key('Aborted', self.aborted)
+        # self.log_key('Played Probe Rounds', self.played_probing_rounds)
+
+
+class DialogueQuestScorer(GameScorer):
+    def __init__(self, experiment: Dict, game_instance: Dict):
+        super().__init__(GAME_NAME, experiment, game_instance)
+
+        # copied from Vorlage - MODIFY !!
     # Only general scores logged, add specific ones!
     # Check if in line with interactions.json
     def compute_scores(self, episode_interactions: Dict):
@@ -218,37 +242,72 @@ class DialogueQuest(DialogueGameMaster):
         Args:
             episode_interactions (Dict): _description_
         """
+
+        # Episode level scores
+
+        # Initialise counters for episode scores
+        turn_scores = []
+        invalid_response = False
+
+        for turn_idx, turn in enumerate(episode_interactions["turns"]):
+            turn_score = {"request_count": 1}
+
+            for event in turn:
+                action = event["action"]
+                if action["type"] == "invalid format":
+                    invalid_response = True
+
+            if invalid_response:
+                turn_score["violated_request_count"] = 1
+                turn_score["parsed_request_count"] = 0
+            else:
+                turn_score["violated_request_count"] = 0
+                turn_score["parsed_request_count"] = 1
+
+            self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_VIOLATED, turn_score["violated_request_count"])
+            self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_PARSED, turn_score["parsed_request_count"])
+            self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT, turn_score["request_count"])
+
+        violated_request_count = sum([turn["violated_request_count"] for turn in turn_scores])
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, violated_request_count)
+
+        parsed_request_count = sum([turn["parsed_request_count"] for turn in turn_scores])
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, parsed_request_count)
+
+        request_count = sum([turn["request_count"] for turn in turn_scores])
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT, request_count)
+
+        self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, parsed_request_count / request_count)
+        # checking the last guess (could be None) is ok,
+        # b.c. the game ends only successfully, when there is a correct guess
+
         # played_turns = episode_interactions['Played turns']
         # complete_turns = episode_interactions['Complete turns']
         # turn 0 was only the initial prompts, so we disregard it here
-        reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][1:]
-        p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][1:]
-        v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][1:]
-        n_turns = len(reqs)
+
+        # reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][1:]
+        # p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][1:]
+        # v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][1:]
+        # n_turns = len(reqs)
 
         # for turn in range(0, played_turns):
         #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
         #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
         #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
 
-        aborted = int(episode_interactions[ms.METRIC_ABORTED])
-        lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
-        success = 1 - lose if not aborted else 0
+        # aborted = int(episode_interactions[ms.METRIC_ABORTED])
+        # lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
+        # success = 1 - lose if not aborted else 0
         # bench_score = complete_turns / n_turns if not aborted else np.nan
 
-        self.log_episode_score(ms.METRIC_ABORTED, aborted)
-        self.log_episode_score(ms.METRIC_LOSE, lose)
-        self.log_episode_score(ms.METRIC_SUCCESS, success)
-        self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
-        self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
-        self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
-        self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
-        self.log_episode_score(ms.BENCH_SCORE, bench_score)
-
-
-class DialogueQuestScorer(GameScorer):
-    def __init__(self, experiment: Dict, game_instance: Dict):
-        super().__init__(GAME_NAME, experiment, game_instance)
+        # self.log_episode_score(ms.METRIC_ABORTED, aborted)
+        # self.log_episode_score(ms.METRIC_LOSE, lose)
+        # self.log_episode_score(ms.METRIC_SUCCESS, success)
+        # self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
+        # self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
+        # self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
+        # self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
+        # self.log_episode_score(ms.BENCH_SCORE, bench_score)
 
 
 class DialogueQuestBenchmark(GameBenchmark):
