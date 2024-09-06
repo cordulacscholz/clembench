@@ -1,7 +1,9 @@
-You want to book a/an $TOPIC$.
+You want to book $ARTICLE$ $TOPIC$.
 
 You need it to be:
 $SLOTS_GIVEN$
 
 You need to find out:
 $SLOTS_TO_FILL$
+
+Make sure to never use any markup and only respond in natural language!

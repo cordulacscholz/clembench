@@ -10,7 +10,7 @@ from copy import deepcopy
 
 from clemgame.clemgame import GameInstanceGenerator
 from games.dialoguequest.constants import (
-    GAME_NAME, N_INSTANCES, MAX_TURNS, SEED, TOPICS, WORDS_PATH)
+    GAME_NAME, N_INSTANCES, N_EXPERIMENTS, MAX_TURNS, SEED, TOPICS, WORDS_PATH)
 
 LANG = 'en'
 JSON_PREFIX = 'JSON'
@@ -38,11 +38,12 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
 
         # TODO: Set up relevant params
-        for n in range(0, 5):
+        for n in range(0, N_EXPERIMENTS):
             experiment = self.add_experiment(n)
 
             for game_id in range(N_INSTANCES):
                 topic = self._select_topic()
+                article = "an" if topic in ["attraction"] else "a"
                 goal_object = self.sample_random_json_object(topic)
                 example_object = self.sample_random_json_object(topic)
 
@@ -63,7 +64,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 slots_given, slots_to_fill = self.select_slots(goal_object, categorical_slots, non_categorical_slots)
                 # Select NUMBER of non_cat / unsued cat slots for SLOTS_TO_FILL
                 instance = self.add_game_instance(experiment, game_id)
-                instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, slots_given, slots_to_fill, example_object)
+                instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, example_object)
                 instance['prompt_player_b'] = self.create_prompt_b(prompt_b, topic, example_object, selected_data)
                 instance['max_turns'] = MAX_TURNS
                 instance['goal'] = goal_object
@@ -75,20 +76,20 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         topic = random.choice(TOPICS)
         return topic
 
-    def create_prompt_a(self, prompt: str, topic: str, slots_given, slots_to_fill, example_object) -> str:
+    def create_prompt_a(self, prompt: str, topic: str, article: str, slots_given, slots_to_fill, example_object) -> str:
         """Fill in the initial prompt variables."""
         text = prompt.replace('$TOPIC$', topic)
+        text = text.replace('$ARTICLE$', article)
         text = text.replace('$SLOTS_GIVEN$', str(slots_given))
         text = text.replace('$SLOTS_TO_FILL$', str(slots_to_fill))
         text = text.replace('$EXAMPLE$', str(example_object))
-        # print(text)
         return text
 
     def create_prompt_b(self, prompt: str, topic: str, example_object, selected_data):
         # data = self.load_database_file(topic)
         data = selected_data
         text = prompt.replace('$DATA$', str(data))
-        text = text.replace('$JSON_PREFIX', JSON_PREFIX)
+        text = text.replace('$JSON_PREFIX$', JSON_PREFIX)
         text = text.replace('$EXAMPLE$', str(example_object))
         return text
 
