@@ -92,7 +92,7 @@ class DialogueQuest(DialogueGameMaster):
         self.current_response = None
         self.current_suggestion = None
 
-        # flags for keeping track of the game status
+        # flags for keeping track of the game state
         self.invalid_response = False
         self.invalid_json = False
         self.booking = False
@@ -267,6 +267,8 @@ class DialogueQuestScorer(GameScorer):
             self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_VIOLATED, turn_score["violated_request_count"])
             self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_PARSED, turn_score["parsed_request_count"])
             self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT, turn_score["request_count"])
+
+            turn_scores.append(turn_score)
 
         violated_request_count = sum([turn["violated_request_count"] for turn in turn_scores])
         self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, violated_request_count)
