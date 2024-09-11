@@ -251,11 +251,14 @@ class DialogueQuestScorer(GameScorer):
 
         for turn_idx, turn in enumerate(episode_interactions["turns"]):
             turn_score = {"request_count": 1}
+            slots_filled = False
 
             for event in turn:
                 action = event["action"]
                 if action["type"] == "invalid format":
                     invalid_response = True
+                if action["type"] == "all slots successfully filled":
+                    slots_filled = True
 
             if invalid_response:
                 turn_score["violated_request_count"] = 1
@@ -264,6 +267,7 @@ class DialogueQuestScorer(GameScorer):
                 turn_score["violated_request_count"] = 0
                 turn_score["parsed_request_count"] = 1
 
+            self.log_turn_score(turn_idx, 'Accuracy', 1 if slots_filled else 0)
             self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_VIOLATED, turn_score["violated_request_count"])
             self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_PARSED, turn_score["parsed_request_count"])
             self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT, turn_score["request_count"])
@@ -280,6 +284,25 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, request_count)
 
         self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, parsed_request_count / request_count)
+
+
+        # Common metrics
+        if invalid_response:  # whether a violation of the game rules happened (response not parsable)
+            self.log_episode_score(ms.METRIC_ABORTED, 1)
+            self.log_episode_score(ms.METRIC_SUCCESS, 0)
+            self.log_episode_score(ms.METRIC_LOSE, 0)
+            # Game-specific metrics
+            self.log_episode_score(ms.BENCH_SCORE, np.nan)  # metric not applicable
+        else:
+            self.log_episode_score(ms.METRIC_ABORTED, 0)
+            if slots_filled:
+                self.log_episode_score(ms.METRIC_SUCCESS, 1)
+                self.log_episode_score(ms.METRIC_LOSE, 0)
+                self.log_episode_score(ms.BENCH_SCORE, 100 / len(turn_scores))  # how early the guesser found the word
+            else:
+                self.log_episode_score(ms.METRIC_SUCCESS, 0)
+                self.log_episode_score(ms.METRIC_LOSE, 1)
+                self.log_episode_score(ms.BENCH_SCORE, 0)  # word not found
         # checking the last guess (could be None) is ok,
         # b.c. the game ends only successfully, when there is a correct guess
 
