@@ -9,11 +9,14 @@ import math
 from copy import deepcopy
 
 from clemgame.clemgame import GameInstanceGenerator
+from clemgame import get_logger
 from games.dialoguequest.constants import (
     GAME_NAME, N_INSTANCES, N_EXPERIMENTS, MAX_TURNS, SEED, TOPICS, WORDS_PATH)
 
 LANG = 'en'
 JSON_PREFIX = 'JSON'
+
+logger = get_logger(__name__)
 
 
 class DialogueQuestInstanceGenerator(GameInstanceGenerator):
@@ -24,6 +27,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
     """
     def __init__(self):
         super().__init__("dialoguequest")
+        words = self.load_json(WORDS_PATH.format(LANG))
 
     # TODO: Specify on_generate
     # Variations on topic, variations with same topic...
@@ -43,7 +47,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
 
             for game_id in range(N_INSTANCES):
                 topic = self._select_topic()
-                article = "an" if topic in ["attraction"] else "a"
+                article = "an" if topic.lower()[0] in ["a", "e", "i", "o", "u"] else "a"
                 goal_object = self.sample_random_json_object(topic)
                 example_object = self.sample_random_json_object(topic)
 
