@@ -4,11 +4,13 @@ Implementation of a GameMaster to control game mechanisms.
 
 from typing import Dict, List, Tuple
 from backends import Model
-from clemgame.clemgame import DialogueGameMaster, GameBenchmark, GameScorer, Player
+from clemgame.clemgame import GameMaster, GameBenchmark, GameScorer, Player
 from clemgame import get_logger
 from clemgame import file_utils
 from clemgame import metrics as ms
+from games.dialoguequest.game import DialogueQuestGame, Questioner, Answerer
 import json
+import copy
 import numpy as np
 from games.dialoguequest.constants import (
     GAME_NAME, MAX_TURNS)
@@ -17,52 +19,52 @@ from games.dialoguequest.constants import (
 logger = get_logger(__name__)
 
 
-class Questioner(Player):
-    """_summary_
+# class Questioner(Player):
+#     """_summary_
 
-    Args:
-        Player (_type_): _description_
-    """
-    def __init__(self, model_name: str, player: str) -> None:
-        super().__init__(model_name)
-        self.player: str = player
+#     Args:
+#         Player (_type_): _description_
+#     """
+#     def __init__(self, model_name: str, player: str) -> None:
+#         super().__init__(model_name)
+#         self.player: str = player
 
-        # list for storing dialogue history
-        self.history: List = []
+#         # list for storing dialogue history
+#         self.history: List = []
 
-    def _custom_response(self, messages, turn_idx) -> str:
-        utterance = f"{messages} TURN: {turn_idx}"
-        return utterance
-
-
-class Answerer(Player):
-    """_summary_
-
-    Args:
-        Player (_type_): _description_
-    """
-    def __init__(self, model_name: str, player: str) -> None:
-        super().__init__(model_name)
-        self.player: str = player
-
-        self.history: List = []
-
-    def _custom_response(self, messages, turn_idx) -> str:
-        """_summary_
-
-        Args:
-            messages (str): _description_
-            turn_idx (int): _description_
-
-        Returns:
-            str: message including number of turn
-        """
-        utterance = f"{messages} TURN: {turn_idx}"
-        return utterance
+#     def _custom_response(self, messages, turn_idx) -> str:
+#         utterance = f"{messages} TURN: {turn_idx}"
+#         return utterance
 
 
-class DialogueQuest(DialogueGameMaster):
-    """Play a single instance of a Dialogue Game.
+# class Answerer(Player):
+#     """_summary_
+
+#     Args:
+#         Player (_type_): _description_
+#     """
+#     def __init__(self, model_name: str, player: str) -> None:
+#         super().__init__(model_name)
+#         self.player: str = player
+
+#         self.history: List = []
+
+#     def _custom_response(self, messages, turn_idx) -> str:
+#         """_summary_
+
+#         Args:
+#             messages (str): _description_
+#             turn_idx (int): _description_
+
+#         Returns:
+#             str: message including number of turn
+#         """
+#         utterance = f"{messages} TURN: {turn_idx}"
+#         return utterance
+
+
+class DialogueQuest(GameMaster):
+    """Play a single instance of a DialogueQuest.
 
     Args:
         GameMaster (_type_): _description_
@@ -73,33 +75,191 @@ class DialogueQuest(DialogueGameMaster):
         super().__init__(GAME_NAME, experiment, player_models)
         self.max_turns: int = MAX_TURNS
 
-    def _on_setup(self, **game_instance):
-        logger.info("_on_setup")
+        # initialise attributes that will be used for the evaluation scores
+        self.aborted: bool = False
+        self.lose: bool = False
+        self.complete_turns: int = 0
+        self.all_slots_filled = False
 
-        self.game_instance = game_instance
+    def setup(self, **game_instance):
+        logger.info("setup")
 
         self.initial_prompt_a = game_instance["prompt_player_a"]
         self.initial_prompt_b = game_instance["prompt_player_b"]
+        self.summarisation_prompt = game_instance["summarisation_prompt"]
+        self.summarise_in_json_prompt = game_instance["summarise_in_json"]
 
         self.questioner = Questioner(self.player_models[0], "A")
         self.answerer = Answerer(self.player_models[1], "B")
 
-        self.add_player(self.questioner)
-        self.add_player(self.answerer)
+        self.game_instance = game_instance
+        self.game = DialogueQuestGame(self.questioner, self.answerer, self.max_turns)
 
-        # Make this the incomplete item with only the desired slots filled - delete all other ones
+        self.log_players({
+            'GM': 'Game master for DialogueQuest',
+            'Player 1': f'Questioner: {self.questioner}',
+            'Player 2': f'Answerer: {self.answerer}'
+            })
+
+        # initialise game variables
+        self.current_turn: int = 0
+        self.log_key('n_turns', self.current_turn)
+
+        # ? Investigate !
+        # initialise common metrics
+        self.request_counts = [0] * (self.max_turns + 1)
+        self.parsed_request_counts = [0] * (self.max_turns + 1)
+        self.violated_request_counts = [0] * (self.max_turns + 1)
+
+        # add initial prompts to each player's messages
+        # self.initiate(self.initial_prompt_a, self.initial_prompt_b)
+
+        # Put this into the class constructor ?
         self.goal = game_instance["goal"]
-        self.current_response = None
-        self.current_suggestion = None
+        # For the current goal, collect all slots which are mentioned by the Answerer. Start with empty goal object to be filled up.
+        self.current_state = {key: None for key in self.goal.keys()}
 
-        # flags for keeping track of the game state
-        self.invalid_response = False
-        self.invalid_json = False
-        self.booking = False
+    def play(self) -> None:
+        self.log_next_turn()
+        # initiate game with the instructions prompt
+        self.game.initiate(self.initial_prompt_a, self.initial_prompt_b)
 
-    def _on_before_game(self):
-        self.add_user_message(self.questioner, self.initial_prompt_a)
-        self.add_user_message(self.answerer, self.initial_prompt_b)
+        action = {'type': 'send message', 'content': self.initial_prompt_a}
+        self.log_event(from_='GM', to='Player 1', action=action)
+        action = {'type': 'send message', 'content': self.initial_prompt_b}
+        self.log_event(from_='GM', to='Player 2', action=action)
+
+        # self.log_event(from_='GM', to='Player 1', action=action)
+
+        while self.game.proceeds() and not self.aborted:
+            self.log_next_turn()
+            self.turn()
+
+            # if not turn_successful:
+            #     action = {'type': 'invalid format', 'content': 'Abort: invalid format in slot filling.'}
+            #     self.log_event(from_='GM', to='GM', action=action)
+            #     self.aborted = True
+            #     break
+
+        self.log_key('realised_slots', self.current_state)
+        action = {'type': 'end', 'content': 'Game finished.'}
+        self.log_event(from_='GM', to='GM', action=action)
+        self._log_eval_assets()
+
+    def turn(self) -> bool:
+        """Perform one conversational turn."""
+
+        logger.info('Game turn: %d', self.game.current_turn)
+        print(f"CURRENT TURN: {self.game.current_turn}")
+
+        # get request from questioner
+        prompt, raw_answer, answer_a, from_ = self.game.get_utterance('a', self.game.current_turn)
+
+        # add API call to the records
+        action = {'type': 'get message', 'content': answer_a}
+        self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+
+        print(prompt)
+
+        # increase the number of API requests
+        self.request_counts[self.current_turn] += 1
+
+        # get player B's reply and add it to its history
+        prompt, raw_answer, answer_b, from_ = self.game.get_utterance('b', self.game.current_turn)
+
+        # add A's reply to B's history
+        self.game._append_utterance(answer_a, 'b', 'user')
+        # also add the reply to the transcript
+        action = {'type': 'send message', 'content': answer_b}
+        self.log_event(from_='GM', to='Player 1', action=action)
+
+        # add B's reply to A's history
+        self.game._append_utterance(answer_b, 'a', 'user')
+        # also add the reply to the transcript
+        action = {'type': 'send message', 'content': answer_a}
+        self.log_event(from_='GM', to='Player 2', action=action)
+
+        # request = self.game.questioner_turn(self.questioner, self.current_turn)
+        # print(f"REQUEST: {request}")
+
+        # pass on request to answerer
+        # action = {'type': 'get message', 'content': request}
+        # self.log_event(from_='Player 2', to='GM', action=action)
+
+        # action = {'type': 'send message', 'content': request}
+        # self.log_event(from_='GM', to='Player 1', action=action)
+
+        # get answer from answerer
+        # prompt, raw_answer, answer = self.game.answerer_turn()
+        # print(f"ANSWER: {answer}")
+        # action = {'type': 'get message', 'content': answer}
+        # call = (prompt, raw_answer)
+        # # print(f"CALL: ")
+        # self.log_event(from_='Player 1', to='GM', action=action, call=call)
+        # at this point, turn count has just been increased, so it matches the
+        # current probing turn
+
+        # Reprompt here to summarise json
+        # current answer from Player B -> Player B again (issue with roles??)
+        # Pseude turns as in PrivatedShared!
+
+        answer_in_json = self.game.summarise_in_json(self.summarise_in_json_prompt, self.answerer.history[-1], self.answerer)
+        action = {'type': 'send message', 'content': answer_in_json}
+        # self.log_event(from_='GM', to='Player 2', action=action, call=call)
+        print(answer_in_json)
+
+        # Update the current state of the goal dictionary
+        self._update_current_goal_object(answer_in_json)
+        print(self.current_state)
+        # TODO: verify json structure before passing to function
+        # json repair tool
+        # reprompt loop for model with n tries ?
+
+        # Increase turn count
+        self.request_counts[self.game.current_turn] += 1
+
+        return True
+
+    # def initiate(self, prompt_player_a: str, prompt_player_b: str) -> None:
+    #     """Initialise the dialogue history (firstlast specific)."""
+    #     # always call log_next_turn what a turn starts
+    #     self.log_next_turn()
+
+    #     # append the initial message of each player to their history
+    #     # the value user means the message is from an interlocutor of the model
+    #     self.questioner.history.append({'role': 'user', 'content': prompt_player_a})
+    #     self.answerer.history.append({'role': 'user', 'content': prompt_player_b})
+
+    #     # also log the messages as events for the transcriptions
+    #     action = {'type': 'send message', 'content': prompt_player_a}
+    #     self.log_event(from_='GM', to='Player 1', action=action)
+    #     action = {'type': 'send message', 'content': prompt_player_b}
+    #     self.log_event(from_='GM', to='Player 2', action=action)
+
+    def _update_current_goal_object(self, answer_in_json: Dict):
+        for key in answer_in_json:
+            if key in self.current_state:
+                self.current_state[key] = answer_in_json[key]
+                action = {'type': 'metadata', 'content': 'update game state'}
+                self.log_event(from_='GM', to='GM', action=action)
+
+            if all(value is not None for value in self.current_state.values()):
+                self.slots_filled = True
+
+    # Example for logging
+    # def _log_probing_outcome(self, probe: Dict, successful: bool, tries: int):
+    #     if not successful:
+    #         content = NOT_SUCCESS.format(probe['target'])
+    #     else:
+    #         content = SUCCESS.format(probe['target'], tries)
+    #     # answer valid?
+    #     action = {'type': 'metadata', 'content': content}
+    #     self.log_event(from_='GM', to='GM', action=action)
+    #     logger.info(content)
+    #     # answer correct?
+    #     result = '' if probe['value'] == probe['gt'] else 'in'
+    #     action = {'type': 'check', 'content': RESULT.format(result)}
+    #     self.log_event(from_='GM', to='GM', action=action)
 
     # TODO: How to proceed with incomplete json?
     def _does_game_proceed(self) -> bool:
@@ -225,7 +385,7 @@ class DialogueQuest(DialogueGameMaster):
         # self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED,
         #              self.violated_request_counts)
         # self.log_key('Filled Slots', self.filled_slots)
-        # self.log_key('Aborted', self.aborted)
+        self.log_key('Aborted', self.aborted)
         # self.log_key('Played Probe Rounds', self.played_probing_rounds)
 
 
@@ -349,7 +509,7 @@ class DialogueQuestBenchmark(GameBenchmark):
         return "This is a Task Oriented Dialogue Game."
 
     # experiment from instances.json, player_models == dialogue pair
-    def create_game_master(self, experiment: Dict, player_models: List[Model]) -> DialogueGameMaster:
+    def create_game_master(self, experiment: Dict, player_models: List[Model]) -> GameMaster:
         return DialogueQuest(experiment, player_models)
 
     def create_game_scorer(self, experiment: Dict, game_instance: Dict) -> GameScorer:
@@ -359,15 +519,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-# def main():
-#     # select one instance
-#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-#     instance = experiments["experiments"][0]["game_instances"][0]
-#     master = DialogueQuest(instance, ["gpt-3.5-turbo", "gpt-3.5-turbo"])
+def main():
+    # select one instance
+    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+    instance = experiments["experiments"][0]["game_instances"][0]
+    master = DialogueQuest(instance, ["mock", "mock"])
 
-#     master.setup(**instance)
-#     master.play()
+    master.setup(**instance)
+    master.play()
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
