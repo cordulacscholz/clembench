@@ -40,8 +40,8 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         # topic
         prompt_a = self.load_template('resources/initial_prompts/prompt_a')
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
-        summarization_prompt = self.load_template('resources/initial_prompts/summarization_prompt')
-        summarize_in_json = self.load_template('resources/initial_prompts/summarize_in_json')
+        summarisation_prompt = self.load_template('resources/initial_prompts/summarisation_prompt')
+        summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
 
         # TODO: Set up relevant params
         for n in range(0, N_EXPERIMENTS):
@@ -70,8 +70,8 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 slots_given, slots_to_fill = self.select_slots(goal_object, categorical_slots, non_categorical_slots)
                 # Select NUMBER of non_cat / unsued cat slots for SLOTS_TO_FILL
                 instance = self.add_game_instance(experiment, game_id)
-                instance['summarization_prompt'] = summarization_prompt
-                instance['summarize_in_json'] = summarize_in_json
+                instance['summarisation_prompt'] = summarisation_prompt
+                instance['summarise_in_json'] = summarise_in_json
                 instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, example_object)
                 instance['prompt_player_b'] = self.create_prompt_b(prompt_b, topic, example_object, selected_data)
                 instance['max_turns'] = MAX_TURNS

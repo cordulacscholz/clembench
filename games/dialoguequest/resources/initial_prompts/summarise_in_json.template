@@ -1,0 +1,5 @@
+Please create a json object from the text above. Find all relevant data and build an according json structure from that.
+
+After each answer in natural language, sum up your current suggestions in a json object. The structure needs to be preceded by the string "JSON". Include only the points that you have actually mentioned in all of the answers you've given so far. Make sure that all the details you have given so far in your answers are included in the JSON object, also the ones from your previous answers. See the example below. Pay close attention to the correct json formatting.
+
+Example structure:

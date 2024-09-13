@@ -7,3 +7,5 @@ You need to find out:
 $SLOTS_TO_FILL$
 
 Make sure to never use any markup and only respond in natural language!
+
+Once you have gather all information which is relevant and you are content with the answer provided, respond with "FULFILLED".
