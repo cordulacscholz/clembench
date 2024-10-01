@@ -28,8 +28,8 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
     def __init__(self):
         super().__init__("dialoguequest")
         words = self.load_json(WORDS_PATH.format(LANG))
+        self.stop = words['STOP']
 
-    # TODO: Specify on_generate
     # Variations on topic, variations with same topic...
     def on_generate(self):
         """_summary_
@@ -38,8 +38,10 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             _type_: _description_
         """
         # topic
+        print("GENERATING!!!")
         prompt_a = self.load_template('resources/initial_prompts/prompt_a')
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
+        print(f"PROMPT B!!! {prompt_b}")
         summarisation_prompt = self.load_template('resources/initial_prompts/summarisation_prompt')
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
 
@@ -72,8 +74,9 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 instance = self.add_game_instance(experiment, game_id)
                 instance['summarisation_prompt'] = summarisation_prompt
                 instance['summarise_in_json'] = summarise_in_json
-                instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, example_object)
+                instance['prompt_player_a'] = self.create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
                 instance['prompt_player_b'] = self.create_prompt_b(prompt_b, topic, example_object, selected_data)
+                print(f"INSTANCE: {instance['prompt_player_b']}")
                 instance['max_turns'] = MAX_TURNS
                 instance['slots_given'] = slots_given
                 instance['slots_to_fill'] = slots_to_fill
@@ -86,12 +89,13 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         topic = random.choice(TOPICS)
         return topic
 
-    def create_prompt_a(self, prompt: str, topic: str, article: str, slots_given, slots_to_fill, example_object) -> str:
+    def create_prompt_a(self, prompt: str, topic: str, article: str, slots_given, slots_to_fill, stop: str, example_object) -> str:
         """Fill in the initial prompt variables."""
         text = prompt.replace('$TOPIC$', topic)
         text = text.replace('$ARTICLE$', article)
         text = text.replace('$SLOTS_GIVEN$', str(slots_given))
         text = text.replace('$SLOTS_TO_FILL$', str(slots_to_fill))
+        text = text.replace('$STOP$', str(stop))
         text = text.replace('$EXAMPLE$', str(example_object))
         return text
 
