@@ -13,54 +13,11 @@ import json
 import copy
 import numpy as np
 from games.dialoguequest.constants import (
-    GAME_NAME, MAX_TURNS)
+    GAME_NAME, MAX_TURNS, WORDS_PATH)
 
 
 logger = get_logger(__name__)
-
-
-# class Questioner(Player):
-#     """_summary_
-
-#     Args:
-#         Player (_type_): _description_
-#     """
-#     def __init__(self, model_name: str, player: str) -> None:
-#         super().__init__(model_name)
-#         self.player: str = player
-
-#         # list for storing dialogue history
-#         self.history: List = []
-
-#     def _custom_response(self, messages, turn_idx) -> str:
-#         utterance = f"{messages} TURN: {turn_idx}"
-#         return utterance
-
-
-# class Answerer(Player):
-#     """_summary_
-
-#     Args:
-#         Player (_type_): _description_
-#     """
-#     def __init__(self, model_name: str, player: str) -> None:
-#         super().__init__(model_name)
-#         self.player: str = player
-
-#         self.history: List = []
-
-#     def _custom_response(self, messages, turn_idx) -> str:
-#         """_summary_
-
-#         Args:
-#             messages (str): _description_
-#             turn_idx (int): _description_
-
-#         Returns:
-#             str: message including number of turn
-#         """
-#         utterance = f"{messages} TURN: {turn_idx}"
-#         return utterance
+LANG = 'en'
 
 
 class DialogueQuest(GameMaster):
@@ -74,6 +31,10 @@ class DialogueQuest(GameMaster):
     def __init__(self, experiment: Dict, player_models: List[Model]):
         super().__init__(GAME_NAME, experiment, player_models)
         self.max_turns: int = MAX_TURNS
+
+        # Load language specific words
+        words = self.load_json(WORDS_PATH.format(LANG))
+        self.stop = words['STOP']
 
         # initialise attributes that will be used for the evaluation scores
         self.aborted: bool = False
@@ -89,38 +50,37 @@ class DialogueQuest(GameMaster):
         self.summarisation_prompt = game_instance["summarisation_prompt"]
         self.summarise_in_json_prompt = game_instance["summarise_in_json"]
 
-        self.questioner = Questioner(self.player_models[0], "A")
-        self.answerer = Answerer(self.player_models[1], "B")
+        # TODO: Might be only needed in game
+        self.player_a = Questioner(self.player_models[0], "a")
+        self.player_b = Answerer(self.player_models[1], "b")
 
         self.game_instance = game_instance
-        self.game = DialogueQuestGame(self.questioner, self.answerer, self.max_turns)
+        self.game = DialogueQuestGame(self.player_a, self.player_b, self.max_turns)
 
+        # TODO: Call get_name() function for actual models
         self.log_players({
             'GM': 'Game master for DialogueQuest',
-            'Player 1': f'Questioner: {self.questioner}',
-            'Player 2': f'Answerer: {self.answerer}'
+            'Player 1': f'Questioner: {self.game.questioner}',
+            'Player 2': f'Answerer: {self.game.answerer}'
+            # 'Player 2': f'Answerer: {self.game.answerer.get_name()}'
             })
 
-        # initialise game variables
-        self.current_turn: int = 0
-        self.log_key('n_turns', self.current_turn)
-
-        # ? Investigate !
         # initialise common metrics
-        self.request_counts = [0] * (self.max_turns + 1)
-        self.parsed_request_counts = [0] * (self.max_turns + 1)
-        self.violated_request_counts = [0] * (self.max_turns + 1)
-
-        # add initial prompts to each player's messages
-        # self.initiate(self.initial_prompt_a, self.initial_prompt_b)
+        self.request_counts = [0] * (self.game.max_turns + 1)
+        self.parsed_request_counts = [0] * (self.game.max_turns + 1)
+        self.violated_request_counts = [0] * (self.game.max_turns + 1)
+        self.average_char_count_a = [0] * (self.game.max_turns + 1)
+        self.average_char_count_b = [0] * (self.game.max_turns + 1)
 
         # Put this into the class constructor ?
         self.goal = game_instance["goal"]
+        self.slots_given = game_instance["slots_given"]
+        self.data = game_instance["data"]
         # For the current goal, collect all slots which are mentioned by the Answerer. Start with empty goal object to be filled up.
         self.current_state = {key: None for key in self.goal.keys()}
 
-    def play(self) -> None:
         self.log_next_turn()
+
         # initiate game with the instructions prompt
         self.game.initiate(self.initial_prompt_a, self.initial_prompt_b)
 
@@ -129,19 +89,18 @@ class DialogueQuest(GameMaster):
         action = {'type': 'send message', 'content': self.initial_prompt_b}
         self.log_event(from_='GM', to='Player 2', action=action)
 
-        # self.log_event(from_='GM', to='Player 1', action=action)
-
+    def play(self) -> None:
+        """Play one episode of DialogueQuest
+        """
         while self.game.proceeds() and not self.aborted:
             self.log_next_turn()
-            self.turn()
+            turn_goes_on = self.turn()
 
-            # if not turn_successful:
-            #     action = {'type': 'invalid format', 'content': 'Abort: invalid format in slot filling.'}
-            #     self.log_event(from_='GM', to='GM', action=action)
-            #     self.aborted = True
-            #     break
+            # Break if Player A utters keyword
+            if not turn_goes_on:
+                print("Ending because task fulfilled.")
+                break
 
-        self.log_key('realised_slots', self.current_state)
         action = {'type': 'end', 'content': 'Game finished.'}
         self.log_event(from_='GM', to='GM', action=action)
         self._log_eval_assets()
@@ -149,117 +108,113 @@ class DialogueQuest(GameMaster):
     def turn(self) -> bool:
         """Perform one conversational turn."""
 
+        # print(f"QU history at {self.game.current_turn}: {self.game.questioner.history}")
+        # print(f"A history at {self.game.current_turn}: {self.game.answerer.history}")
+
         logger.info('Game turn: %d', self.game.current_turn)
         print(f"CURRENT TURN: {self.game.current_turn}")
 
         # get request from questioner
         prompt, raw_answer, answer_a, from_ = self.game.get_utterance('a', self.game.current_turn)
 
+        # add A's reply to B's history
+        self.game._append_utterance(answer_a, 'b', 'user')
+
         # add API call to the records
         action = {'type': 'get message', 'content': answer_a}
         self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
 
-        print(prompt)
-
-        # increase the number of API requests
-        self.request_counts[self.current_turn] += 1
-
-        # get player B's reply and add it to its history
-        prompt, raw_answer, answer_b, from_ = self.game.get_utterance('b', self.game.current_turn)
-
-        # add A's reply to B's history
-        self.game._append_utterance(answer_a, 'b', 'user')
-        # also add the reply to the transcript
-        action = {'type': 'send message', 'content': answer_b}
-        self.log_event(from_='GM', to='Player 1', action=action)
-
-        # add B's reply to A's history
-        self.game._append_utterance(answer_b, 'a', 'user')
         # also add the reply to the transcript
         action = {'type': 'send message', 'content': answer_a}
         self.log_event(from_='GM', to='Player 2', action=action)
 
-        # request = self.game.questioner_turn(self.questioner, self.current_turn)
-        # print(f"REQUEST: {request}")
-
-        # pass on request to answerer
-        # action = {'type': 'get message', 'content': request}
-        # self.log_event(from_='Player 2', to='GM', action=action)
-
-        # action = {'type': 'send message', 'content': request}
-        # self.log_event(from_='GM', to='Player 1', action=action)
-
-        # get answer from answerer
-        # prompt, raw_answer, answer = self.game.answerer_turn()
-        # print(f"ANSWER: {answer}")
-        # action = {'type': 'get message', 'content': answer}
-        # call = (prompt, raw_answer)
-        # # print(f"CALL: ")
-        # self.log_event(from_='Player 1', to='GM', action=action, call=call)
-        # at this point, turn count has just been increased, so it matches the
-        # current probing turn
-
-        # Reprompt here to summarise json
-        # current answer from Player B -> Player B again (issue with roles??)
-        # Pseude turns as in PrivatedShared!
-
-        answer_in_json = self.game.summarise_in_json(self.summarise_in_json_prompt, self.answerer.history[-1], self.answerer)
-        action = {'type': 'send message', 'content': answer_in_json}
-        # self.log_event(from_='GM', to='Player 2', action=action, call=call)
-        print(answer_in_json)
-
-        # Update the current state of the goal dictionary
-        self._update_current_goal_object(answer_in_json)
-        print(self.current_state)
-        # TODO: verify json structure before passing to function
-        # json repair tool
-        # reprompt loop for model with n tries ?
-
-        # Increase turn count
+        # increase the number of API requests
         self.request_counts[self.game.current_turn] += 1
+
+        # Record character length of answer
+        self.average_char_count_a[self.game.current_turn] = len(answer_a)
+
+        # Break if Player A utters keyword indicating completion
+        if str(self.stop).lower() in answer_a.lower():
+            action = {'type': 'fulfilled', 'content': 'End game.'}
+            self.log_event(from_='GM', to='GM', action=action)
+            self.game.current_turn += 1
+            return False
+
+        # get player B's reply and add it to its history
+        prompt, raw_answer, answer_b, from_ = self.game.get_utterance('b', self.game.current_turn)
+
+        # increase the number of API requests
+        self.request_counts[self.game.current_turn] += 1
+
+        # add API call to the records
+        action = {'type': 'get message', 'content': answer_b}
+        self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+
+        # add B's reply to A's history
+        self.game._append_utterance(answer_b, 'a', 'user')
+
+        self.average_char_count_b[self.game.current_turn] = len(answer_b)
+        
+        # Grab the last content of the assistant for having it summed up in json structure
+        last_assistant_utterance = None
+        for message in reversed(self.game.answerer.history):
+            if message['role'] == 'assistant':
+                last_assistant_utterance = message['content']
+                break
+
+        # merge summarisation prompt with last utterance to be summed up
+        merged_prompt = f"{self.summarise_in_json_prompt}\n{last_assistant_utterance}"
+
+        answer_in_json = self.game.summarise_in_json(merged_prompt, self.game.answerer)
+        action = {'type': 'send message', 'content': merged_prompt}
+        self.log_event(from_='GM', to='Player 2', action=action)
+        action = {'type': 'send message', 'content': answer_in_json}
+        self.log_event(from_='Player 2', to='GM', action=action)
+
+        # TODO: integrate jsonrepair
+        # Try repair, work with repaired object
+
+        # reprompt loop for model with n tries ?
+        # Increase count (put into game class?)
+
+        self._update_current_goal_object(answer_in_json)
+
+        # also add the reply to the transcript
+        action = {'type': 'send message', 'content': answer_b}
+        self.log_event(from_='GM', to='Player 1', action=action)
+
+        # Increase requests count
+        self.request_counts[self.game.current_turn] += 1
+
+        self.game.current_turn += 1
 
         return True
 
-    # def initiate(self, prompt_player_a: str, prompt_player_b: str) -> None:
-    #     """Initialise the dialogue history (firstlast specific)."""
-    #     # always call log_next_turn what a turn starts
-    #     self.log_next_turn()
-
-    #     # append the initial message of each player to their history
-    #     # the value user means the message is from an interlocutor of the model
-    #     self.questioner.history.append({'role': 'user', 'content': prompt_player_a})
-    #     self.answerer.history.append({'role': 'user', 'content': prompt_player_b})
-
-    #     # also log the messages as events for the transcriptions
-    #     action = {'type': 'send message', 'content': prompt_player_a}
-    #     self.log_event(from_='GM', to='Player 1', action=action)
-    #     action = {'type': 'send message', 'content': prompt_player_b}
-    #     self.log_event(from_='GM', to='Player 2', action=action)
-
     def _update_current_goal_object(self, answer_in_json: Dict):
-        for key in answer_in_json:
-            if key in self.current_state:
-                self.current_state[key] = answer_in_json[key]
-                action = {'type': 'metadata', 'content': 'update game state'}
-                self.log_event(from_='GM', to='GM', action=action)
+        """_summary_
 
-            if all(value is not None for value in self.current_state.values()):
-                self.slots_filled = True
+        Args:
+            answer_in_json (Dict): _description_
 
-    # Example for logging
-    # def _log_probing_outcome(self, probe: Dict, successful: bool, tries: int):
-    #     if not successful:
-    #         content = NOT_SUCCESS.format(probe['target'])
-    #     else:
-    #         content = SUCCESS.format(probe['target'], tries)
-    #     # answer valid?
-    #     action = {'type': 'metadata', 'content': content}
-    #     self.log_event(from_='GM', to='GM', action=action)
-    #     logger.info(content)
-    #     # answer correct?
-    #     result = '' if probe['value'] == probe['gt'] else 'in'
-    #     action = {'type': 'check', 'content': RESULT.format(result)}
-    #     self.log_event(from_='GM', to='GM', action=action)
+        Returns:
+            _type_: _description_
+        """
+        if isinstance(answer_in_json, dict):
+            for key in answer_in_json:
+                if key in self.current_state:
+                    self.current_state[key] = answer_in_json[key]
+                    action = {'type': 'metadata', 'content': 'update game state'}
+                    self.log_event(from_='GM', to='GM', action=action)
+
+                if all(value is not None for value in self.current_state.values()):
+                    self.slots_filled = True
+                    action = {'type': 'metadata', 'content': 'slots filled'}
+                    self.log_event(from_='GM', to='GM', action=action)
+        else:
+            print("not updated")
+        print(f"CURRENT STATE: {self.current_state}")
+        return self.current_state
 
     # TODO: How to proceed with incomplete json?
     def _does_game_proceed(self) -> bool:
@@ -307,49 +262,6 @@ class DialogueQuest(GameMaster):
         self.log_to_self("valid format", "continue")
         return True
 
-    # TODO: Implement + design validation
-    # json object?
-    def _on_parse_response(self, player: Player, utterance: str) -> Tuple[str, bool]:
-        # if player == self.questioner:
-        #     print(f"Player A: {utterance}")
-        if player == self.answerer:
-            # self.log_to_self("suggestion", self.extract_json_from_response(utterance))
-            self.log_to_self("utterance", utterance)
-            self.current_suggestion = self.extract_json_from_response(utterance)
-            self.current_response = utterance
-            # print(f"CURRENT RESPONSE: {self.current_response}")
-            if "BOOKED" in utterance:
-                self.booking = True
-        return utterance, True
-
-    def _after_add_player_response(self, player: Player, utterance: str):
-        """Adds response to history of other player.
-
-        Args:
-            player (Player): _description_
-            utterance (str): _description_
-        """
-        if player == self.questioner:
-            # print(f"HISTORY QUESTIONER: {self.questioner.history}")
-            self.add_user_message(self.answerer, utterance)
-            # print(f"HISTORY QUESTIONER AFTER ADDITION: {self.questioner.history}")
-        elif player == self.answerer:
-            # print(f"HISTORY ANSWERER: {self.answerer.history}")
-            self.add_user_message(self.questioner, utterance)
-            # print(f"HISTORY ANSWERER AFTER ADDITION: {self.answerer.history}")
-
-    def _on_after_turn(self, turn_idx: int):
-        """Checks if the json object of the current response contains all the keys from the goal object; if so, the booking flag is activated.
-
-        Args:
-            turn_idx (int): Number of current turn.
-        """
-        # if all(key in self.current_response for key in self.goal):
-        #     self.booking = True
-        # print(f"GOAL: {self.goal}")
-        # print(f"CURRENT RESP: {self.current_response}")
-        # print(f"ALL SLOTS SUGGESTED: {self.booking}")
-
     def extract_json_from_response(self, utterance):
         """Extracts json code from a string.
 
@@ -361,41 +273,40 @@ class DialogueQuest(GameMaster):
         """
         try:
             # Find the start of the JSON structure in the response
-            json_start = utterance.find('{')
+            json_start = str(utterance).find('{')
             # TODO: Maybe add a var for closing bracket?
             # Parse the JSON
             # FIXME: Check for double quotes!!
-            json_data = json.loads(utterance[json_start:].replace("\'", "\""))
+            # json_data = json.loads(utterance[json_start:].replace("\'", "\""))
             # print(f"JSON DATA: {json_data}")
             return json_data
         except json.JSONDecodeError:
             print(utterance[json_start:])
-            print("Invalid JSON structure detected. Please try again.")
+            print("Invalid JSON structure detected.")
             return utterance
             # return None
 
-    # TODO: Decide on metrics to log!
     def _log_eval_assets(self) -> None:
         """Log everything needed for the evaluation."""
-        pass
-        # self.log_key(ms.METRIC_REQUEST_COUNT,
-        #              self.request_counts)
-        # self.log_key(ms.METRIC_REQUEST_COUNT_PARSED,
-        #              self.parsed_request_counts)
-        # self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED,
-        #              self.violated_request_counts)
+        self.log_key('realised_slots', self.current_state)
+        self.log_key('slots_given', self.slots_given)
+        self.log_key('data', self.data)
+        self.log_key('n_turns', self.game.current_turn)
+        self.log_key('Complete turns', self.game.current_turn)
+        self.log_key(ms.METRIC_REQUEST_COUNT, self.request_counts)
+        self.log_key(ms.METRIC_REQUEST_COUNT_PARSED, self.parsed_request_counts)
+        self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
         # self.log_key('Filled Slots', self.filled_slots)
-        self.log_key('Aborted', self.aborted)
-        # self.log_key('Played Probe Rounds', self.played_probing_rounds)
+        self.log_key(ms.METRIC_ABORTED, self.aborted)
+        self.log_key(ms.METRIC_LOSE, self.lose)
+        self.log_key("average_char_count_a", self.average_char_count_a)
+        self.log_key("average_char_count_b", self.average_char_count_b)
 
 
 class DialogueQuestScorer(GameScorer):
     def __init__(self, experiment: Dict, game_instance: Dict):
         super().__init__(GAME_NAME, experiment, game_instance)
 
-        # copied from Vorlage - MODIFY !!
-    # Only general scores logged, add specific ones!
-    # Check if in line with interactions.json
     def compute_scores(self, episode_interactions: Dict):
         """Compute episode-level and turn-level scores.
 
@@ -403,96 +314,62 @@ class DialogueQuestScorer(GameScorer):
             episode_interactions (Dict): _description_
         """
 
-        # Episode level scores
+        played_turns = episode_interactions['Complete turns']
+        n_turns = episode_interactions['Complete turns']
 
-        # Initialise counters for episode scores
-        turn_scores = []
-        invalid_response = False
+        realised_slots = episode_interactions['realised_slots']
+        slots_given = episode_interactions['slots_given']
+        data = episode_interactions['data']
+        self.log_episode_score("SLOTS GIVEN TEST", slots_given)
 
-        for turn_idx, turn in enumerate(episode_interactions["turns"]):
-            turn_score = {"request_count": 1}
-            slots_filled = False
+        char_count_a = episode_interactions['average_char_count_a']
+        char_count_b = episode_interactions['average_char_count_b']
 
-            for event in turn:
-                action = event["action"]
-                if action["type"] == "invalid format":
-                    invalid_response = True
-                if action["type"] == "all slots successfully filled":
-                    slots_filled = True
-
-            if invalid_response:
-                turn_score["violated_request_count"] = 1
-                turn_score["parsed_request_count"] = 0
-            else:
-                turn_score["violated_request_count"] = 0
-                turn_score["parsed_request_count"] = 1
-
-            self.log_turn_score(turn_idx, 'Accuracy', 1 if slots_filled else 0)
-            self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_VIOLATED, turn_score["violated_request_count"])
-            self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT_PARSED, turn_score["parsed_request_count"])
-            self.log_turn_score(turn_idx, ms.METRIC_REQUEST_COUNT, turn_score["request_count"])
-
-            turn_scores.append(turn_score)
-
-        violated_request_count = sum([turn["violated_request_count"] for turn in turn_scores])
-        self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, violated_request_count)
-
-        parsed_request_count = sum([turn["parsed_request_count"] for turn in turn_scores])
-        self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, parsed_request_count)
-
-        request_count = sum([turn["request_count"] for turn in turn_scores])
-        self.log_episode_score(ms.METRIC_REQUEST_COUNT, request_count)
-
-        self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, parsed_request_count / request_count)
-
-
-        # Common metrics
-        if invalid_response:  # whether a violation of the game rules happened (response not parsable)
-            self.log_episode_score(ms.METRIC_ABORTED, 1)
-            self.log_episode_score(ms.METRIC_SUCCESS, 0)
-            self.log_episode_score(ms.METRIC_LOSE, 0)
-            # Game-specific metrics
-            self.log_episode_score(ms.BENCH_SCORE, np.nan)  # metric not applicable
-        else:
-            self.log_episode_score(ms.METRIC_ABORTED, 0)
-            if slots_filled:
-                self.log_episode_score(ms.METRIC_SUCCESS, 1)
-                self.log_episode_score(ms.METRIC_LOSE, 0)
-                self.log_episode_score(ms.BENCH_SCORE, 100 / len(turn_scores))  # how early the guesser found the word
-            else:
-                self.log_episode_score(ms.METRIC_SUCCESS, 0)
-                self.log_episode_score(ms.METRIC_LOSE, 1)
-                self.log_episode_score(ms.BENCH_SCORE, 0)  # word not found
-        # checking the last guess (could be None) is ok,
-        # b.c. the game ends only successfully, when there is a correct guess
-
-        # played_turns = episode_interactions['Played turns']
-        # complete_turns = episode_interactions['Complete turns']
-        # turn 0 was only the initial prompts, so we disregard it here
-
-        # reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][1:]
-        # p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][1:]
-        # v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][1:]
+        reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][0:]
+        p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][1:]
+        v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][1:]
         # n_turns = len(reqs)
 
-        # for turn in range(0, played_turns):
-        #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
-        #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
-        #     self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
+        for turn in range(0, played_turns):
+            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
+            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
+            self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
+            self.log_turn_score(turn, "char count a", char_count_a[turn])
+            self.log_turn_score(turn, "char count b", char_count_b[turn])
 
+        # Episode level scores
         # aborted = int(episode_interactions[ms.METRIC_ABORTED])
         # lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
         # success = 1 - lose if not aborted else 0
-        # bench_score = complete_turns / n_turns if not aborted else np.nan
+        # bench_score = played_turns / n_turns if not aborted else np.nan
 
         # self.log_episode_score(ms.METRIC_ABORTED, aborted)
         # self.log_episode_score(ms.METRIC_LOSE, lose)
         # self.log_episode_score(ms.METRIC_SUCCESS, success)
-        # self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
-        # self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
-        # self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
-        # self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
+
+        accuracy_slots_given = self.check_for_slots_given(realised_slots, slots_given)
+        accuracy_data = self.check_for_database_slots(realised_slots, data)
+
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
+        self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
+        self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
+        self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
+        self.log_episode_score("Accuracy of data", accuracy_data)
         # self.log_episode_score(ms.BENCH_SCORE, bench_score)
+        # FIXME: Collect + apply sum of reqs by A
+        self.log_episode_score("Average Char Count A", sum(char_count_a) / sum(reqs))
+
+    def check_for_slots_given(self, realised_slots, slots_given):
+        total_pairs = len(slots_given)
+        # Count how many key-value pairs from dict_1 are found in dict_2
+        matching_pairs = sum(1 for item in slots_given.items() if item in realised_slots.items())
+        # Compute accuracy
+        accuracy = matching_pairs / total_pairs if total_pairs > 0 else 0
+        return accuracy
+
+    def check_for_database_slots(self, realised_slots, data):
+        pass
 
 
 class DialogueQuestBenchmark(GameBenchmark):
@@ -519,15 +396,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-def main():
-    # select one instance
-    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-    instance = experiments["experiments"][0]["game_instances"][0]
-    master = DialogueQuest(instance, ["mock", "mock"])
+# def main():
+#     # select one instance
+#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+#     instance = experiments["experiments"][0]["game_instances"][0]
+#     master = DialogueQuest(instance, ["mock", "mock"])
 
-    master.setup(**instance)
-    master.play()
+#     master.setup(**instance)
+#     master.play()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

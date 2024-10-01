@@ -2,53 +2,15 @@ import random
 from typing import Dict, List, Tuple, Any
 
 from clemgame.clemgame import Player
+from clemgame import get_logger
 from backends import Model, CustomResponseModel
 import copy
 
 
-# Initialize players here
-
-# class Instruction:
-
-#     def __init__(self):
-#         self.user_messages = []
-#         self.system_messages = []
-
-#     def add_user_message(self, message):
-#         self.user_messages.append(message)
-
-#     def add_system_message(self, message):
-#         self.system_messages.append(message)
-
-#     def convert_to_query_messages(self):
-#         messages = []
-#         messages.append({"role": "system", "content": ""})
-#         for i in range(0, len(self.user_messages)):
-#             messages.append({"role": "user", "content": self.user_messages[i]})
-
-#             if i < len(self.system_messages):
-#                 messages.append({"role": "assistant", "content": self.system_messages[i]})
-
-#         return messages
-
-    # def serialize(self):
-    #     output = []
-
-    #     for i in range(0, len(self.user_messages)):
-    #         t = {"user": self.user_messages[i]}
-
-    #         if i < len(self.system_messages):
-    #             t["assistant"] = self.system_messages[i]
-    #         output.append(t)
-    #     return output
-
-    # def get_last_user_message(self):
-    #     return self.user_messages[-1]
-
-    # def get_last_system_message(self):
-    #     return self.system_messages[-1]
+logger = get_logger(__name__)
 
 
+# Initialize player classes
 class Questioner(Player):
     """_summary_
 
@@ -56,15 +18,19 @@ class Questioner(Player):
         Player (_type_): _description_
     """
     def __init__(self, model_name: str, player: str) -> None:
-        super().__init__(CustomResponseModel())
-        # super().__init__(model_name)
-        # self.player: str = player
+        # Programmatic player mode for testing
+        # super().__init__(CustomResponseModel())
+        super().__init__(model_name)
+        self.player: str = player
 
         # initialise list for storing dialogue history
         self.history: List = []
 
     def _custom_response(self, messages, turn_idx) -> str:
-        utterance = f"Hello, I'm looking for something. TURN: {turn_idx}"
+        if turn_idx <= 1:
+            utterance = f"Hello, I'm looking for something. TURN{turn_idx}"
+        else:
+            utterance = "Ok, game FULFILLED"
         return utterance
 
 
@@ -75,20 +41,24 @@ class Answerer(Player):
         Player (_type_): _description_
     """
     def __init__(self, model_name: str, player: str) -> None:
-        super().__init__(CustomResponseModel())
-        # super().__init__(model_name)
-        # self.player: str = player
+        # Programmatic player mode for testing
+        # super().__init__(CustomResponseModel())
+        super().__init__(model_name)
+        self.player: str = player
 
         # initialise list for storing dialogue history
         self.history: List = []
 
     def _custom_response(self, messages, turn_idx) -> str:
-        utterance = f"No problem. Here's a suggestion: TURN: {turn_idx}"
+        if turn_idx <= 3:
+            utterance = f"No problem. Here's a suggestion: TURN{turn_idx}"
+        else:
+            utterance = {'address': 'Hamilton Lodge'}
         json_example = {'address': 'Hamilton Lodge'}
+        # return json_example
         return utterance
 
 
-# Modify !!
 class DialogueQuestGame:
     def __init__(self,
                  model_0: Model,
@@ -101,15 +71,27 @@ class DialogueQuestGame:
         self.answerer: Answerer = model_1
         self.messages: List = []
         self.current_turn: int = 0
+        self.game_proceeds = True
 
     def proceeds(self) -> bool:
         """Check if the game can continue: max number of turns not reached"""
-        return self.current_turn < self.max_turns
+        if not self.game_proceeds:
+            return False
+        if self.current_turn >= self.max_turns:
+            logger.info(f"Maximum turns: {self.max_turns} reached")
+            return False
+        else:
+            return True
 
-    def initiate(self, initial_prompt_a: str, initial_prompt_b: str) -> None:
-        """Add initial prompts to the dialogue history."""
-        self.messages.append({'role': 'user', 'content': initial_prompt_a})
-        self.messages.append({'role': 'assistant', 'content': initial_prompt_b})
+    def initiate(self, prompt_player_a: str, prompt_player_b: str) -> None:
+        """Initialise the dialogue history."""
+
+        # append the initial message of each player to their history
+        # the value user means the message is from an interlocutor of the model
+        self.questioner.history.append({'role': 'user', 'content': prompt_player_a})
+        self.answerer.history.append({'role': 'user', 'content': prompt_player_b})
+        # Mock turn to ensure alternation of roles
+        self.answerer.history.append({'role': 'assistant', 'content': "OK"})
 
     def get_utterance(self, player: str, current_turn) -> str:
         """Get utterance from a player and log it (firstlast specific)."""
@@ -136,31 +118,23 @@ class DialogueQuestGame:
         else:
             self.answerer.history.append({'role': role, 'content': utterance})
 
-    def questioner_turn(self) -> str:
-        """Append tagged next question to dialogue history and return it."""
-        _, _, request = self.questioner(self.messages, self.current_turn)
-        self.messages.append({'role': 'user', 'content': request})
-        return request
+    def summarise_in_json(self, merged_prompt, player):
+        self.answerer.history.append({'role': 'user', 'content': merged_prompt})
 
-    def answerer_turn(self) -> Tuple[Any, Any, str]:
-        """
-        Get response via API call, append it to dialogue history and return 
-        manipulated prompt and response.
-        """
-        prompt, raw_answer, answer = self.answerer(self.messages,
-                                                   self.current_turn)
-        # make a copy to log a static state
-        prompt = copy.deepcopy(prompt)
-        self.messages.append({'role': 'assistant', 'content': answer})
-        # increase the turn counter
-        self.current_turn += 1
-        return prompt, raw_answer, answer
+        # get request from questioner
+        prompt, raw_answer, request, from_ = self.get_utterance('b', self.current_turn)
 
-    def summarise_in_json(self, prompt_text, answer, player):
-        merged_prompt = f"{prompt_text}\n{answer}"
-        _, _, request = self.answerer(merged_prompt, self.current_turn)
-        self.messages.append({'role': 'system', 'content': request})
-        self.current_turn += 1
+        # _, _, request = self.answerer(merged_prompt, self.current_turn)
+
+        # self.messages.append({'role': 'system', 'content': request})
+        # self.current_turn += 1
+        # from_ = "Player 1"
+        # add reply to its own memory
+        # Mock turn for ensuring alteration
+        self._append_utterance("Ok", 'a', 'assistant')
+        self._append_utterance("Ok", 'b', 'user')
+        self._append_utterance(request, 'b', 'assistant')
+        self._append_utterance(request, 'a', 'user')
         return request
         # answer_in_json = answer
         # return answer_in_json
