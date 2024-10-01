@@ -2,7 +2,7 @@
 """
 
 GAME_NAME = "dialoguequest"
-MAX_TURNS = 10
+MAX_TURNS = 5
 N_INSTANCES = 2
 N_EXPERIMENTS = 2
 SEED = 4
