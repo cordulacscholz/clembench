@@ -11,10 +11,8 @@ from copy import deepcopy
 from clemgame.clemgame import GameInstanceGenerator
 from clemgame import get_logger
 from games.dialoguequest.constants import (
-    GAME_NAME, N_INSTANCES, N_EXPERIMENTS, MAX_TURNS, SEED, TOPICS, WORDS_PATH)
+    GAME_NAME, LANG, N_INSTANCES, N_EXPERIMENTS, MAX_TURNS, N_DATABASE_ITEMS, SEED, TOPICS, WORDS_PATH)
 
-LANG = 'en'
-JSON_PREFIX = 'JSON'
 
 logger = get_logger(__name__)
 
@@ -23,7 +21,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
     """generate() method creates JSON file with key 'experiments', list of experiments.
 
     Args:
-        GameInstanceGenerator (_type_): _description_
+        GameInstanceGenerator (GameInstanceGenerator): _description_
     """
     def __init__(self):
         super().__init__("dialoguequest")
@@ -33,13 +31,13 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
 
     # Variations on topic, variations with same topic...
     def on_generate(self):
-        """_summary_
+        """Generates instances of DialogueQuest
 
         Returns:
-            _type_: _description_
+            dict: Instances file for DialogueQuest
         """
-        # topic
         print("Generating instance...")
+        # TODO: Add language specific structure
         prompt_a = self.load_template('resources/initial_prompts/prompt_a')
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
         summarisation_prompt = self.load_template('resources/initial_prompts/summarisation_prompt')
@@ -51,13 +49,13 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             for game_id in range(N_INSTANCES):
                 topic = self._select_topic()
                 article = self._select_article(topic)
-                goal_object = self._sample_random_json_object(topic)
-                example_object = self._sample_random_json_object(topic)
+                goal_object = self._sample_random_json_objects(topic, 1)
+                example_object = self._sample_random_json_objects(topic, 1)
 
-                # For testing purposes, select only 3 items from whole database
-                sample_data = self._sample_multi_random_json_object(topic)
+                # Select restricted number of database items available to the Answerer (to avoid exceeding the model's token limit)
+                sample_data = self._sample_random_json_objects(topic, N_DATABASE_ITEMS)
 
-                # Insert goal object at random index in list of sample data
+                # Insert goal object at random index in list of sample data to ensure a solution can be found
                 # TODO: Integrate switch for 'level' selection (goal object included, goal object not necessarily included)
                 selected_data = deepcopy(sample_data)
                 random_index = random.randint(0, len(selected_data))
@@ -65,7 +63,8 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
 
                 # Ensure that goal and example object are not the same
                 while example_object == goal_object:
-                    example_object = self._sample_random_json_object(topic)
+                    example_object = self._sample_random_json_objects(topic, 1)
+                # Sort out categorical and non-categorial slots according to topic
                 categorical_slots, non_categorical_slots = self._get_cat_and_non_cat_keys(topic)
                 # Select NUMBER of cat slots for SLOTS_GIVEN
                 slots_given, slots_to_fill = self._select_slots(goal_object, categorical_slots, non_categorical_slots)
@@ -89,7 +88,20 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         return topic
 
     def _create_prompt_a(self, prompt: str, topic: str, article: str, slots_given, slots_to_fill, stop: str, example_object) -> str:
-        """Fill in the initial prompt variables."""
+        """Fill slot template for Player A with selected values
+
+        Args:
+            prompt (str): Prompt template to be filled
+            topic (str): Topic slected for instance
+            article (str): Article for topic (EN, DE specific)
+            slots_given (_type_): _description_
+            slots_to_fill (_type_): _description_
+            stop (str): Signal for indicating fulfillment
+            example_object (dict): _description_
+
+        Returns:
+            str: Complete prompt for direct use
+        """
         text = prompt.replace('$TOPIC$', topic)
         text = text.replace('$ARTICLE$', article)
         text = text.replace('$SLOTS_GIVEN$', str(slots_given))
@@ -99,9 +111,19 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         return text
 
     def _create_prompt_b(self, prompt: str, topic: str, example_object, selected_data):
+        """Fill slot template for Player B with selected values
+
+        Args:
+            prompt (str): Prompt template to be filled
+            topic (str): Topic slected for instance
+            example_object (dict): Random example object for orientation in structure
+            selected_data (dict): Collection of selected instances to be chosen from
+
+        Returns:
+            str: Complete prompt for direct use
+        """
         data = selected_data
         text = prompt.replace('$DATA$', str(data))
-        text = text.replace('$JSON_PREFIX$', JSON_PREFIX)
         text = text.replace('$EXAMPLE$', str(example_object))
         return text
 
@@ -117,7 +139,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         """
         if self.language.strip().lower() == "en":
             article = "an" if topic.lower()[0] in ["a", "e", "i", "o", "u"] else "a"
-            print(article)
         elif self.language == "de":
             if topic in ['attraction']:
                 article = "eine"
@@ -129,14 +150,26 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             article = ""
         return article
 
+    # TODO: Work out best way of goal selection (number depending on topic)
     # Deal with "ref" keys
-    # Filter out "no" vals
     # Refine key selection
-    def _select_slots(self, goal_object, categorical_slots, non_categorical_slots):
+    @staticmethod
+    def _select_slots(goal_object: dict, categorical_slots: list, non_categorical_slots: list):
+        """Selects slots which are given (categorical slots) and slots which are to be filled (non-categorical slots) from goal object
+
+        Args:
+            goal_object (dict): Item used as goal
+            categorical_slots (list): List of categorical slots
+            non_categorical_slots (list): List of non-categorical slots
+
+        Returns:
+            dict, dict: Slots given, Slots to fill
+        """
         # TODO: See what could be a good way to choose/modify this
-        # Check if slots make sense to be selected
+
         # Remove key-values pairs with val=='no', as this does not work for a goal ("need hotel with no internet")
         filtered_goal_object = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
+
         # Filter number_of_slots by difficulty or some similar category?
         number_of_slots = math.floor(len(filtered_goal_object)/2)
         random_keys_given = random.sample(list(filtered_goal_object.keys()), number_of_slots)
@@ -145,7 +178,16 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         slots_to_fill = random.sample(non_categorical_slots, number_of_slots)
         return slots_given, slots_to_fill
 
-    def _load_database_file(self, topic):
+    @staticmethod
+    def _load_database_file(topic):
+        """Loads a file from database
+
+        Args:
+            topic (str): Topic chosen for instance
+
+        Returns:
+            dict: Data selected, or None if an error occurs
+        """
         file_path = os.path.join(os.path.dirname(__file__), 'resources/database_files', f'{topic}.json')
         try:
             with open(file_path, 'r') as file:
@@ -155,22 +197,34 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             print(f"An error occurred: {e}")
             return None
 
-    def _sample_random_json_object(self, topic):
-        """Sample one example json object from data file.
+    def _sample_random_json_objects(self, topic: str, n: int):
+        """Randomly selects items from list of json objects from database file for slelected topic
 
         Args:
-            topic (_type_): _description_
+            topic (str): Topic selected for instance
+            n (int): Number of items to be chosen
+
+        Returns:
+            dict: Items selected
         """
-        data = self._load_database_file(topic)
-        selected_object = random.choice(data)
-        return selected_object
+        if n == 1:
+            data = self._load_database_file(topic)
+            selected = random.choice(data)
+        else:
+            data = self._load_database_file(topic)
+            selected = random.sample(data, n)
+        return selected
 
-    def _sample_multi_random_json_object(self, topic):
-        data = self._load_database_file(topic)
-        selected_objects = random.sample(data, 3)
-        return selected_objects
+    @staticmethod
+    def _get_cat_and_non_cat_keys(topic: str):
+        """Selects categorical and non-categorical slots from the database file given for selected topic
 
-    def _get_cat_and_non_cat_keys(self, topic):
+        Args:
+            topic (str): Topic selected for instance
+
+        Returns:
+            list, list: Categorical slots, Non-categorical slots
+        """
         file_path = os.path.join(os.path.dirname(__file__), 'resources/database_files', 'schema.json')
         with open(file_path, 'r') as file:
             data = json.load(file)
