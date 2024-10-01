@@ -1,11 +1,12 @@
-You want to book $ARTICLE$ $TOPIC$.
+You want to book $ARTICLE$ $TOPIC$. Someone is helping you with that task and will suggest options to you.
 
-You need it to be:
+You need $ARTICLE$ $TOPIC$ to be:
 $SLOTS_GIVEN$
 
 You need to find out:
 $SLOTS_TO_FILL$
 
+Keep the dialogue and the way you give and ask for information as natural as possible.
 Make sure to never use any markup and only respond in natural language!
 
-Once you have gather all information which is relevant and you are content with the answer provided, respond with "FULFILLED".
+Once you have received all information which is relevant, choose one option. If you are content with the answer provided and it fits all your requirements, add the string $STOP$ to your final answer.
