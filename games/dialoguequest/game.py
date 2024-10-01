@@ -10,12 +10,12 @@ import copy
 logger = get_logger(__name__)
 
 
-# Initialize player classes
+# Initialise player classes
 class Questioner(Player):
     """_summary_
 
     Args:
-        Player (_type_): _description_
+        Player (Player): _description_
     """
     def __init__(self, model_name: str, player: str) -> None:
         # Programmatic player mode for testing
@@ -27,6 +27,15 @@ class Questioner(Player):
         self.history: List = []
 
     def _custom_response(self, messages, turn_idx) -> str:
+        """Predefined response if player is not an LLM (for testing purposes)
+
+        Args:
+            messages (list): _description_
+            turn_idx (int): Current turn
+
+        Returns:
+            str: Utterance
+        """
         if turn_idx <= 1:
             utterance = f"Hello, I'm looking for something. TURN{turn_idx}"
         else:
@@ -50,6 +59,15 @@ class Answerer(Player):
         self.history: List = []
 
     def _custom_response(self, messages, turn_idx) -> str:
+        """Predefined response if player is not an LLM (for testing purposes)
+
+        Args:
+            messages (list): _description_
+            turn_idx (int): Current turn
+
+        Returns:
+            str: Utterance
+        """
         if turn_idx <= 3:
             utterance = f"No problem. Here's a suggestion: TURN{turn_idx}"
         else:

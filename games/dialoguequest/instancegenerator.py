@@ -74,20 +74,22 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 instance['summarisation_prompt'] = summarisation_prompt
                 instance['summarise_in_json'] = summarise_in_json
                 instance['prompt_player_a'] = self._create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
-                instance['prompt_player_b'] = self._create_prompt_b(prompt_b, topic, example_object, selected_data)
+                instance['prompt_player_b'] = self._create_prompt_b(prompt_b, example_object, selected_data)
                 instance['max_turns'] = MAX_TURNS
                 instance['slots_given'] = slots_given
                 instance['slots_to_fill'] = slots_to_fill
                 instance['goal'] = goal_object
                 instance['data'] = selected_data
 
-    def _select_topic(self):
+    @staticmethod
+    def _select_topic():
         """Selects a topic out of possible lists of topics
         """
         topic = random.choice(TOPICS)
         return topic
 
-    def _create_prompt_a(self, prompt: str, topic: str, article: str, slots_given, slots_to_fill, stop: str, example_object) -> str:
+    @staticmethod
+    def _create_prompt_a(prompt: str, topic: str, article: str, slots_given, slots_to_fill, stop: str, example_object) -> str:
         """Fill slot template for Player A with selected values
 
         Args:
@@ -110,7 +112,8 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         text = text.replace('$EXAMPLE$', str(example_object))
         return text
 
-    def _create_prompt_b(self, prompt: str, topic: str, example_object, selected_data):
+    @staticmethod
+    def _create_prompt_b(prompt: str, example_object, selected_data):
         """Fill slot template for Player B with selected values
 
         Args:

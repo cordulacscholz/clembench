@@ -106,7 +106,11 @@ class DialogueQuest(GameMaster):
         self._log_eval_assets()
 
     def turn(self) -> bool:
-        """Perform one conversational turn."""
+        """Perform one turn, consisting in request Player A, answer Player B, json summary Player B. Might break early in case Player A utters the stop signal.
+
+        Returns:
+            bool: True if turn goes on, False if Player A utters stop signal
+        """
 
         # print(f"QU history at {self.game.current_turn}: {self.game.questioner.history}")
         # print(f"A history at {self.game.current_turn}: {self.game.answerer.history}")
@@ -155,7 +159,7 @@ class DialogueQuest(GameMaster):
         self.game._append_utterance(answer_b, 'a', 'user')
 
         self.average_char_count_b[self.game.current_turn] = len(answer_b)
-        
+
         # Grab the last content of the assistant for having it summed up in json structure
         last_assistant_utterance = None
         for message in reversed(self.game.answerer.history):
@@ -287,7 +291,8 @@ class DialogueQuest(GameMaster):
             # return None
 
     def _log_eval_assets(self) -> None:
-        """Log everything needed for the evaluation."""
+        """Log everything needed for the evaluation.
+        """
         self.log_key('realised_slots', self.current_state)
         self.log_key('slots_given', self.slots_given)
         self.log_key('data', self.data)
