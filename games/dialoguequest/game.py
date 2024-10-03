@@ -1,10 +1,8 @@
-import random
-from typing import Dict, List, Tuple, Any
+from typing import List
 
 from clemgame.clemgame import Player
 from clemgame import get_logger
 from backends import Model, CustomResponseModel
-import copy
 
 
 logger = get_logger(__name__)
@@ -92,7 +90,11 @@ class DialogueQuestGame:
         self.game_proceeds = True
 
     def proceeds(self) -> bool:
-        """Check if the game can continue: max number of turns not reached"""
+        """Check if the game can continue: max number of turns not reached
+
+        Returns:
+            bool: False if max number of turns reached, else True
+        """
         if not self.game_proceeds:
             return False
         if self.current_turn >= self.max_turns:
@@ -102,17 +104,28 @@ class DialogueQuestGame:
             return True
 
     def initiate(self, prompt_player_a: str, prompt_player_b: str) -> None:
-        """Initialise the dialogue history."""
+        """Initialise the dialogue history.
 
+        Args:
+            prompt_player_a (str): Initial prompt Player A
+            prompt_player_b (str): Initial prompt Player B
+        """
         # append the initial message of each player to their history
-        # the value user means the message is from an interlocutor of the model
         self.questioner.history.append({'role': 'user', 'content': prompt_player_a})
         self.answerer.history.append({'role': 'user', 'content': prompt_player_b})
         # Mock turn to ensure alternation of roles
         self.answerer.history.append({'role': 'assistant', 'content': "OK"})
 
-    def get_utterance(self, player: str, current_turn) -> str:
-        """Get utterance from a player and log it (firstlast specific)."""
+    def get_utterance(self, player: str, current_turn: int) -> str:
+        """Get utterance from a model and log it.
+
+        Args:
+            player (str): Name of player
+            current_turn (int): Current turn of the game
+
+        Returns:
+            str: _description_
+        """
         assert player in ('a', 'b')
         if player == 'a':
             # make an API call (or get a programmatic response) from player a
@@ -129,7 +142,7 @@ class DialogueQuestGame:
         return prompt, raw_answer, answer, from_
 
     def _append_utterance(self, utterance: str, player: str, role: str) -> None:
-        """Add an utterance to the history of a player (firstlast specific)."""
+        """Add an utterance to the history of a player."""
         assert player in ('a', 'b')
         if player == 'a':
             self.questioner.history.append({'role': role, 'content': utterance})

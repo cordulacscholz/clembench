@@ -2,22 +2,20 @@
 Implementation of a GameMaster to control game mechanisms.
 """
 
-from typing import Dict, List, Tuple
+from typing import Dict, List
 from backends import Model
 from clemgame.clemgame import GameMaster, GameBenchmark, GameScorer, Player
 from clemgame import get_logger
-from clemgame import file_utils
 from clemgame import metrics as ms
 from games.dialoguequest.game import DialogueQuestGame, Questioner, Answerer
 import json
 import copy
 import numpy as np
 from games.dialoguequest.constants import (
-    GAME_NAME, MAX_TURNS, WORDS_PATH)
+    GAME_NAME, LANG, MAX_TURNS, WORDS_PATH)
 
 
 logger = get_logger(__name__)
-LANG = 'en'
 
 
 class DialogueQuest(GameMaster):
