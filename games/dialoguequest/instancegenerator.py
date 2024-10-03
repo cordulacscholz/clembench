@@ -40,7 +40,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         # TODO: Add language specific structure
         prompt_a = self.load_template('resources/initial_prompts/prompt_a')
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
-        summarisation_prompt = self.load_template('resources/initial_prompts/summarisation_prompt')
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
 
         for n in range(0, N_EXPERIMENTS):
@@ -71,10 +70,9 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
 
                 # Add all relevant parameters to instance file
                 instance = self.add_game_instance(experiment, game_id)
-                instance['summarisation_prompt'] = summarisation_prompt
-                instance['summarise_in_json'] = summarise_in_json
                 instance['prompt_player_a'] = self._create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
                 instance['prompt_player_b'] = self._create_prompt_b(prompt_b, example_object, selected_data)
+                instance['summarise_in_json'] = self._create_summarisation_prompt(summarise_in_json, example_object)
                 instance['max_turns'] = MAX_TURNS
                 instance['slots_given'] = slots_given
                 instance['slots_to_fill'] = slots_to_fill
@@ -128,6 +126,11 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         data = selected_data
         text = prompt.replace('$DATA$', str(data))
         text = text.replace('$EXAMPLE$', str(example_object))
+        return text
+
+    @staticmethod
+    def _create_summarisation_prompt(prompt: str, example_object: dict):
+        text = prompt.replace('$EXAMPLE$', str(example_object))
         return text
 
     # TODO: Adjust for AR, RU, ZH (suffixes)
