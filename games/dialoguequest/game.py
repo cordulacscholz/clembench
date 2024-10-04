@@ -146,14 +146,16 @@ class DialogueQuestGame:
         assert player in ('a', 'b')
         if player == 'a':
             self.questioner.history.append({'role': role, 'content': utterance})
+            # self.messages.append(utterance)
         else:
             self.answerer.history.append({'role': role, 'content': utterance})
+            # self.messages.append(utterance)
 
     def summarise_in_json(self, merged_prompt, player):
         self.answerer.history.append({'role': 'user', 'content': merged_prompt})
 
         # get request from questioner
-        prompt, raw_answer, request, from_ = self.get_utterance('b', self.current_turn)
+        _, _, request, _ = self.get_utterance('b', self.current_turn)
 
         # _, _, request = self.answerer(merged_prompt, self.current_turn)
 
@@ -162,10 +164,9 @@ class DialogueQuestGame:
         # from_ = "Player 1"
         # add reply to its own memory
         # Mock turn for ensuring alteration
-        self._append_utterance("Ok", 'a', 'assistant')
+
         self._append_utterance("Ok", 'b', 'user')
         self._append_utterance(request, 'b', 'assistant')
-        self._append_utterance(request, 'a', 'user')
         return request
         # answer_in_json = answer
         # return answer_in_json
