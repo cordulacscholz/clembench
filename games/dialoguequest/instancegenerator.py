@@ -50,6 +50,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 article = self._select_article(topic)
                 goal_object = self._sample_random_json_objects(topic, 1)
                 example_object = self._sample_random_json_objects(topic, 1)
+                print(example_object)
 
                 # Select restricted number of database items available to the Answerer (to avoid exceeding the model's token limit)
                 sample_data = self._sample_random_json_objects(topic, N_DATABASE_ITEMS)
@@ -242,5 +243,5 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
 
 
 if __name__ == '__main__':
-    random.seed(SEED)
+    SEED = random.seed()
     DialogueQuestInstanceGenerator().generate()

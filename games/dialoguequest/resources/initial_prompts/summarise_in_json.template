@@ -1,4 +1,9 @@
-Please create a json object from the text. Find all relevant data and build an according json structure from that. Be sure to build the structure according to your input data, also see the example below for reference. Reply with the json structure only, do not add any comments.
+Please create a json object from the text that is provided below. Use only the text given below, do not use any background information.
+Find all relevant data in the text and build an according json structure from that. Be sure to build the structure adhering to your input data, also see the example below for reference. Do not invent new keys, but only use the ones given in the example object. If the content does not match any key, that is fine, then nothing needs to be added. If you do not find anything to sum up, return an empty json object. If you find several instances mentioned, only choose one.
+Always start with the json code immediately, as in the example structure, never add a name (like "answer"). Always use double quotes, never single quotes! 
+Reply with the json structure only, do not add any comments.
 
-Example structure:
+EXAMPLE structure:
 $EXAMPLE$
+
+TEXT to convert into json:
