@@ -1,9 +1,9 @@
-You want to book $ARTICLE$ $TOPIC$. Someone is helping you with that task and will suggest options to you.
+You want to book $ARTICLE$ $TOPIC$. Someone else is helping you with that task and will suggest options to you.
 
 You need $ARTICLE$ $TOPIC$ to be:
 $SLOTS_GIVEN$
 
-You need to find out:
+Make sure to get:
 $SLOTS_TO_FILL$
 
 Keep the dialogue and the way you give and ask for information as natural as possible.
