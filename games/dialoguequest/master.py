@@ -29,6 +29,7 @@ class DialogueQuest(GameMaster):
     def __init__(self, experiment: Dict, player_models: List[Model]):
         super().__init__(GAME_NAME, experiment, player_models)
         self.max_turns: int = MAX_TURNS
+        self.max_reprompts = 3
 
         # Load language specific words
         words = self.load_json(WORDS_PATH.format(LANG))
@@ -45,7 +46,6 @@ class DialogueQuest(GameMaster):
 
         self.initial_prompt_a = game_instance["prompt_player_a"]
         self.initial_prompt_b = game_instance["prompt_player_b"]
-        self.summarisation_prompt = game_instance["summarisation_prompt"]
         self.summarise_in_json_prompt = game_instance["summarise_in_json"]
 
         # TODO: Might be only needed in game
@@ -70,7 +70,6 @@ class DialogueQuest(GameMaster):
         self.average_char_count_a = [0] * (self.game.max_turns + 1)
         self.average_char_count_b = [0] * (self.game.max_turns + 1)
 
-        # Put this into the class constructor ?
         self.goal = game_instance["goal"]
         self.slots_given = game_instance["slots_given"]
         self.data = game_instance["data"]
@@ -140,6 +139,8 @@ class DialogueQuest(GameMaster):
         if str(self.stop).lower() in answer_a.lower():
             action = {'type': 'fulfilled', 'content': 'End game.'}
             self.log_event(from_='GM', to='GM', action=action)
+            # print(self.game.messages)
+            # self._build_json()
             self.game.current_turn += 1
             return False
 
@@ -180,7 +181,29 @@ class DialogueQuest(GameMaster):
         # reprompt loop for model with n tries ?
         # Increase count (put into game class?)
 
+        # TODO: If _update_current_goal_object: continue,
+        # else: reprompt 3x, if not successful, abort
         self._update_current_goal_object(answer_in_json)
+
+        # attempt = 0
+        # Reprompt loop for getting json format right
+        # while attempt < self.max_reprompts:
+        #     attempt += 1
+        #     if self._update_current_goal_object(answer_in_json):  # Call your function
+        #         log: f"Success on attempt {attempt}"
+        #         break  # Exit the loop if the function returns True
+        #     else:
+        #         log: f"Attempt {attempt} failed"
+        # else:
+        #     print("Function failed after 3 attempts, exiting.")
+
+        # also add the reply to the transcript
+        action = {'type': 'metadata', 'content': f"json format Answer: {answer_in_json}"}
+        self.log_event(from_='GM', to='GM', action=action)
+
+        # also add the reply to the transcript
+        action = {'type': 'metadata', 'content': f"Updated internal object: {self.current_state}"}
+        self.log_event(from_='GM', to='GM', action=action)
 
         # also add the reply to the transcript
         action = {'type': 'send message', 'content': answer_b}
@@ -193,7 +216,19 @@ class DialogueQuest(GameMaster):
 
         return True
 
-    def _update_current_goal_object(self, answer_in_json: Dict):
+    def _reprompt_for_json(self):
+        pass
+        # merged_prompt = reprompt_text + summarise prompt + contents (param)
+        # self.game.summarise_in_json
+
+    # FIXME: See if needed
+    def _build_json(self):
+        merged_prompt = f"{self.summarise_in_json_prompt}\n{self.game.messages}"
+        final_json = self.game.summarise_in_json(merged_prompt, self.game.answerer)
+        print(f"BUILD JSON FINAL: {final_json}")
+
+    # TODO: Return either game state if valid json detected, or False if invalid json
+    def _update_current_goal_object(self, answer_in_json: str):
         """_summary_
 
         Args:
@@ -202,7 +237,13 @@ class DialogueQuest(GameMaster):
         Returns:
             _type_: _description_
         """
-        if isinstance(answer_in_json, dict):
+        # print(type(answer_in_json))
+        # print(answer_in_json)
+        try:
+            answer_in_json = json.loads(answer_in_json)
+            action = {'type': 'metadata', 'content': 'valid json detected'}
+            self.log_event(from_='GM', to='GM', action=action)
+        # if isinstance(answer_in_json, dict):
             for key in answer_in_json:
                 if key in self.current_state:
                     self.current_state[key] = answer_in_json[key]
@@ -210,83 +251,14 @@ class DialogueQuest(GameMaster):
                     self.log_event(from_='GM', to='GM', action=action)
 
                 if all(value is not None for value in self.current_state.values()):
-                    self.slots_filled = True
+                    self.all_slots_filled = True
                     action = {'type': 'metadata', 'content': 'slots filled'}
                     self.log_event(from_='GM', to='GM', action=action)
-        else:
-            print("not updated")
-        print(f"CURRENT STATE: {self.current_state}")
-        return self.current_state
-
-    # TODO: How to proceed with incomplete json?
-    def _does_game_proceed(self) -> bool:
-        """Proceed as long as there are still unfilled slots and max number of turns has not been reached.
-
-        Returns:
-            bool: True if proceed, False if not proceed
-        """
-        if self.invalid_response:
-            self.log_to_self("invalid format", "abort game")
-            return False
-        if self.invalid_json:
-            self.log_to_self("invalid json format", "abort game")
-            return False
-        if self.current_turn >= self.max_turns:
-            self.log_to_self("max turns reached", str(self.max_turns))
-            return False
-        # TODO: shorten key
-        if self.booking:
-            self.log_to_self("all slots successfully filled", "end game")
-            return False
-        return True
-
-    # TODO: Implement + design validation / end of game!
-    # Error messages!
-    def _validate_player_response(self, player: Player, utterance: str) -> bool:
-        """_summary_
-
-        Args:
-            player (Player): _description_
-            utterance (str): _description_
-
-        Returns:
-            bool: _description_
-        """
-        # not empty?
-        # json structure given at end of utterance?
-        if not utterance:
-            self.invalid_response = True
-            return False
-        # if player == self.answerer:
-        #     if not utterance.find('{'):
-        #         self.invalid_json = True
-        #         return False
-        self.log_to_self("valid format", "continue")
-        return True
-
-    def extract_json_from_response(self, utterance):
-        """Extracts json code from a string.
-
-        Args:
-            utterance (str): String which contains potential json code.
-
-        Returns:
-            _type_: _description_
-        """
-        try:
-            # Find the start of the JSON structure in the response
-            json_start = str(utterance).find('{')
-            # TODO: Maybe add a var for closing bracket?
-            # Parse the JSON
-            # FIXME: Check for double quotes!!
-            # json_data = json.loads(utterance[json_start:].replace("\'", "\""))
-            # print(f"JSON DATA: {json_data}")
-            return json_data
         except json.JSONDecodeError:
-            print(utterance[json_start:])
-            print("Invalid JSON structure detected.")
-            return utterance
-            # return None
+        # else:
+            action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}
+            self.log_event(from_='GM', to='GM', action=action)
+        return self.current_state
 
     def _log_eval_assets(self) -> None:
         """Log everything needed for the evaluation.
@@ -299,7 +271,7 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_REQUEST_COUNT, self.request_counts)
         self.log_key(ms.METRIC_REQUEST_COUNT_PARSED, self.parsed_request_counts)
         self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
-        # self.log_key('Filled Slots', self.filled_slots)
+        self.log_key('All slots filled', self.all_slots_filled)
         self.log_key(ms.METRIC_ABORTED, self.aborted)
         self.log_key(ms.METRIC_LOSE, self.lose)
         self.log_key("average_char_count_a", self.average_char_count_a)
@@ -324,6 +296,7 @@ class DialogueQuestScorer(GameScorer):
         slots_given = episode_interactions['slots_given']
         data = episode_interactions['data']
         self.log_episode_score("SLOTS GIVEN TEST", slots_given)
+        all_slots_filled = episode_interactions['All slots filled']
 
         char_count_a = episode_interactions['average_char_count_a']
         char_count_b = episode_interactions['average_char_count_b']
@@ -357,6 +330,7 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
         self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
         self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
+        self.log_episode_score("All slots filled", all_slots_filled)
         self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
         self.log_episode_score("Accuracy of data", accuracy_data)
         # self.log_episode_score(ms.BENCH_SCORE, bench_score)
