@@ -193,3 +193,6 @@ cython_debug/
 #.idea/
 /venv_hf/
 /venv_llamacpp/
+
+# node
+node_modules/

@@ -66,11 +66,12 @@ class Answerer(Player):
         Returns:
             str: Utterance
         """
-        if turn_idx <= 3:
-            utterance = f"No problem. Here's a suggestion: TURN{turn_idx}"
+        if turn_idx <= 2:
+            utterance = "{'address': 'Hamilton Lodge"
+            # utterance = f"No problem. Here's a suggestion: TURN{turn_idx}"
         else:
-            utterance = {'address': 'Hamilton Lodge'}
-        json_example = {'address': 'Hamilton Lodge'}
+            # utterance = {'address': 'Hamilton Lodge'}
+            utterance = "{'address': 'Hamilton Lodge'}"
         # return json_example
         return utterance
 

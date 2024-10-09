@@ -7,9 +7,11 @@ from backends import Model
 from clemgame.clemgame import GameMaster, GameBenchmark, GameScorer, Player
 from clemgame import get_logger
 from clemgame import metrics as ms
+from clemgame import file_utils
 from games.dialoguequest.game import DialogueQuestGame, Questioner, Answerer
 import json
 import copy
+import pythonmonkey
 import numpy as np
 from games.dialoguequest.constants import (
     GAME_NAME, LANG, MAX_TURNS, WORDS_PATH)
@@ -239,6 +241,7 @@ class DialogueQuest(GameMaster):
         """
         # print(type(answer_in_json))
         # print(answer_in_json)
+        answer_in_json = self._repair_json(answer_in_json)
         try:
             answer_in_json = json.loads(answer_in_json)
             action = {'type': 'metadata', 'content': 'valid json detected'}
@@ -259,6 +262,21 @@ class DialogueQuest(GameMaster):
             action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}
             self.log_event(from_='GM', to='GM', action=action)
         return self.current_state
+
+    # @staticmethod
+    def _repair_json(self, json_object):
+        # json repair example
+        print(f"JSON OBJ: {json_object}")
+        # Strip the string of its double quotes to avoid issued with single quotes
+        # json_object.replace("\"", "")
+        jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
+
+        repaired = jsonrepair(json_object)
+        print(f"Repaired json: {repaired}")
+        if json_object != repaired:
+            action = {'type': 'metadata', 'content': "JSON repaired: {json_object} to {repaired}"}
+            self.log_event(from_='GM', to='GM', action=action)
+        return repaired
 
     def _log_eval_assets(self) -> None:
         """Log everything needed for the evaluation.
