@@ -39,7 +39,7 @@ class DialogueQuest(GameMaster):
 
         # initialise attributes that will be used for the evaluation scores
         self.aborted: bool = False
-        self.lose: bool = False
+        self.success: bool = False
         self.complete_turns: int = 0
         self.all_slots_filled = False
 
@@ -49,6 +49,7 @@ class DialogueQuest(GameMaster):
         self.initial_prompt_a = game_instance["prompt_player_a"]
         self.initial_prompt_b = game_instance["prompt_player_b"]
         self.summarise_in_json_prompt = game_instance["summarise_in_json"]
+        self.reprompt = game_instance["reprompt"]
 
         # TODO: Might be only needed in game
         self.player_a = Questioner(self.player_models[0], "a")
@@ -62,15 +63,19 @@ class DialogueQuest(GameMaster):
             'GM': 'Game master for DialogueQuest',
             'Player 1': f'Questioner: {self.game.questioner}',
             'Player 2': f'Answerer: {self.game.answerer}'
-            # 'Player 2': f'Answerer: {self.game.answerer.get_name()}'
+            # 'Player 2': f'Answerer: {self.player_b.get_name()}'
             })
 
-        # initialise common metrics
+        # initialise common turn metrics
         self.request_counts = [0] * (self.game.max_turns + 1)
         self.parsed_request_counts = [0] * (self.game.max_turns + 1)
         self.violated_request_counts = [0] * (self.game.max_turns + 1)
-        self.average_char_count_a = [0] * (self.game.max_turns + 1)
-        self.average_char_count_b = [0] * (self.game.max_turns + 1)
+        self.char_count_a = [0] * (self.game.max_turns + 1)
+        self.char_count_b = [0] * (self.game.max_turns + 1)
+
+        # initialise episode scores
+        self.conversational_turns_a = 0
+        self.conversational_turns_b = 0
 
         self.goal = game_instance["goal"]
         self.slots_given = game_instance["slots_given"]
@@ -91,13 +96,14 @@ class DialogueQuest(GameMaster):
     def play(self) -> None:
         """Play one episode of DialogueQuest
         """
-        while self.game.proceeds() and not self.aborted:
+        while self._does_game_proceed() and not self.aborted:
             self.log_next_turn()
             turn_goes_on = self.turn()
 
             # Break if Player A utters keyword
             if not turn_goes_on:
                 print("Ending because task fulfilled.")
+                self.success = True
                 break
 
         action = {'type': 'end', 'content': 'Game finished.'}
@@ -118,14 +124,20 @@ class DialogueQuest(GameMaster):
         print(f"CURRENT TURN: {self.game.current_turn}")
 
         # get request from questioner
-        prompt, raw_answer, answer_a, from_ = self.game.get_utterance('a', self.game.current_turn)
+        # prompt, raw_answer, answer_a, from_ = self.game.get_utterance('a', self.game.current_turn)
+
+        prompt, raw_answer, answer_a, from_ = self._get_valid_response('a', self.game.current_turn)
+
+        if not answer_a:
+            action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
+            self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
 
         # add A's reply to B's history
         self.game._append_utterance(answer_a, 'b', 'user')
 
         # add API call to the records
-        action = {'type': 'get message', 'content': answer_a}
-        self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+        # action = {'type': 'get message', 'content': answer_a}
+        # self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
 
         # also add the reply to the transcript
         action = {'type': 'send message', 'content': answer_a}
@@ -134,32 +146,66 @@ class DialogueQuest(GameMaster):
         # increase the number of API requests
         self.request_counts[self.game.current_turn] += 1
 
-        # Record character length of answer
-        self.average_char_count_a[self.game.current_turn] = len(answer_a)
+        # Add to conversational turns counter
+        self.conversational_turns_a += 1
 
-        # Break if Player A utters keyword indicating completion
-        if str(self.stop).lower() in answer_a.lower():
-            action = {'type': 'fulfilled', 'content': 'End game.'}
-            self.log_event(from_='GM', to='GM', action=action)
-            # print(self.game.messages)
-            # self._build_json()
-            self.game.current_turn += 1
-            return False
+        # Validate response
+        # self._validate_response(answer_a, from_)
+
+        # Record character length of answer
+        if answer_a:
+            self.char_count_a[self.game.current_turn] = len(answer_a)
+        else:
+            None
+
+        if answer_a:
+            # Break if Player A utters keyword indicating completion
+            if str(self.stop).lower() in answer_a.lower():
+                action = {'type': 'fulfilled', 'content': 'End game.'}
+                self.log_event(from_='GM', to='GM', action=action)
+                # print(self.game.messages)
+                # self._build_json()
+                self.game.current_turn += 1
+                return False
 
         # get player B's reply and add it to its history
-        prompt, raw_answer, answer_b, from_ = self.game.get_utterance('b', self.game.current_turn)
+        # prompt, raw_answer, answer_b, from_ = self.game.get_utterance('b', self.game.current_turn)
+
+        answer_b = "test"
+
+        valid_response = self._get_valid_response('b', self.game.current_turn)
+
+        if valid_response:
+            prompt, raw_answer, answer_b, from_ = valid_response
+        else:
+            print("ABORTING.")
+            self._does_game_proceed()
+            self.aborted = True
+
+        if not answer_b:
+            action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
+            self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
 
         # increase the number of API requests
         self.request_counts[self.game.current_turn] += 1
 
+        # Add to conversational turns counter
+        self.conversational_turns_b += 1
+
         # add API call to the records
-        action = {'type': 'get message', 'content': answer_b}
-        self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+        # action = {'type': 'get message', 'content': answer_b}
+        # self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+
+        # Validate response
+        # self._validate_response(answer_b, from_)
 
         # add B's reply to A's history
         self.game._append_utterance(answer_b, 'a', 'user')
 
-        self.average_char_count_b[self.game.current_turn] = len(answer_b)
+        if answer_b:
+            self.char_count_b[self.game.current_turn] = len(answer_b)
+        else:
+            self.char_count_b[self.game.current_turn] = 0
 
         # Grab the last content of the assistant for having it summed up in json structure
         last_assistant_utterance = None
@@ -176,9 +222,6 @@ class DialogueQuest(GameMaster):
         self.log_event(from_='GM', to='Player 2', action=action)
         action = {'type': 'send message', 'content': answer_in_json}
         self.log_event(from_='Player 2', to='GM', action=action)
-
-        # TODO: integrate jsonrepair
-        # Try repair, work with repaired object
 
         # reprompt loop for model with n tries ?
         # Increase count (put into game class?)
@@ -218,12 +261,94 @@ class DialogueQuest(GameMaster):
 
         return True
 
+    def _does_game_proceed(self):
+        # if self.invalid_response:
+        #     self.log_to_self("invalid format", "abort game")
+        #     return False
+        if self.game.current_turn >= self.game.max_turns:
+            action = {'type': 'metadata', 'content': f"max turns reached {self.game.max_turns}"}
+            self.log_event(from_='GM', to='GM', action=action)
+            return False
+        if self.aborted:
+            return False
+        return True
+
+    # FIXME: Get prompt right!
+    def _get_valid_response(self, player, current_turn):
+        """Prompts the player for a valid response, reprompting up to 3 times.
+
+        Args:
+            player (str): The player's name.
+
+        Returns:
+            str: The valid response.
+        """
+        attempts = 0
+        merged_prompt = None
+        while attempts < self.max_reprompts:
+            if attempts == 0:
+                prompt, raw_answer, answer, from_ = self.game.get_utterance(player, current_turn)
+            else:
+                # TODO: Get last utterance -> function
+                last_utterance = "Hallo! Nenn einen Vogelnamen."
+                merged_prompt = f"{self.reprompt}\n{last_utterance}"
+                prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(self.summarise_in_json_prompt, last_utterance, player)
+                action = {'type': 'send message', 'content': merged_prompt}
+                self.log_event(from_='GM', to='Player 2', action=action)
+
+            # increase the number of API requests
+            self.request_counts[self.game.current_turn] += 1
+
+            # add API call to the records
+            action = {'type': 'get message', 'content': answer}
+            self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+
+            if self._validate_response(answer, from_):
+                return prompt, raw_answer, answer, from_
+            print(f"not valid, execute else {attempts}")
+            action = {'type': 'invalid response, try again', 'content': "invalid"}
+            self.log_event(from_='GM', to='GM', action=action)
+            self.game._append_utterance(merged_prompt, player, 'user')
+            attempts += 1
+        return None, None, None, None
+
+    def _validate_response(self, response, from_):
+        print(f"VALIDATION... {response}")
+        if not response:
+            print(f"CASE0")
+            action = {'type': 'metadata', 'content': f"Response {from_} empty."}
+            self.log_event(from_='GM', to='GM', action=action)
+            # increase the number of violated requests
+            self.violated_request_counts[self.game.current_turn] += 1
+            return False
+        # Check whether last sentence of answer is incomplete, exception for stop string
+        elif response.strip()[-1] not in [".", "?", "!"] and self.stop not in response:
+            print(f"CASE1")
+            action = {'type': 'metadata', 'content': f"Response {from_} incomplete."}
+            self.log_event(from_='GM', to='GM', action=action)
+            # increase the number of violated requests
+            self.violated_request_counts[self.game.current_turn] += 1
+            return False
+        else:
+            print(f"CASE2")
+            action = {'type': 'metadata', 'content': f"Response {from_} successfully parsed."}
+            self.log_event(from_='GM', to='GM', action=action)
+            # increase the number of parsed requests
+            self.parsed_request_counts[self.game.current_turn] += 1
+            return True
+
+    def get_last_relevant_utterance(self, player):
+        pass
+
+    def _validate_json(self):
+        pass
+
     def _reprompt_for_json(self):
         pass
         # merged_prompt = reprompt_text + summarise prompt + contents (param)
         # self.game.summarise_in_json
 
-    # FIXME: See if needed
+    # FIXME: See if needed, depends on structure of goal object storage
     def _build_json(self):
         merged_prompt = f"{self.summarise_in_json_prompt}\n{self.game.messages}"
         final_json = self.game.summarise_in_json(merged_prompt, self.game.answerer)
@@ -244,14 +369,12 @@ class DialogueQuest(GameMaster):
         answer_in_json = self._repair_json(answer_in_json)
         try:
             answer_in_json = json.loads(answer_in_json)
-            action = {'type': 'metadata', 'content': 'valid json detected'}
-            self.log_event(from_='GM', to='GM', action=action)
         # if isinstance(answer_in_json, dict):
+            action = {'type': 'metadata', 'content': 'update game state'}
+            self.log_event(from_='GM', to='GM', action=action)
             for key in answer_in_json:
                 if key in self.current_state:
                     self.current_state[key] = answer_in_json[key]
-                    action = {'type': 'metadata', 'content': 'update game state'}
-                    self.log_event(from_='GM', to='GM', action=action)
 
                 if all(value is not None for value in self.current_state.values()):
                     self.all_slots_filled = True
@@ -266,7 +389,7 @@ class DialogueQuest(GameMaster):
     # @staticmethod
     def _repair_json(self, json_object):
         # json repair example
-        print(f"JSON OBJ: {json_object}")
+        # print(f"JSON OBJ: {json_object}")
         # Strip the string of its double quotes to avoid issued with single quotes
         # json_object.replace("\"", "")
         jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
@@ -274,7 +397,7 @@ class DialogueQuest(GameMaster):
         repaired = jsonrepair(json_object)
         print(f"Repaired json: {repaired}")
         if json_object != repaired:
-            action = {'type': 'metadata', 'content': "JSON repaired: {json_object} to {repaired}"}
+            action = {'type': 'metadata', 'content': f"JSON repaired: {json_object} modified into {repaired}"}
             self.log_event(from_='GM', to='GM', action=action)
         return repaired
 
@@ -291,9 +414,11 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
         self.log_key('All slots filled', self.all_slots_filled)
         self.log_key(ms.METRIC_ABORTED, self.aborted)
-        self.log_key(ms.METRIC_LOSE, self.lose)
-        self.log_key("average_char_count_a", self.average_char_count_a)
-        self.log_key("average_char_count_b", self.average_char_count_b)
+        self.log_key(ms.METRIC_SUCCESS, self.success)
+        self.log_key('Conversational turns A', self.conversational_turns_a)
+        self.log_key('Conversational turns B', self.conversational_turns_b)
+        self.log_key('average_char_count_a', self.char_count_a)
+        self.log_key('average_char_count_b', self.char_count_b)
 
 
 class DialogueQuestScorer(GameScorer):
@@ -310,26 +435,31 @@ class DialogueQuestScorer(GameScorer):
         played_turns = episode_interactions['Complete turns']
         n_turns = episode_interactions['Complete turns']
 
+        # dictionary / list - rename into suggestions?
         realised_slots = episode_interactions['realised_slots']
         slots_given = episode_interactions['slots_given']
         data = episode_interactions['data']
-        self.log_episode_score("SLOTS GIVEN TEST", slots_given)
         all_slots_filled = episode_interactions['All slots filled']
 
         char_count_a = episode_interactions['average_char_count_a']
         char_count_b = episode_interactions['average_char_count_b']
+        conversational_turns_a = episode_interactions['Conversational turns A']
+        conversational_turns_b = episode_interactions['Conversational turns B']
 
         reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][0:]
-        p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][1:]
-        v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][1:]
+        p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][0:]
+        v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][0:]
         # n_turns = len(reqs)
+
+        success = int(episode_interactions[ms.METRIC_SUCCESS])
+        lose =  1 - success
 
         for turn in range(0, played_turns):
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
-            self.log_turn_score(turn, "char count a", char_count_a[turn])
-            self.log_turn_score(turn, "char count b", char_count_b[turn])
+            self.log_turn_score(turn, "Character Count A", char_count_a[turn])
+            self.log_turn_score(turn, "Character Count B", char_count_b[turn])
 
         # Episode level scores
         # aborted = int(episode_interactions[ms.METRIC_ABORTED])
@@ -338,8 +468,6 @@ class DialogueQuestScorer(GameScorer):
         # bench_score = played_turns / n_turns if not aborted else np.nan
 
         # self.log_episode_score(ms.METRIC_ABORTED, aborted)
-        # self.log_episode_score(ms.METRIC_LOSE, lose)
-        # self.log_episode_score(ms.METRIC_SUCCESS, success)
 
         accuracy_slots_given = self.check_for_slots_given(realised_slots, slots_given)
         accuracy_data = self.check_for_database_slots(realised_slots, data)
@@ -348,14 +476,28 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
         self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
         self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
+        self.log_episode_score(ms.METRIC_SUCCESS, success)
+        self.log_episode_score(ms.METRIC_LOSE, lose)
         self.log_episode_score("All slots filled", all_slots_filled)
         self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
         self.log_episode_score("Accuracy of data", accuracy_data)
-        # self.log_episode_score(ms.BENCH_SCORE, bench_score)
-        # FIXME: Collect + apply sum of reqs by A
-        self.log_episode_score("Average Char Count A", sum(char_count_a) / sum(reqs))
+        # Placeholder score
+        self.log_episode_score(ms.BENCH_SCORE, accuracy_slots_given)
+        self.log_episode_score("Conversational turns A", conversational_turns_a)
+        self.log_episode_score("Conversational turns B", conversational_turns_b)
+        self.log_episode_score("Average Char Count A", self.calculate_average_char_count(char_count_a, conversational_turns_a))
+        self.log_episode_score("Average Char Count B", self.calculate_average_char_count(char_count_b, conversational_turns_b))
 
     def check_for_slots_given(self, realised_slots, slots_given):
+        """Calculate how many requested slots are acutally fulfilled in final suggestion.
+
+        Args:
+            realised_slots (_type_): _description_
+            slots_given (_type_): _description_
+
+        Returns:
+            float: Slot accuracy
+        """
         total_pairs = len(slots_given)
         # Count how many key-value pairs from dict_1 are found in dict_2
         matching_pairs = sum(1 for item in slots_given.items() if item in realised_slots.items())
@@ -363,8 +505,22 @@ class DialogueQuestScorer(GameScorer):
         accuracy = matching_pairs / total_pairs if total_pairs > 0 else 0
         return accuracy
 
+    # Implement!
     def check_for_database_slots(self, realised_slots, data):
-        pass
+        return 1
+
+    @staticmethod
+    def calculate_average_char_count(char_count, total):
+        """Calculate an average character count.
+
+        Args:
+            char_count (list): List of characters used per turn.
+            total (int): Number of turns of a player
+
+        Returns:
+            float: Average number of characters per turn
+        """
+        return round((sum(char_count) / total), 2)
 
 
 class DialogueQuestBenchmark(GameBenchmark):

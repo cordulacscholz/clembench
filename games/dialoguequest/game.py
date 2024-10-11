@@ -171,3 +171,22 @@ class DialogueQuestGame:
         return request
         # answer_in_json = answer
         # return answer_in_json
+
+    def summarise_or_reprompt(self, prompt, utterance, player):
+        print(f"PLAYER in reprompt {player}")
+        assert player in ('a', 'b')
+        other_player = 'b' if player == 'a' else 'a'
+        merged_prompt = f"{prompt}\n{utterance}"
+        # print(f"Answerer history before: {self.answerer.history}")
+        # print(f"Questioner history before: {self.questioner.history}")
+        # if player == 'b':
+        #     self.answerer.history.append({'role': 'user', 'content': merged_prompt})
+        #     print(f"Answerer history after: {self.answerer.history}")
+        # if player == 'a':
+        #     self.questioner.history.append({'role': 'user', 'content': merged_prompt})
+        #     print(f"Questioner history after: {self.questioner.history}")
+
+        # get request from player
+        prompt, raw_answer, answer, from_ = self.get_utterance(player, self.current_turn)
+
+        return prompt, raw_answer, answer, from_
