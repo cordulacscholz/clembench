@@ -72,6 +72,8 @@ class DialogueQuest(GameMaster):
         self.violated_request_counts = [0] * (self.game.max_turns + 1)
         self.char_count_a = [0] * (self.game.max_turns + 1)
         self.char_count_b = [0] * (self.game.max_turns + 1)
+        self.word_count_a = [0] * (self.game.max_turns +1)
+        self.word_count_b = [0] * (self.game.max_turns +1)
 
         # initialise episode scores
         self.conversational_turns_a = 0
@@ -157,6 +159,7 @@ class DialogueQuest(GameMaster):
         # Record character length of answer
         if answer_a:
             self.char_count_a[self.game.current_turn] = len(answer_a)
+            self.word_count_a[self.game.current_turn] = len(answer_a.split())
         else:
             None
 
@@ -204,8 +207,10 @@ class DialogueQuest(GameMaster):
 
         if answer_b:
             self.char_count_b[self.game.current_turn] = len(answer_b)
+            self.word_count_b[self.game.current_turn] = len(answer_b.split())
         else:
             self.char_count_b[self.game.current_turn] = 0
+            self.word_count_b[self.game.current_turn] = 0
 
         # Grab the last content of the assistant for having it summed up in json structure
         # last_assistant_utterance = None
@@ -419,7 +424,9 @@ class DialogueQuest(GameMaster):
         self.log_key('Conversational turns A', self.conversational_turns_a)
         self.log_key('Conversational turns B', self.conversational_turns_b)
         self.log_key('average_char_count_a', self.char_count_a)
-        self.log_key('average_char_count_b', self.char_count_b)
+        self.log_key('Word count A', self.word_count_a)
+        self.log_key('average_char_count_a', self.char_count_a)
+        self.log_key('Word count B', self.word_count_b)
 
 
 class DialogueQuestScorer(GameScorer):
@@ -444,6 +451,8 @@ class DialogueQuestScorer(GameScorer):
 
         char_count_a = episode_interactions['average_char_count_a']
         char_count_b = episode_interactions['average_char_count_b']
+        word_count_a = episode_interactions['Word count A']
+        word_count_b = episode_interactions['Word count B']
         conversational_turns_a = episode_interactions['Conversational turns A']
         conversational_turns_b = episode_interactions['Conversational turns B']
 
@@ -461,6 +470,8 @@ class DialogueQuestScorer(GameScorer):
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
             self.log_turn_score(turn, "Character Count A", char_count_a[turn])
             self.log_turn_score(turn, "Character Count B", char_count_b[turn])
+            self.log_turn_score(turn, "Word Count A", word_count_a[turn])
+            self.log_turn_score(turn, "Word Count B", word_count_b[turn])
 
         # Episode level scores
         # aborted = int(episode_interactions[ms.METRIC_ABORTED])
@@ -486,8 +497,10 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.BENCH_SCORE, accuracy_slots_given)
         self.log_episode_score("Conversational turns A", conversational_turns_a)
         self.log_episode_score("Conversational turns B", conversational_turns_b)
-        self.log_episode_score("Average Char Count A", self.calculate_average_char_count(char_count_a, conversational_turns_a))
-        self.log_episode_score("Average Char Count B", self.calculate_average_char_count(char_count_b, conversational_turns_b))
+        self.log_episode_score("Average Char Count A", self.calculate_average_count(char_count_a, conversational_turns_a))
+        self.log_episode_score("Average Char Count B", self.calculate_average_count(char_count_b, conversational_turns_b))
+        self.log_episode_score("Average Word Count A", self.calculate_average_count(word_count_b, conversational_turns_a))
+        self.log_episode_score("Average Word Count B", self.calculate_average_count(word_count_b, conversational_turns_a))
 
     def check_for_slots_given(self, realised_slots, slots_given):
         """Calculate how many requested slots are acutally fulfilled in final suggestion.
@@ -511,7 +524,7 @@ class DialogueQuestScorer(GameScorer):
         return 1
 
     @staticmethod
-    def calculate_average_char_count(char_count, total):
+    def calculate_average_count(char_count, total):
         """Calculate an average character count.
 
         Args:
