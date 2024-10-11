@@ -131,6 +131,8 @@ class DialogueQuest(GameMaster):
         if not answer_a:
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
             self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+            self.abort = True
+            return False
 
         # add A's reply to B's history
         self.game._append_utterance(answer_a, 'b', 'user')
@@ -144,7 +146,7 @@ class DialogueQuest(GameMaster):
         self.log_event(from_='GM', to='Player 2', action=action)
 
         # increase the number of API requests
-        self.request_counts[self.game.current_turn] += 1
+        # self.request_counts[self.game.current_turn] += 1
 
         # Add to conversational turns counter
         self.conversational_turns_a += 1
@@ -181,13 +183,14 @@ class DialogueQuest(GameMaster):
             print("ABORTING.")
             self._does_game_proceed()
             self.aborted = True
+            return False
 
         if not answer_b:
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
             self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
 
         # increase the number of API requests
-        self.request_counts[self.game.current_turn] += 1
+        # self.request_counts[self.game.current_turn] += 1
 
         # Add to conversational turns counter
         self.conversational_turns_b += 1
@@ -210,7 +213,7 @@ class DialogueQuest(GameMaster):
         #     if message['role'] == 'assistant':
         #         last_assistant_utterance = message['content']
         #         break
-        last_assistant_utterance = self.game.get_last_relevant_utterance('b', role='assistant')
+        last_assistant_utterance = self.game.get_latest_relevant_utterance('b', role='assistant')
 
         # merge summarisation prompt with last utterance to be summed up
         merged_json_prompt = f"{self.summarise_in_json_prompt}\n{last_assistant_utterance}"
@@ -271,7 +274,6 @@ class DialogueQuest(GameMaster):
             return False
         return True
 
-    # FIXME: Get prompt right!
     def _get_valid_response(self, player, current_turn):
         """Prompts the player for a valid response, reprompting up to 3 times.
 
@@ -283,14 +285,15 @@ class DialogueQuest(GameMaster):
         """
         attempts = 0
         merged_prompt = None
-        while attempts < self.max_reprompts:
+        while attempts <= self.max_reprompts:
             if attempts == 0:
                 prompt, raw_answer, answer, from_ = self.game.get_utterance(player, current_turn)
             else:
                 # Last utterance is last 
-                last_utterance = self.game.get_last_relevant_utterance(player)
-                merged_prompt = f"{self.reprompt}\n{last_utterance}"
-                prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(self.summarise_in_json_prompt, last_utterance, player)
+                latest_utterance = self.game.get_latest_relevant_utterance(player, role='user')
+                merged_prompt = f"{self.reprompt}\n{latest_utterance}"
+                print(f"MERGED PROMPT {merged_prompt}")
+                prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(merged_prompt, player)
                 action = {'type': 'send message', 'content': merged_prompt}
                 self.log_event(from_='GM', to='Player 2', action=action)
 
@@ -306,7 +309,10 @@ class DialogueQuest(GameMaster):
             print(f"not valid, execute else {attempts}")
             action = {'type': 'invalid response, try again', 'content': "invalid"}
             self.log_event(from_='GM', to='GM', action=action)
-            self.game._append_utterance(merged_prompt, player, 'user')
+            # Add reprompt prompt for next round to player history
+
+            # if attempts < self.max_reprompts-1:
+            #     self.game._append_utterance(merged_prompt, player, 'user')
             attempts += 1
         return None, None, None, None
 
@@ -371,10 +377,10 @@ class DialogueQuest(GameMaster):
                 if key in self.current_state:
                     self.current_state[key] = answer_in_json[key]
 
-                if all(value is not None for value in self.current_state.values()):
-                    self.all_slots_filled = True
-                    action = {'type': 'metadata', 'content': 'slots filled'}
-                    self.log_event(from_='GM', to='GM', action=action)
+            if all(value is not None for value in self.current_state.values()):
+                self.all_slots_filled = True
+                action = {'type': 'metadata', 'content': 'slots filled'}
+                self.log_event(from_='GM', to='GM', action=action)
         except json.JSONDecodeError:
         # else:
             action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}

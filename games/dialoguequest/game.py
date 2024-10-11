@@ -152,19 +152,21 @@ class DialogueQuestGame:
             self.answerer.history.append({'role': role, 'content': utterance})
             # self.messages.append(utterance)
 
-    def get_last_relevant_utterance(self, player, role='user'):
+    def get_latest_relevant_utterance(self, player, role='user'):
         # Grab the last content of the assistant for having it summed up in json structure
         assert player in ('a', 'b')
         if player == 'a':
             history = self.questioner.history
         else:
             history = self.answerer.history
-        last_relevant_message = None
+        latest_relevant_message = None
+        print(f"ROLE {role}")
         for message in reversed(history):
             if message['role'] == role:
-                last_relevant_message = message['content']
+                latest_relevant_message = message['content']
                 break
-        return last_relevant_message
+        print(f"LAST REL MESS: {latest_relevant_message}")
+        return latest_relevant_message
 
     def summarise_in_json(self, merged_prompt, player):
         self.answerer.history.append({'role': 'user', 'content': merged_prompt})
@@ -186,11 +188,9 @@ class DialogueQuestGame:
         # answer_in_json = answer
         # return answer_in_json
 
-    def summarise_or_reprompt(self, prompt, utterance, player):
+    def summarise_or_reprompt(self, prompt, player):
         print(f"PLAYER in reprompt {player}")
         assert player in ('a', 'b')
-        other_player = 'b' if player == 'a' else 'a'
-        merged_prompt = f"{prompt}\n{utterance}"
         # print(f"Answerer history before: {self.answerer.history}")
         # print(f"Questioner history before: {self.questioner.history}")
         # if player == 'b':
@@ -200,7 +200,13 @@ class DialogueQuestGame:
         #     self.questioner.history.append({'role': 'user', 'content': merged_prompt})
         #     print(f"Questioner history after: {self.questioner.history}")
 
+        if player == 'a':
+            from_ = 'Player 1'
+            prompt, raw_answer, answer = self.questioner(self.questioner.history, self.current_turn)
+        if player == 'b':
+            from_ = 'Player 2'
+            prompt, raw_answer, answer = self.answerer(self.answerer.history, self.current_turn)
         # get request from player
-        prompt, raw_answer, answer, from_ = self.get_utterance(player, self.current_turn)
+        # prompt, raw_answer, answer, from_ = self.get_utterance(player, self.current_turn)
 
         return prompt, raw_answer, answer, from_
