@@ -424,7 +424,7 @@ class DialogueQuest(GameMaster):
         self.log_key('Conversational turns B', self.conversational_turns_b)
         self.log_key('average_char_count_a', self.char_count_a)
         self.log_key('Word count A', self.word_count_a)
-        self.log_key('average_char_count_a', self.char_count_a)
+        self.log_key('average_char_count_b', self.char_count_a)
         self.log_key('Word count B', self.word_count_b)
 
 
@@ -446,7 +446,6 @@ class DialogueQuestScorer(GameScorer):
         realised_slots = episode_interactions['realised_slots']
         slots_given = episode_interactions['slots_given']
         data = episode_interactions['data']
-        all_slots_filled = episode_interactions['All slots filled']
 
         char_count_a = episode_interactions['average_char_count_a']
         char_count_b = episode_interactions['average_char_count_b']
@@ -490,7 +489,6 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
         self.log_episode_score(ms.METRIC_SUCCESS, success)
         self.log_episode_score(ms.METRIC_LOSE, lose)
-        self.log_episode_score("All slots filled", all_slots_filled)
         self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
         self.log_episode_score("Accuracy of data", accuracy_data)
         # Placeholder score
