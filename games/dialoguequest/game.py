@@ -152,6 +152,20 @@ class DialogueQuestGame:
             self.answerer.history.append({'role': role, 'content': utterance})
             # self.messages.append(utterance)
 
+    def get_last_relevant_utterance(self, player, role='user'):
+        # Grab the last content of the assistant for having it summed up in json structure
+        assert player in ('a', 'b')
+        if player == 'a':
+            history = self.questioner.history
+        else:
+            history = self.answerer.history
+        last_relevant_message = None
+        for message in reversed(history):
+            if message['role'] == role:
+                last_relevant_message = message['content']
+                break
+        return last_relevant_message
+
     def summarise_in_json(self, merged_prompt, player):
         self.answerer.history.append({'role': 'user', 'content': merged_prompt})
 

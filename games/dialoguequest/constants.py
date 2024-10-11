@@ -10,5 +10,6 @@ N_INSTANCES = 2
 N_EXPERIMENTS = 1
 N_DATABASE_ITEMS = 5
 SEED = 4
-TOPICS = ['attraction', 'hotel', 'restaurant', 'train']
+TOPICS = ['attraction', 'hotel', 'restaurant']
+# TOPICS = ['attraction', 'hotel', 'restaurant', 'train']
 WORDS_PATH = 'resources/{}_words.json'

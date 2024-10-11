@@ -196,9 +196,6 @@ class DialogueQuest(GameMaster):
         # action = {'type': 'get message', 'content': answer_b}
         # self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
 
-        # Validate response
-        # self._validate_response(answer_b, from_)
-
         # add B's reply to A's history
         self.game._append_utterance(answer_b, 'a', 'user')
 
@@ -208,17 +205,18 @@ class DialogueQuest(GameMaster):
             self.char_count_b[self.game.current_turn] = 0
 
         # Grab the last content of the assistant for having it summed up in json structure
-        last_assistant_utterance = None
-        for message in reversed(self.game.answerer.history):
-            if message['role'] == 'assistant':
-                last_assistant_utterance = message['content']
-                break
+        # last_assistant_utterance = None
+        # for message in reversed(self.game.answerer.history):
+        #     if message['role'] == 'assistant':
+        #         last_assistant_utterance = message['content']
+        #         break
+        last_assistant_utterance = self.game.get_last_relevant_utterance('b', role='assistant')
 
         # merge summarisation prompt with last utterance to be summed up
-        merged_prompt = f"{self.summarise_in_json_prompt}\n{last_assistant_utterance}"
+        merged_json_prompt = f"{self.summarise_in_json_prompt}\n{last_assistant_utterance}"
 
-        answer_in_json = self.game.summarise_in_json(merged_prompt, self.game.answerer)
-        action = {'type': 'send message', 'content': merged_prompt}
+        answer_in_json = self.game.summarise_in_json(merged_json_prompt, self.game.answerer)
+        action = {'type': 'send message', 'content': merged_json_prompt}
         self.log_event(from_='GM', to='Player 2', action=action)
         action = {'type': 'send message', 'content': answer_in_json}
         self.log_event(from_='Player 2', to='GM', action=action)
@@ -289,8 +287,8 @@ class DialogueQuest(GameMaster):
             if attempts == 0:
                 prompt, raw_answer, answer, from_ = self.game.get_utterance(player, current_turn)
             else:
-                # TODO: Get last utterance -> function
-                last_utterance = "Hallo! Nenn einen Vogelnamen."
+                # Last utterance is last 
+                last_utterance = self.game.get_last_relevant_utterance(player)
                 merged_prompt = f"{self.reprompt}\n{last_utterance}"
                 prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(self.summarise_in_json_prompt, last_utterance, player)
                 action = {'type': 'send message', 'content': merged_prompt}
@@ -336,9 +334,6 @@ class DialogueQuest(GameMaster):
             # increase the number of parsed requests
             self.parsed_request_counts[self.game.current_turn] += 1
             return True
-
-    def get_last_relevant_utterance(self, player):
-        pass
 
     def _validate_json(self):
         pass
