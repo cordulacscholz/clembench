@@ -191,22 +191,9 @@ class DialogueQuestGame:
     def summarise_or_reprompt(self, prompt, player):
         print(f"PLAYER in reprompt {player}")
         assert player in ('a', 'b')
-        # print(f"Answerer history before: {self.answerer.history}")
-        # print(f"Questioner history before: {self.questioner.history}")
-        # if player == 'b':
-        #     self.answerer.history.append({'role': 'user', 'content': merged_prompt})
-        #     print(f"Answerer history after: {self.answerer.history}")
-        # if player == 'a':
-        #     self.questioner.history.append({'role': 'user', 'content': merged_prompt})
-        #     print(f"Questioner history after: {self.questioner.history}")
 
-        if player == 'a':
-            from_ = 'Player 1'
-            prompt, raw_answer, answer = self.questioner(self.questioner.history, self.current_turn)
-        if player == 'b':
-            from_ = 'Player 2'
-            prompt, raw_answer, answer = self.answerer(self.answerer.history, self.current_turn)
-        # get request from player
-        # prompt, raw_answer, answer, from_ = self.get_utterance(player, self.current_turn)
+        # Add reprompt text to player's history
+        self._append_utterance(prompt, player, 'user')
+        prompt, raw_answer, answer, from_ = self.get_utterance(player, self.current_turn)
 
         return prompt, raw_answer, answer, from_

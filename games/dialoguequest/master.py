@@ -100,12 +100,7 @@ class DialogueQuest(GameMaster):
         """
         while self._does_game_proceed() and not self.aborted:
             self.log_next_turn()
-            turn_goes_on = self.turn()
-
-            # Break if Player A utters keyword
-            if not turn_goes_on:
-                print("Ending because task fulfilled.")
-                self.success = True
+            if not self.turn():
                 break
 
         action = {'type': 'end', 'content': 'Game finished.'}
@@ -125,92 +120,58 @@ class DialogueQuest(GameMaster):
         logger.info('Game turn: %d', self.game.current_turn)
         print(f"CURRENT TURN: {self.game.current_turn}")
 
-        # get request from questioner
-        # prompt, raw_answer, answer_a, from_ = self.game.get_utterance('a', self.game.current_turn)
+        valid_response_a = self._get_valid_response('a', self.game.current_turn)
 
-        prompt, raw_answer, answer_a, from_ = self._get_valid_response('a', self.game.current_turn)
-
-        if not answer_a:
+        # Validate that the values of answer_a are filled
+        if valid_response_a and any(valid_response_a):
+            prompt, raw_answer, answer_a, from_ = valid_response_a
+        else:
+            print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
             self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
             self.abort = True
             return False
 
-        # add A's reply to B's history
-        self.game._append_utterance(answer_a, 'b', 'user')
-
-        # add API call to the records
-        # action = {'type': 'get message', 'content': answer_a}
-        # self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
-
-        # also add the reply to the transcript
+        # add the reply to the transcript
         action = {'type': 'send message', 'content': answer_a}
         self.log_event(from_='GM', to='Player 2', action=action)
 
-        # increase the number of API requests
-        # self.request_counts[self.game.current_turn] += 1
+        # add A's reply to B's history
+        self.game._append_utterance(answer_a, 'b', 'user')
 
         # Add to conversational turns counter
         self.conversational_turns_a += 1
 
-        # Validate response
-        # self._validate_response(answer_a, from_)
-
         # Record character length of answer
-        if answer_a:
-            self.char_count_a[self.game.current_turn] = len(answer_a)
-            self.word_count_a[self.game.current_turn] = len(answer_a.split())
-        else:
-            None
+        self.char_count_a[self.game.current_turn] = len(answer_a)
+        self.word_count_a[self.game.current_turn] = len(answer_a.split())
 
-        if answer_a:
-            # Break if Player A utters keyword indicating completion
-            if str(self.stop).lower() in answer_a.lower():
-                action = {'type': 'fulfilled', 'content': 'End game.'}
-                self.log_event(from_='GM', to='GM', action=action)
-                # print(self.game.messages)
-                # self._build_json()
-                self.game.current_turn += 1
-                return False
-
-        # get player B's reply and add it to its history
-        # prompt, raw_answer, answer_b, from_ = self.game.get_utterance('b', self.game.current_turn)
-
-        answer_b = "test"
-
-        valid_response = self._get_valid_response('b', self.game.current_turn)
-
-        if valid_response:
-            prompt, raw_answer, answer_b, from_ = valid_response
-        else:
-            print("ABORTING.")
-            self._does_game_proceed()
-            self.aborted = True
+        if str(self.stop).lower() in answer_a.lower():
+            action = {'type': 'fulfilled', 'content': 'End game.'}
+            self.log_event(from_='GM', to='GM', action=action)
+            self.success = True
+            self.game.current_turn += 1
             return False
 
-        if not answer_b:
+        valid_response_b = self._get_valid_response('b', self.game.current_turn)
+
+        if valid_response_b and any(valid_response_b):
+            prompt, raw_answer, answer_b, from_ = valid_response_b
+        else:
+            print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
             self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
-
-        # increase the number of API requests
-        # self.request_counts[self.game.current_turn] += 1
+            self.aborted = True
+            return False
 
         # Add to conversational turns counter
         self.conversational_turns_b += 1
 
-        # add API call to the records
-        # action = {'type': 'get message', 'content': answer_b}
-        # self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
-
         # add B's reply to A's history
         self.game._append_utterance(answer_b, 'a', 'user')
 
-        if answer_b:
-            self.char_count_b[self.game.current_turn] = len(answer_b)
-            self.word_count_b[self.game.current_turn] = len(answer_b.split())
-        else:
-            self.char_count_b[self.game.current_turn] = 0
-            self.word_count_b[self.game.current_turn] = 0
+        self.char_count_b[self.game.current_turn] = len(answer_b)
+        self.word_count_b[self.game.current_turn] = len(answer_b.split())
 
         # Grab the last content of the assistant for having it summed up in json structure
         # last_assistant_utterance = None
@@ -241,9 +202,9 @@ class DialogueQuest(GameMaster):
         # while attempt < self.max_reprompts:
         #     attempt += 1
         #     if self._update_current_goal_object(answer_in_json):  # Call your function
-        #         log: f"Success on attempt {attempt}"
-        #         break  # Exit the loop if the function returns True
-        #     else:
+        #         log: f"Success the loop if the function returns True
+        #     else:on attempt {attempt}"
+        #         break  # Exit 
         #         log: f"Attempt {attempt} failed"
         # else:
         #     print("Function failed after 3 attempts, exiting.")
@@ -268,14 +229,13 @@ class DialogueQuest(GameMaster):
         return True
 
     def _does_game_proceed(self):
-        # if self.invalid_response:
-        #     self.log_to_self("invalid format", "abort game")
-        #     return False
         if self.game.current_turn >= self.game.max_turns:
             action = {'type': 'metadata', 'content': f"max turns reached {self.game.max_turns}"}
             self.log_event(from_='GM', to='GM', action=action)
             return False
         if self.aborted:
+            action = {'type': 'metadata', 'content': f"Game aborted because of invalid response"}
+            self.log_event(from_='GM', to='GM', action=action)
             return False
         return True
 
@@ -294,10 +254,14 @@ class DialogueQuest(GameMaster):
             if attempts == 0:
                 prompt, raw_answer, answer, from_ = self.game.get_utterance(player, current_turn)
             else:
-                # Last utterance is last 
+                # Latest utterance is latest user utterance (reprompt)
                 latest_utterance = self.game.get_latest_relevant_utterance(player, role='user')
-                merged_prompt = f"{self.reprompt}\n{latest_utterance}"
-                print(f"MERGED PROMPT {merged_prompt}")
+                # First time in reprompt loop, create the merged prompt. Else prompt is already merged.
+                if attempts == 1:
+                    merged_prompt = f"{self.reprompt}\n{latest_utterance}"
+                else:
+                    merged_prompt = latest_utterance
+                # print(f"MERGED PROMPT {merged_prompt}")
                 prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(merged_prompt, player)
                 action = {'type': 'send message', 'content': merged_prompt}
                 self.log_event(from_='GM', to='Player 2', action=action)
@@ -314,10 +278,6 @@ class DialogueQuest(GameMaster):
             print(f"not valid, execute else {attempts}")
             action = {'type': 'invalid response, try again', 'content': "invalid"}
             self.log_event(from_='GM', to='GM', action=action)
-            # Add reprompt prompt for next round to player history
-
-            # if attempts < self.max_reprompts-1:
-            #     self.game._append_utterance(merged_prompt, player, 'user')
             attempts += 1
         return None, None, None, None
 
