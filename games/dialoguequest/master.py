@@ -128,7 +128,7 @@ class DialogueQuest(GameMaster):
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
-            self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+            self.log_event(from_='GM', to='GM', action=action)
             self.abort = True
             return False
 
@@ -160,7 +160,7 @@ class DialogueQuest(GameMaster):
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
-            self.log_event(from_='GM', to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+            self.log_event(from_='GM', to='GM', action=action)
             self.aborted = True
             return False
 
