@@ -11,4 +11,4 @@ $SLOTS_TO_FILL$
 Keep the dialogue and the way you give and ask for information as natural as possible.
 Make sure to never use any markup and only respond in natural language!
 
-Once you have received all information which is relevant, choose one option. If you are content with the answer provided and it fits all your requirements, add the string $STOP$ to your final answer.
+Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string $STOP$ to your final answer.

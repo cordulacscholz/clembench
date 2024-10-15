@@ -35,9 +35,9 @@ class Questioner(Player):
             str: Utterance
         """
         if turn_idx <= 1:
-            utterance = f"Hello, I'm looking for something. TURN{turn_idx}"
+            utterance = f"Hello, I'm looking for something. TURN{turn_idx}."
         else:
-            utterance = "Ok, game FULFILLED"
+            utterance = "Ok, game FULFILLED. choosing the Igel's inn. number 3456789"
         return utterance
 
 
@@ -66,12 +66,14 @@ class Answerer(Player):
         Returns:
             str: Utterance
         """
-        if turn_idx <= 2:
-            utterance = "{'address': 'Hamilton Lodge"
-            # utterance = f"No problem. Here's a suggestion: TURN{turn_idx}"
-        else:
+        if turn_idx < 1:
+            utterance = "[{'id': '8475875', 'address': 'Hamilton Lodge]."
+            utterance = f"No problem. Here's a suggestion: TURN{turn_idx}"
+        elif turn_idx == 1:
             # utterance = {'address': 'Hamilton Lodge'}
-            utterance = "{'address': 'Hamilton Lodge'}"
+            utterance = "[{'name': 'Igel's Inn', 'people': '200'}, {'ONE': 'ONE', 'TWO': 'TWO'}, {'id': '3456789', 'address': 'Nordbahnstraße 3'}, {'address': 'Hamilton Lodge', 'id': '8475875', 'name': 'test', 'additional_key': 'hello!]."
+        else:
+            utterance = "Hi!"
         # return json_example
         return utterance
 
@@ -188,6 +190,7 @@ class DialogueQuestGame:
         # answer_in_json = answer
         # return answer_in_json
 
+    # FIXME: might have to diversify / split as answer might need to be added or not added to history
     def summarise_or_reprompt(self, prompt, player):
         print(f"PLAYER in reprompt {player}")
         assert player in ('a', 'b')

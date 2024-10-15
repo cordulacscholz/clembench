@@ -85,6 +85,8 @@ class DialogueQuest(GameMaster):
         # For the current goal, collect all slots which are mentioned by the Answerer. Start with empty goal object to be filled up.
         # self.current_state = [{key: None for key in self.goal.keys()}]
         self.current_state = []
+        self.final_choice = None
+        self.final_suggestion = None
 
         self.log_next_turn()
 
@@ -103,6 +105,14 @@ class DialogueQuest(GameMaster):
             self.log_next_turn()
             if not self.turn():
                 break
+
+        # latest utterance Player A: assistant
+        if self.success:
+            action = {'type': 'metadata', 'content': f'final choice: {self.final_choice}'}
+            self.log_event(from_='GM', to='GM', action=action)
+            self.final_suggestion = self._select_final_suggestion()
+            action = {'type': 'metadata', 'content': f"Log final suggestion:{self.final_suggestion}"}
+            self.log_event(from_='GM', to='GM', action=action)
 
         action = {'type': 'end', 'content': 'Game finished.'}
         self.log_event(from_='GM', to='GM', action=action)
@@ -151,6 +161,7 @@ class DialogueQuest(GameMaster):
             action = {'type': 'fulfilled', 'content': 'End game.'}
             self.log_event(from_='GM', to='GM', action=action)
             self.success = True
+            self.final_choice = str(answer_a.lower())
             self.game.current_turn += 1
             return False
 
@@ -185,38 +196,30 @@ class DialogueQuest(GameMaster):
         # merge summarisation prompt with last utterance to be summed up
         merged_json_prompt = f"{self.summarise_in_json_prompt}\n{last_assistant_utterance}"
 
-        answer_in_json = self.game.summarise_in_json(merged_json_prompt, self.game.answerer)
-        action = {'type': 'send message', 'content': merged_json_prompt}
-        self.log_event(from_='GM', to='Player 2', action=action)
-        action = {'type': 'send message', 'content': answer_in_json}
-        self.log_event(from_='Player 2', to='GM', action=action)
+        valid_response_json = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
 
-        # reprompt loop for model with n tries ?
-        # Increase count (put into game class?)
+        # Validate that the values of answer_a are filled
+        if valid_response_json and any(valid_response_json):
+            prompt, raw_answer, answer_a, from_ = valid_response_json
+        else:
+            print("ABORTING.")
+            action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
+            self.log_event(from_='GM', to='GM', action=action)
+            self.abort = True
+            return False
 
-        # TODO: If _update_current_goal_object: continue,
-        # else: reprompt 3x, if not successful, abort
-        self._update_current_state(answer_in_json)
-
-        # attempt = 0
-        # Reprompt loop for getting json format right
-        # while attempt < self.max_reprompts:
-        #     attempt += 1
-        #     if self._update_current_goal_object(answer_in_json):  # Call your function
-        #         log: f"Success the loop if the function returns True
-        #     else:on attempt {attempt}"
-        #         break  # Exit 
-        #         log: f"Attempt {attempt} failed"
-        # else:
-        #     print("Function failed after 3 attempts, exiting.")
+        # prompt, raw_answer, answer, from_ = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
+        # answer_in_json = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
+        # answer_in_json = self.game.summarise_in_json(merged_json_prompt, self.game.answerer)
+        # action = {'type': 'send message', 'content': merged_json_prompt}
+        # self.log_event(from_='GM', to='Player 2', action=action)
+        # action = {'type': 'send message', 'content': answer_in_json}
+        # self.log_event(from_='Player 2', to='GM', action=action)
 
         # also add the reply to the transcript
-        action = {'type': 'metadata', 'content': f"json format Answer: {answer_in_json}"}
-        self.log_event(from_='GM', to='GM', action=action)
-
-        # also add the reply to the transcript
-        action = {'type': 'metadata', 'content': f"Updated internal object: {self.current_state}"}
-        self.log_event(from_='GM', to='GM', action=action)
+        # action = {'type': 'metadata', 'content': f"json format Answer: {answer_in_json}"}
+        # action = {'type': 'metadata', 'content': f"json format Answer: {answer}"}
+        # self.log_event(from_='GM', to='GM', action=action)
 
         # also add the reply to the transcript
         action = {'type': 'send message', 'content': answer_b}
@@ -240,6 +243,33 @@ class DialogueQuest(GameMaster):
             return False
         return True
 
+    def _get_valid_json_response(self, merged_prompt, player, current_turn):
+        attempts = 0
+        while attempts <= self.max_reprompts:
+            prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(merged_prompt, player)
+            action = {'type': 'send message', 'content': merged_prompt}
+            self.log_event(from_='GM', to=from_, action=action)
+
+            # increase the number of API requests
+            self.request_counts[self.game.current_turn] += 1
+
+            # add API call to the records
+            action = {'type': 'get message', 'content': answer}
+            self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+
+            validated_json = self._validate_json(answer)
+
+            if validated_json is not None:
+                self._update_current_state(validated_json)
+                action = {'type': 'Game state', 'content': f"updated game state: {self.current_state}"}
+                self.log_event(from_='GM', to='GM', action=action)
+                return prompt, raw_answer, answer, from_
+            print(f"not valid, execute else {attempts}")
+            action = {'type': 'invalid response, try again', 'content': "invalid"}
+            self.log_event(from_='GM', to='GM', action=action)
+            attempts += 1
+        return None, None, None, None
+
     def _get_valid_response(self, player, current_turn):
         """Prompts the player for a valid response, reprompting up to 3 times.
 
@@ -250,7 +280,9 @@ class DialogueQuest(GameMaster):
             str: The valid response.
         """
         attempts = 0
+        # Should be sth for json already (=param)
         merged_prompt = None
+        # not for json
         while attempts <= self.max_reprompts:
             if attempts == 0:
                 prompt, raw_answer, answer, from_ = self.game.get_utterance(player, current_turn)
@@ -268,7 +300,7 @@ class DialogueQuest(GameMaster):
                 # print(f"MERGED PROMPT {merged_prompt}")
                 prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(merged_prompt, player)
                 action = {'type': 'send message', 'content': merged_prompt}
-                self.log_event(from_='GM', to='Player 2', action=action)
+                self.log_event(from_='GM', to=from_, action=action)
 
             # increase the number of API requests
             self.request_counts[self.game.current_turn] += 1
@@ -284,6 +316,20 @@ class DialogueQuest(GameMaster):
             self.log_event(from_='GM', to='GM', action=action)
             attempts += 1
         return None, None, None, None
+
+    def _validate_json(self, answer_in_json):
+        answer_in_json = self._repair_json(answer_in_json)
+        try:
+            parsed_json = json.loads(answer_in_json)
+            # if isinstance(parsed_json, list):  # This will accept both [] and other arrays
+            #     return parsed_json
+            action = {'type': 'metadata', 'content': "json successfully parsed"}
+            self.log_event(from_='GM', to='GM', action=action)
+            return parsed_json
+        except json.JSONDecodeError:
+            # call reprompt loop
+            action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}
+            self.log_event(from_='GM', to='GM', action=action)
 
     def _validate_response(self, response, from_):
         print(f"VALIDATION... {response}")
@@ -310,22 +356,20 @@ class DialogueQuest(GameMaster):
             self.parsed_request_counts[self.game.current_turn] += 1
             return True
 
-    def _validate_json(self):
-        pass
-
     def _reprompt_for_json(self):
         pass
         # merged_prompt = reprompt_text + summarise prompt + contents (param)
         # self.game.summarise_in_json
 
-    # FIXME: See if needed, depends on structure of goal object storage
-    def _build_json(self):
-        merged_prompt = f"{self.summarise_in_json_prompt}\n{self.game.messages}"
-        final_json = self.game.summarise_in_json(merged_prompt, self.game.answerer)
-        print(f"BUILD JSON FINAL: {final_json}")
+    def _update_current_state_old(self, answer_in_json: list) -> None:
+        """_summary_
 
-    def _update_current_state(self, answer_in_json: list) -> None:
+        Args:
+            answer_in_json (list): _description_
 
+        Returns:
+            _type_: _description_
+        """
         answer_in_json = self._repair_json(answer_in_json)
         try:
             answer_in_json = json.loads(answer_in_json)
@@ -374,8 +418,63 @@ class DialogueQuest(GameMaster):
             # call reprompt loop
             action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}
             self.log_event(from_='GM', to='GM', action=action)
+
+            # call _get_valid_json_response 
+
+            # # Call the reprompt function to get a valid JSON response
+            # print("Invalid JSON, reprompting for valid JSON response.")
+            # prompt, raw_answer, valid_answer, from_ = self._get_valid_json_response()
+            
+            # # Retry updating state with the valid response
+            # if valid_answer:
+            #     self._update_current_state(valid_answer)
+            # else:
+            #     print("No valid JSON received after reprompt.")
+
         # print(f"CURRENTSTATE: {self.current_state}")
         return self.current_state
+
+    def _update_current_state(self, answer_in_json: list) -> None:
+        for item_answer_given in answer_in_json:
+            if 'id' not in item_answer_given and 'name' not in item_answer_given:
+                continue
+
+            # update current_game_state
+            action = {'type': 'metadata', 'content': 'update game state'}
+            self.log_event(from_='GM', to='GM', action=action)
+
+            key_to_check = 'id' if 'id' in item_answer_given else 'name'
+            input_key = item_answer_given[key_to_check]
+
+            if not self.current_state:
+                print("appending!")
+                self.current_state.append(item_answer_given)
+                continue
+
+            found_match = False
+
+            # Step 3: If key exists in current_state, update the corresponding item
+            for item in self.current_state:
+                # FIXME: Never overwrite with None values!
+                if item.get(key_to_check) == input_key:
+                    # Update the corresponding item in current_state
+                    item.update(item_answer_given)
+                    found_match = True  # We found and updated the item
+                    print(f"CURRENTSTATE UPDATEEXIST: {self.current_state}")
+                    break  # Stop processing after updating
+
+            if not found_match:
+                self.current_state.append(item_answer_given)
+                print(f"APPENDED TO CURRENTSTATE: {self.current_state}")
+
+    def _select_final_suggestion(self):
+        relevant_keys = ['id', 'name']
+        for item in self.current_state:
+            for key in relevant_keys:
+                if key in item:
+                    if str(item[key]).lower() in str(self.final_choice).lower():
+                        print(f"MATCH: {item}")
+                        return item
 
     # @staticmethod
     def _repair_json(self, json_object):
@@ -388,7 +487,7 @@ class DialogueQuest(GameMaster):
         repaired = jsonrepair(json_object)
         print(f"Repaired json: {repaired}")
         if json_object != repaired:
-            action = {'type': 'metadata', 'content': f"JSON repaired: {json_object} modified into {repaired}"}
+            action = {'type': 'metadata', 'content': f"JSON repaired: {repaired}"}
             self.log_event(from_='GM', to='GM', action=action)
         return repaired
 
@@ -397,6 +496,7 @@ class DialogueQuest(GameMaster):
         """
         self.log_key('realised_slots', self.current_state)
         self.log_key('slots_given', self.slots_given)
+        self.log_key('Final suggestion', self.final_suggestion)
         self.log_key('data', self.data)
         self.log_key('n_turns', self.game.current_turn)
         self.log_key('Complete turns', self.game.current_turn)
@@ -431,6 +531,7 @@ class DialogueQuestScorer(GameScorer):
         realised_slots = episode_interactions['realised_slots']
         slots_given = episode_interactions['slots_given']
         data = episode_interactions['data']
+        final_suggestion = episode_interactions['Final suggestion']
 
         char_count_a = episode_interactions['average_char_count_a']
         char_count_b = episode_interactions['average_char_count_b']
@@ -544,15 +645,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-def main():
-    # select one instance
-    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-    instance = experiments["experiments"][0]["game_instances"][0]
-    master = DialogueQuest(instance, ["mock", "mock"])
+# def main():
+#     # select one instance
+#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+#     instance = experiments["experiments"][0]["game_instances"][0]
+#     master = DialogueQuest(instance, ["mock", "mock"])
 
-    master.setup(**instance)
-    master.play()
+#     master.setup(**instance)
+#     master.play()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
