@@ -83,7 +83,8 @@ class DialogueQuest(GameMaster):
         self.slots_given = game_instance["slots_given"]
         self.data = game_instance["data"]
         # For the current goal, collect all slots which are mentioned by the Answerer. Start with empty goal object to be filled up.
-        self.current_state = {key: None for key in self.goal.keys()}
+        # self.current_state = [{key: None for key in self.goal.keys()}]
+        self.current_state = []
 
         self.log_next_turn()
 
@@ -195,7 +196,7 @@ class DialogueQuest(GameMaster):
 
         # TODO: If _update_current_goal_object: continue,
         # else: reprompt 3x, if not successful, abort
-        self._update_current_goal_object(answer_in_json)
+        self._update_current_state(answer_in_json)
 
         # attempt = 0
         # Reprompt loop for getting json format right
@@ -255,6 +256,9 @@ class DialogueQuest(GameMaster):
                 prompt, raw_answer, answer, from_ = self.game.get_utterance(player, current_turn)
             else:
                 # Latest utterance is latest user utterance (reprompt)
+                # Adjust for json: latest assistant prompt
+                # refactor into choose_latest_relevant_utterance
+                # also return relevant prompt
                 latest_utterance = self.game.get_latest_relevant_utterance(player, role='user')
                 # First time in reprompt loop, create the merged prompt. Else prompt is already merged.
                 if attempts == 1:
@@ -320,36 +324,57 @@ class DialogueQuest(GameMaster):
         final_json = self.game.summarise_in_json(merged_prompt, self.game.answerer)
         print(f"BUILD JSON FINAL: {final_json}")
 
-    # TODO: Return either game state if valid json detected, or False if invalid json
-    def _update_current_goal_object(self, answer_in_json: str):
-        """_summary_
+    def _update_current_state(self, answer_in_json: list) -> None:
 
-        Args:
-            answer_in_json (Dict): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        # print(type(answer_in_json))
-        # print(answer_in_json)
         answer_in_json = self._repair_json(answer_in_json)
         try:
             answer_in_json = json.loads(answer_in_json)
-        # if isinstance(answer_in_json, dict):
-            action = {'type': 'metadata', 'content': 'update game state'}
-            self.log_event(from_='GM', to='GM', action=action)
-            for key in answer_in_json:
-                if key in self.current_state:
-                    self.current_state[key] = answer_in_json[key]
 
-            if all(value is not None for value in self.current_state.values()):
-                self.all_slots_filled = True
-                action = {'type': 'metadata', 'content': 'slots filled'}
+            # Step 1: Check if input_json is empty, if so, do nothing
+            if not answer_in_json:
+                return  # Exit the function if input_json is empty
+
+            # Step 2: Check if the first item has an 'id' key
+
+            # TODO: Include name as a key option
+            # relevant_keys = ['id', 'name']
+
+            for item_answer_given in answer_in_json:
+                if 'id' not in item_answer_given and 'name' not in item_answer_given:
+                    continue
+
+                # update current_game_state
+                action = {'type': 'metadata', 'content': 'update game state'}
                 self.log_event(from_='GM', to='GM', action=action)
+
+                key_to_check = 'id' if 'id' in item_answer_given else 'name'
+                input_key = item_answer_given[key_to_check]
+
+                if not self.current_state:
+                    print("appending!")
+                    self.current_state.append(item_answer_given)
+                    continue
+
+                found_match = False
+
+                # Step 3: If key exists in current_state, update the corresponding item
+                for item in self.current_state:
+                    if item.get(key_to_check) == input_key:
+                        # Update the corresponding item in current_state
+                        item.update(item_answer_given)
+                        found_match = True  # We found and updated the item
+                        print(f"CURRENTSTATE UPDATEEXIST: {self.current_state}")
+                        break  # Stop processing after updating
+
+                if not found_match:
+                    self.current_state.append(item_answer_given)
+                    print(f"APPENDED TO CURRENTSTATE: {self.current_state}")
+
         except json.JSONDecodeError:
-        # else:
+            # call reprompt loop
             action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}
             self.log_event(from_='GM', to='GM', action=action)
+        # print(f"CURRENTSTATE: {self.current_state}")
         return self.current_state
 
     # @staticmethod
@@ -409,7 +434,6 @@ class DialogueQuestScorer(GameScorer):
 
         char_count_a = episode_interactions['average_char_count_a']
         char_count_b = episode_interactions['average_char_count_b']
-        # FIXME: word_count_a = episode_interactions['Word count A'] KeyError: 'Word count A'
         word_count_a = episode_interactions['Word count A']
         word_count_b = episode_interactions['Word count B']
         conversational_turns_a = episode_interactions['Conversational turns A']
@@ -433,14 +457,14 @@ class DialogueQuestScorer(GameScorer):
             self.log_turn_score(turn, "Word Count B", word_count_b[turn])
 
         # Episode level scores
-        # aborted = int(episode_interactions[ms.METRIC_ABORTED])
+        aborted = int(episode_interactions[ms.METRIC_ABORTED])
         # lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
         # success = 1 - lose if not aborted else 0
         # bench_score = played_turns / n_turns if not aborted else np.nan
 
         # self.log_episode_score(ms.METRIC_ABORTED, aborted)
 
-        accuracy_slots_given = self.check_for_slots_given(realised_slots, slots_given)
+        # accuracy_slots_given = self.check_for_slots_given(realised_slots, slots_given)
         accuracy_data = self.check_for_database_slots(realised_slots, data)
 
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
@@ -449,10 +473,11 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_REQUEST_SUCCESS, sum(p_reqs) / sum(reqs))
         self.log_episode_score(ms.METRIC_SUCCESS, success)
         self.log_episode_score(ms.METRIC_LOSE, lose)
-        self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
+        self.log_episode_score(ms.METRIC_ABORTED, aborted)
+        # self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
         self.log_episode_score("Accuracy of data", accuracy_data)
         # Placeholder score
-        self.log_episode_score(ms.BENCH_SCORE, accuracy_slots_given)
+        # self.log_episode_score(ms.BENCH_SCORE, accuracy_slots_given)
         self.log_episode_score("Conversational turns A", conversational_turns_a)
         self.log_episode_score("Conversational turns B", conversational_turns_b)
         self.log_episode_score("Average Char Count A", self.calculate_average_count(char_count_a, conversational_turns_a))
@@ -492,7 +517,7 @@ class DialogueQuestScorer(GameScorer):
         Returns:
             float: Average number of characters per turn
         """
-        return round((sum(char_count) / total), 2)
+        return round((sum(char_count) / total), 2) if total != 0 else 0
 
 
 class DialogueQuestBenchmark(GameBenchmark):
@@ -519,15 +544,15 @@ class DialogueQuestBenchmark(GameBenchmark):
         return False
 
 
-# def main():
-#     # select one instance
-#     experiments = file_utils.load_json("in/instances.json", "dialoguequest")
-#     instance = experiments["experiments"][0]["game_instances"][0]
-#     master = DialogueQuest(instance, ["mock", "mock"])
+def main():
+    # select one instance
+    experiments = file_utils.load_json("in/instances.json", "dialoguequest")
+    instance = experiments["experiments"][0]["game_instances"][0]
+    master = DialogueQuest(instance, ["mock", "mock"])
 
-#     master.setup(**instance)
-#     master.play()
+    master.setup(**instance)
+    master.play()
 
 
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
