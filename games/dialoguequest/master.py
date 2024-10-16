@@ -390,36 +390,36 @@ class DialogueQuest(GameMaster):
 
     def _repair_json(self, json_object):
         jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
-        
+
         # Convert object to a JSON string if it's not already
         if not isinstance(json_object, str):
             try:
                 json_object = json.dumps(json_object)
             except (TypeError, ValueError) as e:
                 print(f"Error serializing object to JSON: {e}")
-                return json_object  # Return original if unable to serialize
+                return json_object
 
         try:
             # Attempt to repair the JSON string
             repaired = jsonrepair(json_object)
             print(f"Repaired json: {repaired}")
-            
+
             # Log if repairs were made
             if json_object != repaired:
                 action = {'type': 'metadata', 'content': f"JSON repaired: {repaired}"}
                 self.log_event(from_='GM', to='GM', action=action)
-            
+
             return repaired
 
         except Exception as e:
             # Handle cases where jsonrepair cannot fix the JSON
             print(f"Error repairing JSON: {e}")
-            return json_object  # Return original if repair fails
+            return json_object
 
     def _log_eval_assets(self) -> None:
         """Log everything needed for the evaluation.
         """
-        self.log_key('realised_slots', self.current_state)
+        # self.log_key('realised_slots', self.current_state)
         self.log_key('slots_given', self.slots_given)
         self.log_key('Final suggestion', self.final_suggestion)
         self.log_key('data', self.data)
@@ -452,7 +452,7 @@ class DialogueQuestScorer(GameScorer):
         played_turns = episode_interactions['Complete turns']
         n_turns = episode_interactions['n_turns']
 
-        realised_slots = episode_interactions['realised_slots']
+        final_suggestion = episode_interactions['Final suggestion']
         slots_given = episode_interactions['slots_given']
         data = episode_interactions['data']
         final_suggestion = episode_interactions['Final suggestion']
@@ -470,7 +470,7 @@ class DialogueQuestScorer(GameScorer):
         # n_turns = len(reqs)
 
         success = int(episode_interactions[ms.METRIC_SUCCESS])
-        lose =  1 - success
+        lose = 1 - success
 
         for turn in range(0, played_turns):
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
@@ -489,8 +489,8 @@ class DialogueQuestScorer(GameScorer):
 
         # self.log_episode_score(ms.METRIC_ABORTED, aborted)
 
-        # accuracy_slots_given = self.check_for_slots_given(realised_slots, slots_given)
-        accuracy_data = self.check_for_database_slots(realised_slots, data)
+        accuracy_slots_given = self.check_for_slots_given(final_suggestion, slots_given)
+        accuracy_data = self.check_for_database_slots(final_suggestion, data)
 
         self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
@@ -500,7 +500,7 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_SUCCESS, success)
         self.log_episode_score(ms.METRIC_LOSE, lose)
         self.log_episode_score(ms.METRIC_ABORTED, aborted)
-        # self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
+        self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
         self.log_episode_score("Accuracy of data", accuracy_data)
         # Placeholder score
         # self.log_episode_score(ms.BENCH_SCORE, accuracy_slots_given)
@@ -511,26 +511,56 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score("Average Word Count A", self.calculate_average_count(word_count_a, conversational_turns_a))
         self.log_episode_score("Average Word Count B", self.calculate_average_count(word_count_b, conversational_turns_b))
 
-    def check_for_slots_given(self, realised_slots, slots_given):
+    def check_for_slots_given(self, final_suggestion: dict, slots_given: dict):
         """Calculate how many requested slots are acutally fulfilled in final suggestion.
 
         Args:
-            realised_slots (_type_): _description_
-            slots_given (_type_): _description_
+            final_suggestion (dict): _description_
+            slots_given (dict): _description_
 
         Returns:
             float: Slot accuracy
         """
-        total_pairs = len(slots_given)
-        # Count how many key-value pairs from dict_1 are found in dict_2
-        matching_pairs = sum(1 for item in slots_given.items() if item in realised_slots.items())
-        # Compute accuracy
-        accuracy = matching_pairs / total_pairs if total_pairs > 0 else 0
+        if final_suggestion:
+            total_pairs = len(slots_given)
+            # Count how many key-value pairs from dict_1 are found in dict_2
+            matching_pairs = sum(1 for item in slots_given.items() if item in final_suggestion.items())
+            # Compute accuracy
+            accuracy = matching_pairs / total_pairs if total_pairs > 0 else 0
+        else:
+            accuracy = 0
         return accuracy
 
-    # Implement!
-    def check_for_database_slots(self, realised_slots, data):
-        return 1
+    def check_for_database_slots(self, final_suggestion: dict, data: list):
+        if final_suggestion:
+            selected_db_item = None
+            key_to_check = 'id' if 'id' in final_suggestion else 'name'
+            input_key = final_suggestion[key_to_check]
+
+            # Search for corresponding item in data
+            for item in data:
+                if item[key_to_check] == input_key:
+                    selected_db_item = item
+                    break
+            if not selected_db_item:
+                accuracy = 0
+            else:
+                total_pairs = len(final_suggestion)
+                correct_vals = 0
+                for k, v in final_suggestion.items():
+                    if k in selected_db_item:
+                        if self._align_string(v) == self._align_string(selected_db_item[k]):
+                            correct_vals += 1
+                    else:
+                        continue
+                accuracy = correct_vals / total_pairs if total_pairs > 0 else 0
+        else:
+            accuracy = 0
+        return accuracy
+
+    @staticmethod
+    def _align_string(some_string):
+        return some_string.strip().lower()
 
     @staticmethod
     def calculate_average_count(char_count, total):
