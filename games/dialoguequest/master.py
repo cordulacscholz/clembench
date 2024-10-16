@@ -103,6 +103,8 @@ class DialogueQuest(GameMaster):
         """
         while self._does_game_proceed() and not self.aborted:
             self.log_next_turn()
+            action = {'type': 'metadata', 'content': f'Current turn: {self.game.current_turn}'}
+            self.log_event(from_='GM', to='GM', action=action)
             if not self.turn():
                 break
 
@@ -157,12 +159,13 @@ class DialogueQuest(GameMaster):
         self.char_count_a[self.game.current_turn] = len(answer_a)
         self.word_count_a[self.game.current_turn] = len(answer_a.split())
 
+        # Check and break if Player A has uttered the fulfillment keyword
         if str(self.stop).lower() in answer_a.lower():
             action = {'type': 'fulfilled', 'content': 'End game.'}
             self.log_event(from_='GM', to='GM', action=action)
             self.success = True
             self.final_choice = str(answer_a.lower())
-            self.game.current_turn += 1
+            # self.game.current_turn += 1
             return False
 
         valid_response_b = self._get_valid_response('b', self.game.current_turn)
@@ -185,12 +188,6 @@ class DialogueQuest(GameMaster):
         self.char_count_b[self.game.current_turn] = len(answer_b)
         self.word_count_b[self.game.current_turn] = len(answer_b.split())
 
-        # Grab the last content of the assistant for having it summed up in json structure
-        # last_assistant_utterance = None
-        # for message in reversed(self.game.answerer.history):
-        #     if message['role'] == 'assistant':
-        #         last_assistant_utterance = message['content']
-        #         break
         last_assistant_utterance = self.game.get_latest_relevant_utterance('b', role='assistant')
 
         # merge summarisation prompt with last utterance to be summed up
@@ -208,25 +205,9 @@ class DialogueQuest(GameMaster):
             self.abort = True
             return False
 
-        # prompt, raw_answer, answer, from_ = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
-        # answer_in_json = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
-        # answer_in_json = self.game.summarise_in_json(merged_json_prompt, self.game.answerer)
-        # action = {'type': 'send message', 'content': merged_json_prompt}
-        # self.log_event(from_='GM', to='Player 2', action=action)
-        # action = {'type': 'send message', 'content': answer_in_json}
-        # self.log_event(from_='Player 2', to='GM', action=action)
-
-        # also add the reply to the transcript
-        # action = {'type': 'metadata', 'content': f"json format Answer: {answer_in_json}"}
-        # action = {'type': 'metadata', 'content': f"json format Answer: {answer}"}
-        # self.log_event(from_='GM', to='GM', action=action)
-
         # also add the reply to the transcript
         action = {'type': 'send message', 'content': answer_b}
         self.log_event(from_='GM', to='Player 1', action=action)
-
-        # Increase requests count
-        self.request_counts[self.game.current_turn] += 1
 
         self.game.current_turn += 1
 
@@ -280,17 +261,11 @@ class DialogueQuest(GameMaster):
             str: The valid response.
         """
         attempts = 0
-        # Should be sth for json already (=param)
         merged_prompt = None
-        # not for json
         while attempts <= self.max_reprompts:
             if attempts == 0:
                 prompt, raw_answer, answer, from_ = self.game.get_utterance(player, current_turn)
             else:
-                # Latest utterance is latest user utterance (reprompt)
-                # Adjust for json: latest assistant prompt
-                # refactor into choose_latest_relevant_utterance
-                # also return relevant prompt
                 latest_utterance = self.game.get_latest_relevant_utterance(player, role='user')
                 # First time in reprompt loop, create the merged prompt. Else prompt is already merged.
                 if attempts == 1:
@@ -309,7 +284,7 @@ class DialogueQuest(GameMaster):
             action = {'type': 'get message', 'content': answer}
             self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
 
-            if self._validate_response(answer, from_):
+            if self._validate_text(answer, from_):
                 return prompt, raw_answer, answer, from_
             print(f"not valid, execute else {attempts}")
             action = {'type': 'invalid response, try again', 'content': "invalid"}
@@ -321,17 +296,19 @@ class DialogueQuest(GameMaster):
         answer_in_json = self._repair_json(answer_in_json)
         try:
             parsed_json = json.loads(answer_in_json)
-            # if isinstance(parsed_json, list):  # This will accept both [] and other arrays
-            #     return parsed_json
             action = {'type': 'metadata', 'content': "json successfully parsed"}
             self.log_event(from_='GM', to='GM', action=action)
+            # increase the number of violated requests
+            self.parsed_request_counts[self.game.current_turn] += 1
             return parsed_json
         except json.JSONDecodeError:
             # call reprompt loop
             action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}
             self.log_event(from_='GM', to='GM', action=action)
+            # increase the number of violated requests
+            self.violated_request_counts[self.game.current_turn] += 1
 
-    def _validate_response(self, response, from_):
+    def _validate_text(self, response, from_):
         print(f"VALIDATION... {response}")
         if not response:
             print(f"CASE0")
@@ -356,84 +333,6 @@ class DialogueQuest(GameMaster):
             self.parsed_request_counts[self.game.current_turn] += 1
             return True
 
-    def _reprompt_for_json(self):
-        pass
-        # merged_prompt = reprompt_text + summarise prompt + contents (param)
-        # self.game.summarise_in_json
-
-    def _update_current_state_old(self, answer_in_json: list) -> None:
-        """_summary_
-
-        Args:
-            answer_in_json (list): _description_
-
-        Returns:
-            _type_: _description_
-        """
-        answer_in_json = self._repair_json(answer_in_json)
-        try:
-            answer_in_json = json.loads(answer_in_json)
-
-            # Step 1: Check if input_json is empty, if so, do nothing
-            if not answer_in_json:
-                return  # Exit the function if input_json is empty
-
-            # Step 2: Check if the first item has an 'id' key
-
-            # TODO: Include name as a key option
-            # relevant_keys = ['id', 'name']
-
-            for item_answer_given in answer_in_json:
-                if 'id' not in item_answer_given and 'name' not in item_answer_given:
-                    continue
-
-                # update current_game_state
-                action = {'type': 'metadata', 'content': 'update game state'}
-                self.log_event(from_='GM', to='GM', action=action)
-
-                key_to_check = 'id' if 'id' in item_answer_given else 'name'
-                input_key = item_answer_given[key_to_check]
-
-                if not self.current_state:
-                    print("appending!")
-                    self.current_state.append(item_answer_given)
-                    continue
-
-                found_match = False
-
-                # Step 3: If key exists in current_state, update the corresponding item
-                for item in self.current_state:
-                    if item.get(key_to_check) == input_key:
-                        # Update the corresponding item in current_state
-                        item.update(item_answer_given)
-                        found_match = True  # We found and updated the item
-                        print(f"CURRENTSTATE UPDATEEXIST: {self.current_state}")
-                        break  # Stop processing after updating
-
-                if not found_match:
-                    self.current_state.append(item_answer_given)
-                    print(f"APPENDED TO CURRENTSTATE: {self.current_state}")
-
-        except json.JSONDecodeError:
-            # call reprompt loop
-            action = {'type': 'metadata', 'content': "JSONDecodeError: not updated"}
-            self.log_event(from_='GM', to='GM', action=action)
-
-            # call _get_valid_json_response 
-
-            # # Call the reprompt function to get a valid JSON response
-            # print("Invalid JSON, reprompting for valid JSON response.")
-            # prompt, raw_answer, valid_answer, from_ = self._get_valid_json_response()
-            
-            # # Retry updating state with the valid response
-            # if valid_answer:
-            #     self._update_current_state(valid_answer)
-            # else:
-            #     print("No valid JSON received after reprompt.")
-
-        # print(f"CURRENTSTATE: {self.current_state}")
-        return self.current_state
-
     def _update_current_state(self, answer_in_json: list) -> None:
         for item_answer_given in answer_in_json:
             if 'id' not in item_answer_given and 'name' not in item_answer_given:
@@ -457,9 +356,11 @@ class DialogueQuest(GameMaster):
             for item in self.current_state:
                 # FIXME: Never overwrite with None values!
                 if item.get(key_to_check) == input_key:
-                    # Update the corresponding item in current_state
-                    item.update(item_answer_given)
-                    found_match = True  # We found and updated the item
+                    for key, value in item_answer_given.items():
+                        # Update the corresponding item in current_state
+                        if value is not None:
+                            item[key] = value   
+                            found_match = True  # We found and updated the item
                     print(f"CURRENTSTATE UPDATEEXIST: {self.current_state}")
                     break  # Stop processing after updating
 
@@ -477,19 +378,43 @@ class DialogueQuest(GameMaster):
                         return item
 
     # @staticmethod
-    def _repair_json(self, json_object):
-        # json repair example
-        # print(f"JSON OBJ: {json_object}")
-        # Strip the string of its double quotes to avoid issued with single quotes
-        # json_object.replace("\"", "")
-        jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
+    # def _repair_json(self, json_object):
+    #     jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
 
-        repaired = jsonrepair(json_object)
-        print(f"Repaired json: {repaired}")
-        if json_object != repaired:
-            action = {'type': 'metadata', 'content': f"JSON repaired: {repaired}"}
-            self.log_event(from_='GM', to='GM', action=action)
-        return repaired
+    #     repaired = jsonrepair(json_object)
+    #     print(f"Repaired json: {repaired}")
+    #     if json_object != repaired:
+    #         action = {'type': 'metadata', 'content': f"JSON repaired: {repaired}"}
+    #         self.log_event(from_='GM', to='GM', action=action)
+    #     return repaired
+
+    def _repair_json(self, json_object):
+        jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
+        
+        # Convert object to a JSON string if it's not already
+        if not isinstance(json_object, str):
+            try:
+                json_object = json.dumps(json_object)
+            except (TypeError, ValueError) as e:
+                print(f"Error serializing object to JSON: {e}")
+                return json_object  # Return original if unable to serialize
+
+        try:
+            # Attempt to repair the JSON string
+            repaired = jsonrepair(json_object)
+            print(f"Repaired json: {repaired}")
+            
+            # Log if repairs were made
+            if json_object != repaired:
+                action = {'type': 'metadata', 'content': f"JSON repaired: {repaired}"}
+                self.log_event(from_='GM', to='GM', action=action)
+            
+            return repaired
+
+        except Exception as e:
+            # Handle cases where jsonrepair cannot fix the JSON
+            print(f"Error repairing JSON: {e}")
+            return json_object  # Return original if repair fails
 
     def _log_eval_assets(self) -> None:
         """Log everything needed for the evaluation.
@@ -498,8 +423,8 @@ class DialogueQuest(GameMaster):
         self.log_key('slots_given', self.slots_given)
         self.log_key('Final suggestion', self.final_suggestion)
         self.log_key('data', self.data)
-        self.log_key('n_turns', self.game.current_turn)
-        self.log_key('Complete turns', self.game.current_turn)
+        self.log_key('n_turns', self.game.current_turn+1)
+        self.log_key('Complete turns', self.game.current_turn+1)
         self.log_key(ms.METRIC_REQUEST_COUNT, self.request_counts)
         self.log_key(ms.METRIC_REQUEST_COUNT_PARSED, self.parsed_request_counts)
         self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
@@ -525,9 +450,8 @@ class DialogueQuestScorer(GameScorer):
         """
 
         played_turns = episode_interactions['Complete turns']
-        n_turns = episode_interactions['Complete turns']
+        n_turns = episode_interactions['n_turns']
 
-        # dictionary / list - rename into suggestions?
         realised_slots = episode_interactions['realised_slots']
         slots_given = episode_interactions['slots_given']
         data = episode_interactions['data']
@@ -540,9 +464,9 @@ class DialogueQuestScorer(GameScorer):
         conversational_turns_a = episode_interactions['Conversational turns A']
         conversational_turns_b = episode_interactions['Conversational turns B']
 
-        reqs = episode_interactions[ms.METRIC_REQUEST_COUNT][0:]
-        p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED][0:]
-        v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED][0:]
+        reqs = episode_interactions[ms.METRIC_REQUEST_COUNT]
+        p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED]
+        v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED]
         # n_turns = len(reqs)
 
         success = int(episode_interactions[ms.METRIC_SUCCESS])
@@ -568,6 +492,7 @@ class DialogueQuestScorer(GameScorer):
         # accuracy_slots_given = self.check_for_slots_given(realised_slots, slots_given)
         accuracy_data = self.check_for_database_slots(realised_slots, data)
 
+        self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
         self.log_episode_score(ms.METRIC_REQUEST_COUNT_PARSED, sum(p_reqs))
         self.log_episode_score(ms.METRIC_REQUEST_COUNT_VIOLATED, sum(v_reqs))
