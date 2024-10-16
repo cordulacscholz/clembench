@@ -165,7 +165,6 @@ class DialogueQuest(GameMaster):
             self.log_event(from_='GM', to='GM', action=action)
             self.success = True
             self.final_choice = str(answer_a.lower())
-            # self.game.current_turn += 1
             return False
 
         valid_response_b = self._get_valid_response('b', self.game.current_turn)
@@ -195,7 +194,7 @@ class DialogueQuest(GameMaster):
 
         valid_response_json = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
 
-        # Validate that the values of answer_a are filled
+        # Validate json structure; if failure, abort
         if valid_response_json and any(valid_response_json):
             prompt, raw_answer, answer_a, from_ = valid_response_json
         else:
@@ -432,9 +431,9 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_SUCCESS, self.success)
         self.log_key('Conversational turns A', self.conversational_turns_a)
         self.log_key('Conversational turns B', self.conversational_turns_b)
-        self.log_key('average_char_count_a', self.char_count_a)
+        self.log_key('Char count A', self.char_count_a)
         self.log_key('Word count A', self.word_count_a)
-        self.log_key('average_char_count_b', self.char_count_a)
+        self.log_key('Char count B', self.char_count_b)
         self.log_key('Word count B', self.word_count_b)
 
 
@@ -455,10 +454,9 @@ class DialogueQuestScorer(GameScorer):
         final_suggestion = episode_interactions['Final suggestion']
         slots_given = episode_interactions['slots_given']
         data = episode_interactions['data']
-        final_suggestion = episode_interactions['Final suggestion']
 
-        char_count_a = episode_interactions['average_char_count_a']
-        char_count_b = episode_interactions['average_char_count_b']
+        char_count_a = episode_interactions['Char count A']
+        char_count_b = episode_interactions['Char count B']
         word_count_a = episode_interactions['Word count A']
         word_count_b = episode_interactions['Word count B']
         conversational_turns_a = episode_interactions['Conversational turns A']
@@ -467,10 +465,11 @@ class DialogueQuestScorer(GameScorer):
         reqs = episode_interactions[ms.METRIC_REQUEST_COUNT]
         p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED]
         v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED]
-        # n_turns = len(reqs)
 
         success = int(episode_interactions[ms.METRIC_SUCCESS])
         lose = 1 - success
+
+        played_turns_b = played_turns-1 if success==1 else played_turns
 
         for turn in range(0, played_turns):
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
@@ -481,6 +480,10 @@ class DialogueQuestScorer(GameScorer):
             self.log_turn_score(turn, "Word Count A", word_count_a[turn])
             self.log_turn_score(turn, "Word Count B", word_count_b[turn])
 
+        # for turn in range(0, played_turns_b):
+        #     self.log_turn_score(turn, "Character Count B", char_count_b[turn])
+        #     self.log_turn_score(turn, "Word Count B", word_count_b[turn])
+
         # Episode level scores
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
         # lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
@@ -489,8 +492,8 @@ class DialogueQuestScorer(GameScorer):
 
         # self.log_episode_score(ms.METRIC_ABORTED, aborted)
 
-        accuracy_slots_given = self.check_for_slots_given(final_suggestion, slots_given)
-        accuracy_data = self.check_for_database_slots(final_suggestion, data)
+        accuracy_slots_given = self._check_for_slots_given(final_suggestion, slots_given)
+        accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, data)
 
         self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
@@ -501,9 +504,8 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_LOSE, lose)
         self.log_episode_score(ms.METRIC_ABORTED, aborted)
         self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
-        self.log_episode_score("Accuracy of data", accuracy_data)
-        # Placeholder score
-        # self.log_episode_score(ms.BENCH_SCORE, accuracy_slots_given)
+        self.log_episode_score("Accuracy of data", accuracy_with_data)
+        self.log_episode_score(ms.BENCH_SCORE, self._calculate_bench_score(accuracy_slots_given, accuracy_with_data, penalty) if not aborted else np.nan)
         self.log_episode_score("Conversational turns A", conversational_turns_a)
         self.log_episode_score("Conversational turns B", conversational_turns_b)
         self.log_episode_score("Average Char Count A", self.calculate_average_count(char_count_a, conversational_turns_a))
@@ -511,7 +513,7 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score("Average Word Count A", self.calculate_average_count(word_count_a, conversational_turns_a))
         self.log_episode_score("Average Word Count B", self.calculate_average_count(word_count_b, conversational_turns_b))
 
-    def check_for_slots_given(self, final_suggestion: dict, slots_given: dict):
+    def _check_for_slots_given(self, final_suggestion: dict, slots_given: dict):
         """Calculate how many requested slots are acutally fulfilled in final suggestion.
 
         Args:
@@ -531,7 +533,17 @@ class DialogueQuestScorer(GameScorer):
             accuracy = 0
         return accuracy
 
-    def check_for_database_slots(self, final_suggestion: dict, data: list):
+    # FIXME: Strafe for falsely generated values
+    def _check_for_database_slots(self, final_suggestion: dict, data: list):
+        """_summary_
+
+        Args:
+            final_suggestion (dict): Final object generated and suggested in dialogue
+            data (list): Original database items for comparison
+
+        Returns:
+            float: Accuracy of generated values
+        """
         if final_suggestion:
             selected_db_item = None
             key_to_check = 'id' if 'id' in final_suggestion else 'name'
@@ -547,19 +559,29 @@ class DialogueQuestScorer(GameScorer):
             else:
                 total_pairs = len(final_suggestion)
                 correct_vals = 0
+                penalty = 0
                 for k, v in final_suggestion.items():
                     if k in selected_db_item:
                         if self._align_string(v) == self._align_string(selected_db_item[k]):
                             correct_vals += 1
                     else:
-                        continue
+                        penalty += 1
                 accuracy = correct_vals / total_pairs if total_pairs > 0 else 0
         else:
             accuracy = 0
-        return accuracy
+            penalty = 0
+        return accuracy, penalty
 
     @staticmethod
-    def _align_string(some_string):
+    def _align_string(some_string: str):
+        """Strips and modifies string for comparison
+
+        Args:
+            some_string (str): Input string
+
+        Returns:
+            str: Modified string
+        """
         return some_string.strip().lower()
 
     @staticmethod
@@ -574,6 +596,10 @@ class DialogueQuestScorer(GameScorer):
             float: Average number of characters per turn
         """
         return round((sum(char_count) / total), 2) if total != 0 else 0
+
+    @staticmethod
+    def _calculate_bench_score(request_accuracy, database_accuracy, penalty):
+        return (request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)
 
 
 class DialogueQuestBenchmark(GameBenchmark):
