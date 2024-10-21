@@ -41,7 +41,7 @@ class DialogueQuest(GameMaster):
         self.aborted: bool = False
         self.success: bool = False
         self.complete_turns: int = 0
-        self.all_slots_filled = False
+        self.fulfilled = False
 
     def setup(self, **game_instance):
         logger.info("setup")
@@ -109,10 +109,12 @@ class DialogueQuest(GameMaster):
                 break
 
         # latest utterance Player A: assistant
-        if self.success:
+        if self.fulfilled:
             action = {'type': 'metadata', 'content': f'final choice: {self.final_choice}'}
             self.log_event(from_='GM', to='GM', action=action)
             self.final_suggestion = self._select_final_suggestion()
+            if self.final_suggestion:
+                self.success = True
             action = {'type': 'metadata', 'content': f"Log final suggestion:{self.final_suggestion}"}
             self.log_event(from_='GM', to='GM', action=action)
 
@@ -163,7 +165,7 @@ class DialogueQuest(GameMaster):
         if str(self.stop).lower() in answer_a.lower():
             action = {'type': 'fulfilled', 'content': 'End game.'}
             self.log_event(from_='GM', to='GM', action=action)
-            self.success = True
+            self.fulfilled = True
             self.final_choice = str(answer_a.lower())
             return False
 
