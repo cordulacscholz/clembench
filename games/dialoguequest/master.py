@@ -12,6 +12,7 @@ from games.dialoguequest.game import DialogueQuestGame, Questioner, Answerer
 import json
 import copy
 import pythonmonkey
+from thefuzz import fuzz
 import numpy as np
 from games.dialoguequest.constants import (
     GAME_NAME, LANG, MAX_TURNS, WORDS_PATH)
@@ -338,6 +339,8 @@ class DialogueQuest(GameMaster):
             self.parsed_request_counts[self.game.current_turn] += 1
             return True
 
+    # fuzz.partial_ratio("this is a test", "this is a test!")
+    # if fuzz.partial_ration(item_answer_give, answer_in_json) > 90:
     def _update_current_state(self, answer_in_json: list) -> None:
         for item_answer_given in answer_in_json:
             if 'id' not in item_answer_given and 'name' not in item_answer_given:
@@ -488,12 +491,6 @@ class DialogueQuestScorer(GameScorer):
 
         # Episode level scores
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
-        # lose = int(episode_interactions[ms.METRIC_LOSE]) if not aborted else 0
-        # success = 1 - lose if not aborted else 0
-        # bench_score = played_turns / n_turns if not aborted else np.nan
-
-        # self.log_episode_score(ms.METRIC_ABORTED, aborted)
-
         accuracy_slots_given = self._check_for_slots_given(final_suggestion, slots_given)
         accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, data)
 
@@ -537,6 +534,7 @@ class DialogueQuestScorer(GameScorer):
 
     # FIXME: Implement fallback mechanism: If slots_given not in final_suggestion, search in db_item for values (as they might not have been explicitly uttered, but would still be correct)
     def _check_for_database_slots(self, final_suggestion: dict, data: list):
+        # add param
         """_summary_
 
         Args:
@@ -548,6 +546,8 @@ class DialogueQuestScorer(GameScorer):
         """
         accuracy = 0
         penalty = 0
+        # acc_data = 0
+        # acc_slots = 0
         if final_suggestion:
             selected_db_item = None
             key_to_check = 'id' if 'id' in final_suggestion else 'name'
