@@ -167,7 +167,7 @@ class DialogueQuest(GameMaster):
             self.log_event(from_='GM', to='GM', action=action)
             self.fulfilled = True
             self.final_choice = str(answer_a.lower())
-            return False
+            # return False
 
         valid_response_b = self._get_valid_response('b', self.game.current_turn)
 
@@ -188,6 +188,10 @@ class DialogueQuest(GameMaster):
 
         self.char_count_b[self.game.current_turn] = len(answer_b)
         self.word_count_b[self.game.current_turn] = len(answer_b.split())
+
+        # If fulfillment keyword had been uttered by Player A, stop here
+        if self.fulfilled:
+            return False
 
         last_assistant_utterance = self.game.get_latest_relevant_utterance('b', role='assistant')
 
@@ -343,7 +347,7 @@ class DialogueQuest(GameMaster):
             action = {'type': 'metadata', 'content': 'update game state'}
             self.log_event(from_='GM', to='GM', action=action)
 
-            key_to_check = 'id' if 'id' in item_answer_given else 'name'
+            key_to_check = 'id' if 'id' in item_answer_given and item_answer_given['id'] is not None else 'name'
             input_key = item_answer_given[key_to_check]
 
             if not self.current_state:
@@ -373,7 +377,7 @@ class DialogueQuest(GameMaster):
         relevant_keys = ['id', 'name']
         for item in self.current_state:
             for key in relevant_keys:
-                if key in item:
+                if key in item and item[key] is not None:
                     if str(item[key]).lower() in str(self.final_choice).lower():
                         print(f"MATCH: {item}")
                         return item
@@ -431,6 +435,8 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
         self.log_key(ms.METRIC_ABORTED, self.aborted)
         self.log_key(ms.METRIC_SUCCESS, self.success)
+        # TODO: Check if working
+        self.log_key(ms.METRIC_LOSE, (1 if not self.success and not self.aborted else 0))
         self.log_key('Conversational turns A', self.conversational_turns_a)
         self.log_key('Conversational turns B', self.conversational_turns_b)
         self.log_key('Char count A', self.char_count_a)
@@ -469,9 +475,7 @@ class DialogueQuestScorer(GameScorer):
         v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED]
 
         success = int(episode_interactions[ms.METRIC_SUCCESS])
-        lose = 1 - success
-
-        played_turns_b = played_turns-1 if success==1 else played_turns
+        lose = int(episode_interactions[ms.METRIC_LOSE])
 
         for turn in range(0, played_turns):
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
@@ -481,10 +485,6 @@ class DialogueQuestScorer(GameScorer):
             self.log_turn_score(turn, "Character Count B", char_count_b[turn])
             self.log_turn_score(turn, "Word Count A", word_count_a[turn])
             self.log_turn_score(turn, "Word Count B", word_count_b[turn])
-
-        # for turn in range(0, played_turns_b):
-        #     self.log_turn_score(turn, "Character Count B", char_count_b[turn])
-        #     self.log_turn_score(turn, "Word Count B", word_count_b[turn])
 
         # Episode level scores
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
@@ -535,7 +535,7 @@ class DialogueQuestScorer(GameScorer):
             accuracy = 0
         return accuracy
 
-    # FIXME: Strafe for falsely generated values
+    # FIXME: Implement fallback mechanism: If slots_given not in final_suggestion, search in db_item for values (as they might not have been explicitly uttered, but would still be correct)
     def _check_for_database_slots(self, final_suggestion: dict, data: list):
         """_summary_
 
@@ -546,6 +546,8 @@ class DialogueQuestScorer(GameScorer):
         Returns:
             float: Accuracy of generated values
         """
+        accuracy = 0
+        penalty = 0
         if final_suggestion:
             selected_db_item = None
             key_to_check = 'id' if 'id' in final_suggestion else 'name'
@@ -558,20 +560,22 @@ class DialogueQuestScorer(GameScorer):
                     break
             if not selected_db_item:
                 accuracy = 0
+                penalty = 0
             else:
                 total_pairs = len(final_suggestion)
                 correct_vals = 0
-                penalty = 0
+                # penalty = 0
                 for k, v in final_suggestion.items():
                     if k in selected_db_item:
+                        # FIXME: AttributeError: 'list' object has no attribute 'strip'
                         if self._align_string(v) == self._align_string(selected_db_item[k]):
                             correct_vals += 1
                     else:
                         penalty += 1
                 accuracy = correct_vals / total_pairs if total_pairs > 0 else 0
-        else:
-            accuracy = 0
-            penalty = 0
+        # else:
+        #     accuracy = 0
+        #     penalty = 0
         return accuracy, penalty
 
     @staticmethod
@@ -599,9 +603,11 @@ class DialogueQuestScorer(GameScorer):
         """
         return round((sum(char_count) / total), 2) if total != 0 else 0
 
+    # FIXME: Cap metric at 0
     @staticmethod
     def _calculate_bench_score(request_accuracy, database_accuracy, penalty):
-        return (request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)
+        return ((request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)) * 100
+        # max(0, (request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1))
 
 
 class DialogueQuestBenchmark(GameBenchmark):
