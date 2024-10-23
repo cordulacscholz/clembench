@@ -52,7 +52,6 @@ class DialogueQuest(GameMaster):
         self.summarise_in_json_prompt = game_instance["summarise_in_json"]
         self.reprompt = game_instance["reprompt"]
 
-        # TODO: Might be only needed in game
         self.player_a = Questioner(self.player_models[0], "a")
         self.player_b = Answerer(self.player_models[1], "b")
 
@@ -83,8 +82,6 @@ class DialogueQuest(GameMaster):
         self.goal = game_instance["goal"]
         self.slots_given = game_instance["slots_given"]
         self.data = game_instance["data"]
-        # For the current goal, collect all slots which are mentioned by the Answerer. Start with empty goal object to be filled up.
-        # self.current_state = [{key: None for key in self.goal.keys()}]
         self.current_state = []
         self.final_choice = None
         self.final_suggestion = None
@@ -491,8 +488,7 @@ class DialogueQuestScorer(GameScorer):
 
         # Episode level scores
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
-        accuracy_slots_given = self._check_for_slots_given(final_suggestion, slots_given)
-        accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, data)
+        accuracy_slots_given, accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, slots_given, data)
 
         self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
@@ -512,29 +508,8 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score("Average Word Count A", self.calculate_average_count(word_count_a, conversational_turns_a))
         self.log_episode_score("Average Word Count B", self.calculate_average_count(word_count_b, conversational_turns_b))
 
-    def _check_for_slots_given(self, final_suggestion: dict, slots_given: dict):
-        """Calculate how many requested slots are acutally fulfilled in final suggestion.
-
-        Args:
-            final_suggestion (dict): _description_
-            slots_given (dict): _description_
-
-        Returns:
-            float: Slot accuracy
-        """
-        if final_suggestion:
-            total_pairs = len(slots_given)
-            # Count how many key-value pairs from dict_1 are found in dict_2
-            matching_pairs = sum(1 for item in slots_given.items() if item in final_suggestion.items())
-            # Compute accuracy
-            accuracy = matching_pairs / total_pairs if total_pairs > 0 else 0
-        else:
-            accuracy = 0
-        return accuracy
-
-    # FIXME: Implement fallback mechanism: If slots_given not in final_suggestion, search in db_item for values (as they might not have been explicitly uttered, but would still be correct)
-    def _check_for_database_slots(self, final_suggestion: dict, data: list):
-        # add param
+    # FIXME: Deal with empty slots (key given, but not filled)
+    def _check_for_database_slots(self, final_suggestion: dict, given_slots: dict, data: list):
         """_summary_
 
         Args:
@@ -544,10 +519,9 @@ class DialogueQuestScorer(GameScorer):
         Returns:
             float: Accuracy of generated values
         """
-        accuracy = 0
         penalty = 0
-        # acc_data = 0
-        # acc_slots = 0
+        acc_slots = 0
+        acc_data = 0
         if final_suggestion:
             selected_db_item = None
             key_to_check = 'id' if 'id' in final_suggestion else 'name'
@@ -559,24 +533,81 @@ class DialogueQuestScorer(GameScorer):
                     selected_db_item = item
                     break
             if not selected_db_item:
-                accuracy = 0
+                acc_data = 0
                 penalty = 0
             else:
                 total_pairs = len(final_suggestion)
                 correct_vals = 0
-                # penalty = 0
+                # Check data_accuracy for final_suggestion against selected_db_item
                 for k, v in final_suggestion.items():
                     if k in selected_db_item:
-                        # FIXME: AttributeError: 'list' object has no attribute 'strip'
-                        if self._align_string(v) == self._align_string(selected_db_item[k]):
+                        if self._match_fuzzily(v, selected_db_item[k]):
                             correct_vals += 1
                     else:
                         penalty += 1
-                accuracy = correct_vals / total_pairs if total_pairs > 0 else 0
-        # else:
-        #     accuracy = 0
-        #     penalty = 0
-        return accuracy, penalty
+                acc_data = correct_vals / total_pairs if total_pairs > 0 else 0
+
+                # Check accuracy of given_slots
+                checked_slots = set()  # To ensure no slot is counted twice
+
+                for slot, value in given_slots.items():
+                    # First, check in final_suggestion
+                    if slot in final_suggestion and self._align_string(value) == self._align_string(final_suggestion[slot]):
+                        acc_slots += 1
+                        checked_slots.add(slot)  # Mark as checked
+                    # If not in final_suggestion, check in selected_db_item
+                    elif slot not in checked_slots and slot in selected_db_item and self._match_fuzzily(value, selected_db_item[slot]):
+                        acc_slots += 1
+                        checked_slots.add(slot)
+
+        return acc_slots, acc_data, penalty
+
+    def _match_fuzzily(self, item_a, item_b):
+        """_summary_
+
+        Args:
+            item_a (_type_): _description_
+            item_b (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        threshold = 90
+        match = False
+        if isinstance(item_a, str) and isinstance(item_b, str):
+            if fuzz.partial_ratio(self._align_string(item_a), self._align_string(item_b)) >= threshold:
+                match = True
+
+        elif isinstance(item_a, list) and isinstance(item_b, list):
+            if len(item_a) == 0 or len(item_b) == 0:
+                return False
+            matched_count = 0
+            min_length = min(len(item_a), len(item_b))
+            # Compare each pair in the list
+            for x, y in zip(item_a, item_b):
+                if fuzz.ratio(self._align_string(str(x)), self._align_string(str(y))) >= threshold:  # Convert list elements to strings for comparison
+                    matched_count += 1
+            if matched_count / min_length >= (threshold / 100):
+                match = True
+
+        # Case 3: Both are dicts -> Fuzzy match on key-value pairs
+        elif isinstance(item_a, dict) and isinstance(item_b, dict):
+            if len(item_a) == 0 or len(item_b) == 0:
+                return False
+            matched_count = 0
+            total_comparable_items = 0
+            for k in item_a:
+                if k in item_b:  # Only compare if the keys exist in both
+                    total_comparable_items += 1
+                    if fuzz.ratio(self._align_string(str(item_a[k])), self._align_string(str(item_b[k]))) >= threshold:
+                        matched_count += 1
+            if total_comparable_items > 0 and matched_count / total_comparable_items >= (threshold / 100):
+                match = True
+
+        # Mismatched types - no comparison
+        else:
+            match = False
+        return match
 
     @staticmethod
     def _align_string(some_string: str):
