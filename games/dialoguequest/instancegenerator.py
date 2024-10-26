@@ -41,6 +41,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         prompt_a = self.load_template('resources/initial_prompts/prompt_a')
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
+        reprompt = self.load_template('resources/initial_prompts/reprompt')
 
         for n in range(0, N_EXPERIMENTS):
             experiment = self.add_experiment(n)
@@ -56,7 +57,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 sample_data = self._sample_random_json_objects(topic, N_DATABASE_ITEMS)
 
                 # Insert goal object at random index in list of sample data to ensure a solution can be found
-                # TODO: Integrate switch for 'level' selection (goal object included, goal object not necessarily included)
                 selected_data = deepcopy(sample_data)
                 random_index = random.randint(0, len(selected_data))
                 selected_data.insert(random_index, goal_object)
@@ -74,6 +74,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 instance['prompt_player_a'] = self._create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
                 instance['prompt_player_b'] = self._create_prompt_b(prompt_b, example_object, selected_data)
                 instance['summarise_in_json'] = self._create_summarisation_prompt(summarise_in_json, example_object)
+                instance['reprompt'] = reprompt
                 instance['max_turns'] = MAX_TURNS
                 instance['slots_given'] = slots_given
                 instance['slots_to_fill'] = slots_to_fill

@@ -58,7 +58,7 @@ class GenericOpenAIModel(backends.Model):
         prompt = messages
         api_response = self.client.chat.completions.create(model=self.model_spec.model_id, messages=prompt,
                                                            temperature=self.get_temperature(),
-                                                           max_tokens=self.get_max_tokens())
+                                                           max_tokens=200)
         message = api_response.choices[0].message
         if message.role != "assistant":  # safety check
             raise AttributeError("Response message role is " + message.role + " but should be 'assistant'")
