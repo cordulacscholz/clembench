@@ -58,12 +58,10 @@ class DialogueQuest(GameMaster):
         self.game_instance = game_instance
         self.game = DialogueQuestGame(self.player_a, self.player_b, self.max_turns)
 
-        # TODO: Call get_name() function for actual models
         self.log_players({
             'GM': 'Game master for DialogueQuest',
             'Player 1': f'Questioner: {self.game.questioner}',
             'Player 2': f'Answerer: {self.game.answerer}'
-            # 'Player 2': f'Answerer: {self.player_b.get_name()}'
             })
 
         # initialise common turn metrics
@@ -72,8 +70,8 @@ class DialogueQuest(GameMaster):
         self.violated_request_counts = [0] * (self.game.max_turns + 1)
         self.char_count_a = [0] * (self.game.max_turns + 1)
         self.char_count_b = [0] * (self.game.max_turns + 1)
-        self.word_count_a = [0] * (self.game.max_turns +1)
-        self.word_count_b = [0] * (self.game.max_turns +1)
+        self.word_count_a = [0] * (self.game.max_turns + 1)
+        self.word_count_b = [0] * (self.game.max_turns + 1)
 
         # initialise episode scores
         self.conversational_turns_a = 0
@@ -121,14 +119,11 @@ class DialogueQuest(GameMaster):
         self._log_eval_assets()
 
     def turn(self) -> bool:
-        """Perform one turn, consisting in request Player A, answer Player B, json summary Player B. Might break early in case Player A utters the stop signal.
+        """Perform one turn, consisting in request Player A, answer Player B, json summary Player B.
 
         Returns:
             bool: True if turn goes on, False if Player A utters stop signal
         """
-
-        # print(f"QU history at {self.game.current_turn}: {self.game.questioner.history}")
-        # print(f"A history at {self.game.current_turn}: {self.game.answerer.history}")
 
         logger.info('Game turn: %d', self.game.current_turn)
         print(f"CURRENT TURN: {self.game.current_turn}")
@@ -217,6 +212,11 @@ class DialogueQuest(GameMaster):
         return True
 
     def _does_game_proceed(self):
+        """Check if game proceeds.
+
+        Returns:
+            bool: Fale if max turns reached or self.aborted==True, else False
+        """
         if self.game.current_turn >= self.game.max_turns:
             action = {'type': 'metadata', 'content': f"max turns reached {self.game.max_turns}"}
             self.log_event(from_='GM', to='GM', action=action)
@@ -227,33 +227,6 @@ class DialogueQuest(GameMaster):
             return False
         return True
 
-    def _get_valid_json_response(self, merged_prompt, player, current_turn):
-        attempts = 0
-        while attempts <= self.max_reprompts:
-            prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(merged_prompt, player)
-            action = {'type': 'send message', 'content': merged_prompt}
-            self.log_event(from_='GM', to=from_, action=action)
-
-            # increase the number of API requests
-            self.request_counts[self.game.current_turn] += 1
-
-            # add API call to the records
-            action = {'type': 'get message', 'content': answer}
-            self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
-
-            validated_json = self._validate_json(answer)
-
-            if validated_json is not None:
-                self._update_current_state(validated_json)
-                action = {'type': 'Game state', 'content': f"updated game state: {self.current_state}"}
-                self.log_event(from_='GM', to='GM', action=action)
-                return prompt, raw_answer, answer, from_
-            print(f"not valid, execute else {attempts}")
-            action = {'type': 'invalid response, try again', 'content': "invalid"}
-            self.log_event(from_='GM', to='GM', action=action)
-            attempts += 1
-        return None, None, None, None
-
     def _get_valid_response(self, player, current_turn):
         """Prompts the player for a valid response, reprompting up to 3 times.
 
@@ -261,7 +234,7 @@ class DialogueQuest(GameMaster):
             player (str): The player's name.
 
         Returns:
-            str: The valid response.
+            _type_: prompt, raw_answer, answer, from_ if successful, else None, None, None, None
         """
         attempts = 0
         merged_prompt = None
@@ -295,7 +268,52 @@ class DialogueQuest(GameMaster):
             attempts += 1
         return None, None, None, None
 
-    def _validate_json(self, answer_in_json):
+    def _get_valid_json_response(self, merged_prompt: str, player: str, current_turn: int):
+        """Get a valid summary in json from a player. Reprompt self.max_reprompts times if answer not valid.
+
+        Args:
+            merged_prompt (str): Reprompt instruction + last relevant utterance
+            player (str): Player prompted
+            current_turn (int): current turn
+
+        Returns:
+            _type_: prompt, raw_answer, answer, from_ if successful, else None, None, None, None
+        """
+        attempts = 0
+        while attempts <= self.max_reprompts:
+            prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(merged_prompt, player)
+            action = {'type': 'send message', 'content': merged_prompt}
+            self.log_event(from_='GM', to=from_, action=action)
+
+            # increase the number of API requests
+            self.request_counts[self.game.current_turn] += 1
+
+            # add API call to the records
+            action = {'type': 'get message', 'content': answer}
+            self.log_event(from_=from_, to='GM', action=action, call=(copy.deepcopy(prompt), raw_answer))
+
+            validated_json = self._validate_json(answer)
+
+            if validated_json is not None:
+                self._update_current_state(validated_json)
+                action = {'type': 'Game state', 'content': f"updated game state: {self.current_state}"}
+                self.log_event(from_='GM', to='GM', action=action)
+                return prompt, raw_answer, answer, from_
+            print(f"not valid, execute else {attempts}")
+            action = {'type': 'invalid response, try again', 'content': "invalid"}
+            self.log_event(from_='GM', to='GM', action=action)
+            attempts += 1
+        return None, None, None, None
+
+    def _validate_json(self, answer_in_json: str):
+        """Validates if string can be parsed as json.
+
+        Args:
+            answer_in_json (str): Relevant answer to be validated.
+
+        Returns:
+            dict: json structure of answer given
+        """
         answer_in_json = self._repair_json(answer_in_json)
         try:
             parsed_json = json.loads(answer_in_json)
@@ -312,9 +330,16 @@ class DialogueQuest(GameMaster):
             self.violated_request_counts[self.game.current_turn] += 1
 
     def _validate_text(self, response, from_):
-        print(f"VALIDATION... {response}")
+        """Validate text answer. Valid if answer not None and answer contains a closing punctuation mark as the last character.
+
+        Args:
+            response (str): answer to be validated
+            from_ (str): player name
+
+        Returns:
+            bool: True if answer can be parsed, False if not.
+        """
         if not response:
-            print(f"CASE0")
             action = {'type': 'metadata', 'content': f"Response {from_} empty."}
             self.log_event(from_='GM', to='GM', action=action)
             # increase the number of violated requests
@@ -322,23 +347,24 @@ class DialogueQuest(GameMaster):
             return False
         # Check whether last sentence of answer is incomplete, exception for stop string
         elif response.strip()[-1] not in [".", "?", "!"] and self.stop not in response:
-            print(f"CASE1")
             action = {'type': 'metadata', 'content': f"Response {from_} incomplete."}
             self.log_event(from_='GM', to='GM', action=action)
             # increase the number of violated requests
             self.violated_request_counts[self.game.current_turn] += 1
             return False
         else:
-            print(f"CASE2")
             action = {'type': 'metadata', 'content': f"Response {from_} successfully parsed."}
             self.log_event(from_='GM', to='GM', action=action)
             # increase the number of parsed requests
             self.parsed_request_counts[self.game.current_turn] += 1
             return True
 
-    # fuzz.partial_ratio("this is a test", "this is a test!")
-    # if fuzz.partial_ration(item_answer_give, answer_in_json) > 90:
     def _update_current_state(self, answer_in_json: list) -> None:
+        """Updates the internal game state. Check if id or name in structure. If so: If current_state is empty, add element. If current_state already contains items, add new info to those.
+
+        Args:
+            answer_in_json (list): updated game state.
+        """
         for item_answer_given in answer_in_json:
             if 'id' not in item_answer_given and 'name' not in item_answer_given:
                 continue
@@ -357,43 +383,42 @@ class DialogueQuest(GameMaster):
 
             found_match = False
 
-            # Step 3: If key exists in current_state, update the corresponding item
+            # If key exists in current_state, update the corresponding item
             for item in self.current_state:
                 # FIXME: Never overwrite with None values!
                 if item.get(key_to_check) == input_key:
                     for key, value in item_answer_given.items():
                         # Update the corresponding item in current_state
                         if value is not None:
-                            item[key] = value   
-                            found_match = True  # We found and updated the item
-                    print(f"CURRENTSTATE UPDATEEXIST: {self.current_state}")
+                            item[key] = value 
+                            found_match = True
                     break  # Stop processing after updating
 
             if not found_match:
                 self.current_state.append(item_answer_given)
-                print(f"APPENDED TO CURRENTSTATE: {self.current_state}")
 
     def _select_final_suggestion(self):
+        """Select one final suggestion by logged final_choice.
+
+        Returns:
+            dict: Final suggestion agreed upon.
+        """
         relevant_keys = ['id', 'name']
         for item in self.current_state:
             for key in relevant_keys:
                 if key in item and item[key] is not None:
                     if str(item[key]).lower() in str(self.final_choice).lower():
-                        print(f"MATCH: {item}")
                         return item
 
-    # @staticmethod
-    # def _repair_json(self, json_object):
-    #     jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
+    def _repair_json(self, json_object: str):
+        """Try to repair json if generated faulty.
 
-    #     repaired = jsonrepair(json_object)
-    #     print(f"Repaired json: {repaired}")
-    #     if json_object != repaired:
-    #         action = {'type': 'metadata', 'content': f"JSON repaired: {repaired}"}
-    #         self.log_event(from_='GM', to='GM', action=action)
-    #     return repaired
+        Args:
+            json_object (str): Answer in json structure given.
 
-    def _repair_json(self, json_object):
+        Returns:
+            dict: json object (if parsable), else string
+        """
         jsonrepair = pythonmonkey.require('jsonrepair').jsonrepair
 
         # Convert object to a JSON string if it's not already
@@ -407,13 +432,11 @@ class DialogueQuest(GameMaster):
         try:
             # Attempt to repair the JSON string
             repaired = jsonrepair(json_object)
-            print(f"Repaired json: {repaired}")
 
             # Log if repairs were made
             if json_object != repaired:
                 action = {'type': 'metadata', 'content': f"JSON repaired: {repaired}"}
                 self.log_event(from_='GM', to='GM', action=action)
-
             return repaired
 
         except Exception as e:
@@ -424,7 +447,6 @@ class DialogueQuest(GameMaster):
     def _log_eval_assets(self) -> None:
         """Log everything needed for the evaluation.
         """
-        # self.log_key('realised_slots', self.current_state)
         self.log_key('slots_given', self.slots_given)
         self.log_key('Final suggestion', self.final_suggestion)
         self.log_key('data', self.data)
@@ -435,7 +457,6 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
         self.log_key(ms.METRIC_ABORTED, self.aborted)
         self.log_key(ms.METRIC_SUCCESS, self.success)
-        # TODO: Check if working
         self.log_key(ms.METRIC_LOSE, (1 if not self.success and not self.aborted else 0))
         self.log_key('Conversational turns A', self.conversational_turns_a)
         self.log_key('Conversational turns B', self.conversational_turns_b)
@@ -510,14 +531,13 @@ class DialogueQuestScorer(GameScorer):
 
     # FIXME: Deal with empty slots (key given, but not filled)
     def _check_for_database_slots(self, final_suggestion: dict, given_slots: dict, data: list):
-        """_summary_
-
+        """Checks final suggestion with given slots and data for comparison.
         Args:
             final_suggestion (dict): Final object generated and suggested in dialogue
             data (list): Original database items for comparison
 
         Returns:
-            float: Accuracy of generated values
+            float, float, int: Accuracy with requested slots, accuracy with database item, pentaly for invented slots
         """
         penalty = 0
         acc_slots = 0
@@ -554,7 +574,7 @@ class DialogueQuestScorer(GameScorer):
                     # First, check in final_suggestion
                     if slot in final_suggestion and self._align_string(value) == self._align_string(final_suggestion[slot]):
                         acc_slots += 1
-                        checked_slots.add(slot)  # Mark as checked
+                        checked_slots.add(slot)
                     # If not in final_suggestion, check in selected_db_item
                     elif slot not in checked_slots and slot in selected_db_item and self._match_fuzzily(value, selected_db_item[slot]):
                         acc_slots += 1
@@ -563,34 +583,35 @@ class DialogueQuestScorer(GameScorer):
         return acc_slots, acc_data, penalty
 
     def _match_fuzzily(self, item_a, item_b):
-        """_summary_
+        """Checks if two items have at least 90% similarity. If items are of diffent types, break.
 
         Args:
-            item_a (_type_): _description_
-            item_b (_type_): _description_
+            item_a (_type_): First item to compare, could be string, list or dict
+            item_b (_type_): Second item to compare, could be string, list or dict
 
         Returns:
-            _type_: _description_
+            bool: True if match, else False
         """
         threshold = 90
         match = False
+        # Both items are strings
         if isinstance(item_a, str) and isinstance(item_b, str):
             if fuzz.partial_ratio(self._align_string(item_a), self._align_string(item_b)) >= threshold:
                 match = True
 
+        # Both items are lists
         elif isinstance(item_a, list) and isinstance(item_b, list):
             if len(item_a) == 0 or len(item_b) == 0:
                 return False
             matched_count = 0
             min_length = min(len(item_a), len(item_b))
-            # Compare each pair in the list
             for x, y in zip(item_a, item_b):
-                if fuzz.ratio(self._align_string(str(x)), self._align_string(str(y))) >= threshold:  # Convert list elements to strings for comparison
+                if fuzz.ratio(self._align_string(str(x)), self._align_string(str(y))) >= threshold:
                     matched_count += 1
             if matched_count / min_length >= (threshold / 100):
                 match = True
 
-        # Case 3: Both are dicts -> Fuzzy match on key-value pairs
+        # Both items are dicts: fuzzy match key/value pairs
         elif isinstance(item_a, dict) and isinstance(item_b, dict):
             if len(item_a) == 0 or len(item_b) == 0:
                 return False
@@ -611,7 +632,7 @@ class DialogueQuestScorer(GameScorer):
 
     @staticmethod
     def _align_string(some_string: str):
-        """Strips and modifies string for comparison
+        """Strips and modifies string for comparison.
 
         Args:
             some_string (str): Input string
@@ -642,10 +663,10 @@ class DialogueQuestScorer(GameScorer):
 
 
 class DialogueQuestBenchmark(GameBenchmark):
-    """_summary_
+    """Organizes the run of a particular collection of game instances.
 
     Args:
-        GameBenchmark (_type_): _description_
+        GameBenchmark (GameBenchmark): GameBenchmark
     """
     def __init__(self):
         super().__init__(GAME_NAME)
