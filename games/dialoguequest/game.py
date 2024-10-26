@@ -10,10 +10,10 @@ logger = get_logger(__name__)
 
 # Initialise player classes
 class Questioner(Player):
-    """_summary_
+    """Questioner who acts as the User.
 
     Args:
-        Player (Player): _description_
+        Player (Player): instance of the Player class
     """
     def __init__(self, model_name: str, player: str) -> None:
         # Programmatic player mode for testing
@@ -42,10 +42,10 @@ class Questioner(Player):
 
 
 class Answerer(Player):
-    """_summary_
+    """Answerer who acts as the Assistant.
 
     Args:
-        Player (_type_): _description_
+        Player (Player): instance of the Player class
     """
     def __init__(self, model_name: str, player: str) -> None:
         # Programmatic player mode for testing
@@ -68,10 +68,10 @@ class Answerer(Player):
         """
         if turn_idx < 1:
             utterance = "[{'id': '8475875', 'address': 'Hamilton Lodge]."
-            utterance = f"No problem. Here's a suggestion: TURN{turn_idx}"
         elif turn_idx == 1:
             # utterance = {'address': 'Hamilton Lodge'}
-            utterance = "[{'name': 'Igel's Inn', 'people': '200'}, {'ONE': 'ONE', 'TWO': 'TWO'}, {'id': '3456789', 'address': 'Nordbahnstraße 3'}, {'address': 'Hamilton Lodge', 'id': '8475875', 'name': 'test', 'additional_key': 'hello!]."
+            utterance = "[{'name': 'Igel's Inn', 'people': '200'}, {'ONE': 'ONE', 'TWO': 'TWO'}, {'id': '3456789', 'address': 'Nordbahnstraße 3'}, {'address': null, 'id': '8475875', 'name': 'test', 'additional_key': 'hello!]."
+            # utterance = "[{'name': 'Igel's Inn', 'people': '200'}, {'ONE': 'ONE', 'TWO': 'TWO'}, {'id': '3456789', 'address': 'Nordbahnstraße 3'}, {'address': 'Test Drive 4', 'id': '8475875', 'name': 'test', 'additional_key': 'hello!]."
         else:
             utterance = "Hi!"
         # return json_example
@@ -79,13 +79,14 @@ class Answerer(Player):
 
 
 class DialogueQuestGame:
+    """Instance of the DialogueQuest Game.
+    """
     def __init__(self,
                  model_0: Model,
                  model_1: Model,
                  max_turns: int
                  ):
         self.max_turns: int = max_turns
-        # self.questioner: Questioner = Questioner(model_0, "A")
         self.questioner: Questioner = model_0
         self.answerer: Answerer = model_1
         self.messages: List = []
@@ -127,7 +128,7 @@ class DialogueQuestGame:
             current_turn (int): Current turn of the game
 
         Returns:
-            str: _description_
+            _type_: prompt: Prompt, raw_answer: dict of answer, answer: answer string, from_: Player
         """
         assert player in ('a', 'b')
         if player == 'a':
@@ -145,7 +146,8 @@ class DialogueQuestGame:
         return prompt, raw_answer, answer, from_
 
     def _append_utterance(self, utterance: str, player: str, role: str) -> None:
-        """Add an utterance to the history of a player."""
+        """Add an utterance to the history of a player.
+        """
         assert player in ('a', 'b')
         if player == 'a':
             self.questioner.history.append({'role': role, 'content': utterance})
@@ -155,44 +157,37 @@ class DialogueQuestGame:
             # self.messages.append(utterance)
 
     def get_latest_relevant_utterance(self, player, role='user'):
-        # Grab the last content of the assistant for having it summed up in json structure
+        """Grabs the last content of a specified player.
+
+        Args:
+            player (str): Name of player
+            role (str, optional): Role of player, either user or assistant. Defaults to 'user'.
+
+        Returns:
+            str: Relevant message selected.
+        """
         assert player in ('a', 'b')
         if player == 'a':
             history = self.questioner.history
         else:
             history = self.answerer.history
         latest_relevant_message = None
-        print(f"ROLE {role}")
         for message in reversed(history):
             if message['role'] == role:
                 latest_relevant_message = message['content']
                 break
-        print(f"LAST REL MESS: {latest_relevant_message}")
         return latest_relevant_message
 
-    def summarise_in_json(self, merged_prompt, player):
-        self.answerer.history.append({'role': 'user', 'content': merged_prompt})
-
-        # get request from questioner
-        _, _, request, _ = self.get_utterance('b', self.current_turn)
-
-        # _, _, request = self.answerer(merged_prompt, self.current_turn)
-
-        # self.messages.append({'role': 'system', 'content': request})
-        # self.current_turn += 1
-        # from_ = "Player 1"
-        # add reply to its own memory
-        # Mock turn for ensuring alteration
-
-        self._append_utterance("Ok", 'b', 'user')
-        self._append_utterance(request, 'b', 'assistant')
-        return request
-        # answer_in_json = answer
-        # return answer_in_json
-
-    # FIXME: might have to diversify / split as answer might need to be added or not added to history
     def summarise_or_reprompt(self, prompt, player):
-        print(f"PLAYER in reprompt {player}")
+        """Appends utterance to history and requests a new answer.
+
+        Args:
+            prompt (str): Prompt text for summary or reprompt
+            player (str): Name of player
+
+        Returns:
+            _type_: prompt, raw_answer, answer, from_
+        """
         assert player in ('a', 'b')
 
         # Add reprompt text to player's history

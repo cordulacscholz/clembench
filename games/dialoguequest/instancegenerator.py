@@ -57,7 +57,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 sample_data = self._sample_random_json_objects(topic, N_DATABASE_ITEMS)
 
                 # Insert goal object at random index in list of sample data to ensure a solution can be found
-                # TODO: Integrate switch for 'level' selection (goal object included, goal object not necessarily included)
                 selected_data = deepcopy(sample_data)
                 random_index = random.randint(0, len(selected_data))
                 selected_data.insert(random_index, goal_object)
