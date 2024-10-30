@@ -1,7 +1,8 @@
-You will be playing a dialogue game consisting in several turns.
-You are a customer who wants to make a booking.
+You are playing a dialogue game that consists of several turns.
+You are playing with a partner.
+You are the user, a customer who wants to make a booking.
 
-You want to book $ARTICLE$ $TOPIC$. Someone else is helping you with that task and will suggest options to you.
+You want to book $ARTICLE$ $TOPIC$. The assistant is helping you with that task and will suggest options to you.
 
 You need $ARTICLE$ $TOPIC$ to be:
 $SLOTS_GIVEN$
