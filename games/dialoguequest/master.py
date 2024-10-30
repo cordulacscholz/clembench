@@ -91,8 +91,6 @@ class DialogueQuest(GameMaster):
 
         action = {'type': 'send message', 'content': self.initial_prompt_a}
         self.log_event(from_='GM', to='Player 1', action=action)
-        action = {'type': 'send message', 'content': self.initial_prompt_b}
-        self.log_event(from_='GM', to='Player 2', action=action)
 
     def play(self) -> None:
         """Play one episode of DialogueQuest
@@ -145,7 +143,12 @@ class DialogueQuest(GameMaster):
             self.abort = True
             return False
 
-        # add the reply to the transcript
+        # Add B's initial prompt to the transcript
+        if self.game.current_turn == 0:
+            action = {'type': 'send message', 'content': self.initial_prompt_b}
+            self.log_event(from_='GM', to='Player 2', action=action)
+
+        # add A's reply to the transcript
         action = {'type': 'send message', 'content': answer_a}
         self.log_event(from_='GM', to='Player 2', action=action)
 
@@ -581,16 +584,19 @@ class DialogueQuestScorer(GameScorer):
 
                 # Check accuracy of given_slots
                 checked_slots = set()  # To ensure no slot is counted twice
+                correct_slots = 0
 
                 for slot, value in given_slots.items():
                     # First, check in final_suggestion
                     if slot in final_suggestion and self._align_string(value) == self._align_string(final_suggestion[slot]):
-                        acc_slots += 1
+                        correct_slots += 1
                         checked_slots.add(slot)
                     # If not in final_suggestion, check in selected_db_item
                     elif slot not in checked_slots and slot in selected_db_item and self._match_fuzzily(value, selected_db_item[slot]):
-                        acc_slots += 1
+                        correct_slots += 1
                         checked_slots.add(slot)
+                total_slots = len(given_slots)
+                acc_slots = correct_slots / total_slots if total_slots > 0 else 0
 
         return acc_slots, acc_data, penalty
 
