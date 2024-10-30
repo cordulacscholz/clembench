@@ -128,11 +128,16 @@ class DialogueQuest(GameMaster):
         logger.info('Game turn: %d', self.game.current_turn)
         print(f"CURRENT TURN: {self.game.current_turn}")
 
+        # print(f"TURN: {self.game.current_turn}")
+        # print(f"HISTORY PLAYER A: {self.game.questioner.history}")
+        # print(f"HISTORY PLAYER B: {self.game.answerer.history}")
+
         valid_response_a = self._get_valid_response('a', self.game.current_turn)
 
         # Validate that the values of answer_a are filled
         if valid_response_a and any(valid_response_a):
             prompt, raw_answer, answer_a, from_ = valid_response_a
+            # print(f"VALID A: {valid_response_a}")
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
@@ -166,6 +171,7 @@ class DialogueQuest(GameMaster):
 
         if valid_response_b and any(valid_response_b):
             prompt, raw_answer, answer_b, from_ = valid_response_b
+            # print(f"VALID A: {valid_response_b}")
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
@@ -184,18 +190,22 @@ class DialogueQuest(GameMaster):
 
         # If fulfillment keyword had been uttered by Player A, stop here
         if self.fulfilled:
+            self.final_choice = self.final_choice + "\n" + answer_b
+            print(f"FULTILLED! {self.fulfilled}")
             return False
 
         last_assistant_utterance = self.game.get_latest_relevant_utterance('b', role='assistant')
+        last_user_utterance = self.game.get_latest_relevant_utterance('b', role='user')
 
         # merge summarisation prompt with last utterance to be summed up
-        merged_json_prompt = f"{self.summarise_in_json_prompt}\n{last_assistant_utterance}"
+        merged_json_prompt = f"{self.summarise_in_json_prompt}\n{last_user_utterance}\n\n{last_assistant_utterance}"
 
         valid_response_json = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
 
         # Validate json structure; if failure, abort
         if valid_response_json and any(valid_response_json):
             prompt, raw_answer, answer_a, from_ = valid_response_json
+            # print(f"VALID JSON: {valid_response_json}")
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
@@ -315,6 +325,7 @@ class DialogueQuest(GameMaster):
             dict: json structure of answer given
         """
         answer_in_json = self._repair_json(answer_in_json)
+        print(f"JSON ANSWER: {answer_in_json}")
         try:
             parsed_json = json.loads(answer_in_json)
             action = {'type': 'metadata', 'content': "json successfully parsed"}
@@ -521,6 +532,7 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_ABORTED, aborted)
         self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
         self.log_episode_score("Accuracy of data", accuracy_with_data)
+        self.log_episode_score("Penalty for invented slots", penalty)
         self.log_episode_score(ms.BENCH_SCORE, self._calculate_bench_score(accuracy_slots_given, accuracy_with_data, penalty) if not aborted else np.nan)
         self.log_episode_score("Conversational turns A", conversational_turns_a)
         self.log_episode_score("Conversational turns B", conversational_turns_b)
@@ -592,6 +604,8 @@ class DialogueQuestScorer(GameScorer):
         Returns:
             bool: True if match, else False
         """
+        val_to_compare = item_a
+        gold = item_b
         threshold = 90
         match = False
         # Both items are strings
@@ -658,8 +672,8 @@ class DialogueQuestScorer(GameScorer):
     # FIXME: Cap metric at 0
     @staticmethod
     def _calculate_bench_score(request_accuracy, database_accuracy, penalty):
-        return ((request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)) * 100
-        # max(0, (request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1))
+        # return ((request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)) * 100
+        return max(0, (request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)) * 100
 
 
 class DialogueQuestBenchmark(GameBenchmark):
