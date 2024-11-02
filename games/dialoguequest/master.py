@@ -13,6 +13,8 @@ import json
 import copy
 import pythonmonkey
 from thefuzz import fuzz
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
 import numpy as np
 from games.dialoguequest.constants import (
     GAME_NAME, LANG, MAX_TURNS, WORDS_PATH)
@@ -72,13 +74,17 @@ class DialogueQuest(GameMaster):
         self.char_count_b = [0] * (self.game.max_turns + 1)
         self.word_count_a = [0] * (self.game.max_turns + 1)
         self.word_count_b = [0] * (self.game.max_turns + 1)
+        self.avg_sentence_count_a = [0] * (self.game.max_turns + 1)
+        self.avg_sentence_count_b = [0] * (self.game.max_turns + 1)
 
         # initialise episode scores
         self.conversational_turns_a = 0
         self.conversational_turns_b = 0
 
         self.goal = game_instance["goal"]
-        self.slots_given = game_instance["slots_given"]
+        self.slot_constraints = game_instance["slots_given"]
+        self.slot_requests = game_instance["slots_to_fill"]
+        self.user_goal = self._create_user_goal(self.slot_constraints, self.slot_requests)
         self.data = game_instance["data"]
         self.current_state = []
         self.final_choice = None
@@ -161,8 +167,9 @@ class DialogueQuest(GameMaster):
         # Record character length of answer
         self.char_count_a[self.game.current_turn] = len(answer_a)
         self.word_count_a[self.game.current_turn] = len(answer_a.split())
+        self.avg_sentence_count_a[self.game.current_turn] = self._calculate_avg_sentence_length(answer_a)
 
-        # Check and break if Player A has uttered the fulfillment keyword
+        # Check and break if Player A has uttered the fulfilment keyword
         if str(self.stop).lower() in answer_a.lower():
             action = {'type': 'fulfilled', 'content': 'End game.'}
             self.log_event(from_='GM', to='GM', action=action)
@@ -190,8 +197,10 @@ class DialogueQuest(GameMaster):
 
         self.char_count_b[self.game.current_turn] = len(answer_b)
         self.word_count_b[self.game.current_turn] = len(answer_b.split())
+        self.avg_sentence_count_b[self.game.current_turn] = self._calculate_avg_sentence_length(answer_b)
 
-        # If fulfillment keyword had been uttered by Player A, stop here
+
+        # If fulfilment keyword had been uttered by Player A, stop here
         if self.fulfilled:
             self.final_choice = self.final_choice + "\n" + answer_b
             print(f"FULTILLED! {self.fulfilled}")
@@ -223,6 +232,16 @@ class DialogueQuest(GameMaster):
         self.game.current_turn += 1
 
         return True
+
+    @staticmethod
+    def _create_user_goal(constraints: dict, requests: list):
+        user_goal = {}
+        for key, value in constraints.items():
+            user_goal[key] = value
+
+        for request in requests:
+            user_goal[request] = "required"
+        return user_goal
 
     def _does_game_proceed(self):
         """Check if game proceeds.
@@ -424,6 +443,24 @@ class DialogueQuest(GameMaster):
                     if str(item[key]).lower() in str(self.final_choice).lower():
                         return item
 
+    @staticmethod
+    def _calculate_avg_sentence_length(text: str):
+        """Gets the average sentence length (including punctuation).
+
+        Args:
+            text (str): Input string
+
+        Returns:
+            float: Average length of sentences in input text
+        """
+        sentences = sent_tokenize(text)
+        sentence_lengths = [len(word_tokenize(sentence)) for sentence in sentences]
+        if sentence_lengths:
+            avg_length = sum(sentence_lengths) / len(sentence_lengths)
+        else:
+            avg_length = 0
+        return avg_length
+
     def _repair_json(self, json_object: str):
         """Try to repair json if generated faulty.
 
@@ -461,7 +498,8 @@ class DialogueQuest(GameMaster):
     def _log_eval_assets(self) -> None:
         """Log everything needed for the evaluation.
         """
-        self.log_key('slots_given', self.slots_given)
+        self.log_key('constraints', self.slot_constraints)
+        self.log_key('User goal', self.user_goal)
         self.log_key('Final suggestion', self.final_suggestion)
         self.log_key('data', self.data)
         self.log_key('n_turns', self.game.current_turn+1)
@@ -478,6 +516,8 @@ class DialogueQuest(GameMaster):
         self.log_key('Word count A', self.word_count_a)
         self.log_key('Char count B', self.char_count_b)
         self.log_key('Word count B', self.word_count_b)
+        self.log_key('Average sentence count A', self.avg_sentence_count_a)
+        self.log_key('Average sentence count B', self.avg_sentence_count_b)
 
 
 class DialogueQuestScorer(GameScorer):
@@ -495,7 +535,7 @@ class DialogueQuestScorer(GameScorer):
         n_turns = episode_interactions['n_turns']
 
         final_suggestion = episode_interactions['Final suggestion']
-        slots_given = episode_interactions['slots_given']
+        user_goal = episode_interactions['User goal']
         data = episode_interactions['data']
 
         char_count_a = episode_interactions['Char count A']
@@ -504,6 +544,8 @@ class DialogueQuestScorer(GameScorer):
         word_count_b = episode_interactions['Word count B']
         conversational_turns_a = episode_interactions['Conversational turns A']
         conversational_turns_b = episode_interactions['Conversational turns B']
+        avg_sentence_count_a = episode_interactions['Average sentence count A']
+        avg_sentence_count_b = episode_interactions['Average sentence count B']
 
         reqs = episode_interactions[ms.METRIC_REQUEST_COUNT]
         p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED]
@@ -520,10 +562,12 @@ class DialogueQuestScorer(GameScorer):
             self.log_turn_score(turn, "Character Count B", char_count_b[turn])
             self.log_turn_score(turn, "Word Count A", word_count_a[turn])
             self.log_turn_score(turn, "Word Count B", word_count_b[turn])
+            self.log_turn_score(turn, "Average sentence count A", avg_sentence_count_a[turn])
+            self.log_turn_score(turn, "Average sentence count B", avg_sentence_count_b[turn])
 
         # Episode level scores
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
-        accuracy_slots_given, accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, slots_given, data)
+        tsr, accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, user_goal, data)
 
         self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
@@ -533,72 +577,106 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_SUCCESS, success)
         self.log_episode_score(ms.METRIC_LOSE, lose)
         self.log_episode_score(ms.METRIC_ABORTED, aborted)
-        self.log_episode_score("Accuracy of slots given", accuracy_slots_given)
+        self.log_episode_score("Task Success Rate", tsr)
         self.log_episode_score("Accuracy of data", accuracy_with_data)
         self.log_episode_score("Penalty for invented slots", penalty)
-        self.log_episode_score(ms.BENCH_SCORE, self._calculate_bench_score(accuracy_slots_given, accuracy_with_data, penalty) if not aborted else np.nan)
+        self.log_episode_score(ms.BENCH_SCORE, self._calculate_bench_score(tsr, accuracy_with_data, penalty) if not aborted else np.nan)
         self.log_episode_score("Conversational turns A", conversational_turns_a)
         self.log_episode_score("Conversational turns B", conversational_turns_b)
         self.log_episode_score("Average Char Count A", self.calculate_average_count(char_count_a, conversational_turns_a))
         self.log_episode_score("Average Char Count B", self.calculate_average_count(char_count_b, conversational_turns_b))
         self.log_episode_score("Average Word Count A", self.calculate_average_count(word_count_a, conversational_turns_a))
         self.log_episode_score("Average Word Count B", self.calculate_average_count(word_count_b, conversational_turns_b))
+        self.log_episode_score("Average Sentence Count A", self.calculate_average_count(avg_sentence_count_a, conversational_turns_a))
+        self.log_episode_score("Average Sentence Count B", self.calculate_average_count(avg_sentence_count_b, conversational_turns_b))
 
-    # FIXME: Deal with empty slots (key given, but not filled)
-    def _check_for_database_slots(self, final_suggestion: dict, given_slots: dict, data: list):
-        """Checks final suggestion with given slots and data for comparison.
+    def _calculate_task_success_rate(self, given_slots: dict, final_suggestion: dict, db_item: dict):
+        """Calculates an accuracy of correctly generated goals. For constraints, checks if key/value pair is correct in final_suggestion and, as a fallback, in database item (since the slot might just have been implied). For requests, checks if there is a k/v pair in final_suggestion.
+
         Args:
-            final_suggestion (dict): Final object generated and suggested in dialogue
-            data (list): Original database items for comparison
+            given_slots (dict): Goals which should have been reached
+            final_suggestion (dict): Solution given
+            db_item (dict): Database item corresponding to solution given
 
         Returns:
-            float, float, int: Accuracy with requested slots, accuracy with database item, pentaly for invented slots
+            float: Task Success Rate
+        """
+        total_goals = len(given_slots)
+        successful_matches = 0
+
+        for slot, expected_value in given_slots.items():
+            # If the value is 'required', we only check for the presence of the slot in final_suggestion or db_item
+            if expected_value == 'required':
+                if slot in final_suggestion:
+                    successful_matches += 1
+            # Otherwise, compare the values directly using fuzzy matching
+            else:
+                # Check in final suggestion first
+                if slot in final_suggestion and self._match_fuzzily(final_suggestion[slot], expected_value):
+                    successful_matches += 1
+                # Check in database item as a fallback
+                elif db_item and slot in db_item and self._match_fuzzily(db_item[slot], expected_value):
+                    successful_matches += 1
+        return successful_matches / total_goals if total_goals > 0 else 0
+
+    def _find_database_entry(self, final_suggestion: dict, data: list):
+        """Finds the corresponding entry in the database based on id or name.
+
+        Args:
+            final_suggestion (dict): Solution given
+            data (list): List of database items
+
+        Returns:
+            dict or None: Corresponding database item if found, else None
+        """
+        key_to_check = 'id' if 'id' in final_suggestion else 'name'
+        input_key = final_suggestion[key_to_check]
+
+        for item in data:
+            if self._match_fuzzily(item.get(key_to_check), input_key):
+                return item
+        return None
+
+    def _check_for_database_slots(self, final_suggestion: dict, given_slots: dict, data: list):
+        """Check final suggestion against given slots and data for comparison.
+
+        Args:
+            final_suggestion (dict): Final object generated and suggested in dialogue.
+            given_slots (dict): User goals or required slots.
+            data (list): Original database items for comparison.
+
+        Returns:
+            float, float, int: Task success rate, accuracy with database, and penalty for invented slots.
         """
         penalty = 0
-        acc_slots = 0
         acc_data = 0
-        if final_suggestion:
-            selected_db_item = None
-            key_to_check = 'id' if 'id' in final_suggestion else 'name'
-            input_key = final_suggestion[key_to_check]
 
-            # Search for corresponding item in data
-            for item in data:
-                if item[key_to_check] == input_key:
-                    selected_db_item = item
-                    break
-            if not selected_db_item:
-                acc_data = 0
-                penalty = 0
-            else:
-                total_pairs = len(final_suggestion)
-                correct_vals = 0
-                # Check data_accuracy for final_suggestion against selected_db_item
-                for k, v in final_suggestion.items():
-                    if k in selected_db_item:
-                        if self._match_fuzzily(v, selected_db_item[k]):
-                            correct_vals += 1
-                    else:
-                        penalty += 1
-                acc_data = correct_vals / total_pairs if total_pairs > 0 else 0
+        if not final_suggestion:
+            return 0.0, 0.0, 0
 
-                # Check accuracy of given_slots
-                checked_slots = set()  # To ensure no slot is counted twice
-                correct_slots = 0
+        # Retrieve database entry using id or name as fallback
+        db_item = self._find_database_entry(final_suggestion, data)
 
-                for slot, value in given_slots.items():
-                    # First, check in final_suggestion
-                    if slot in final_suggestion and self._align_string(value) == self._align_string(final_suggestion[slot]):
-                        correct_slots += 1
-                        checked_slots.add(slot)
-                    # If not in final_suggestion, check in selected_db_item
-                    elif slot not in checked_slots and slot in selected_db_item and self._match_fuzzily(value, selected_db_item[slot]):
-                        correct_slots += 1
-                        checked_slots.add(slot)
-                total_slots = len(given_slots)
-                acc_slots = correct_slots / total_slots if total_slots > 0 else 0
+        # Calculate Task Success Rate using given slots and final suggestion
+        tsr = self._calculate_task_success_rate(given_slots, final_suggestion, db_item)
 
-        return acc_slots, acc_data, penalty
+        # Calculate Database Accuracy and Penalty for Invented Slots
+        if db_item:
+            total_pairs = len(final_suggestion)
+            correct_vals = 0
+
+            for k, v in final_suggestion.items():
+                if k in db_item:
+                    # Use fuzzy match if available or direct equality
+                    if self._match_fuzzily(v, db_item[k]):
+                        correct_vals += 1
+                else:
+                    # Slot is invented, add to penalty
+                    penalty += 1
+
+            acc_data = correct_vals / total_pairs if total_pairs > 0 else 0
+
+        return tsr, acc_data, penalty
 
     def _match_fuzzily(self, item_a, item_b):
         """Checks if two items have at least 90% similarity. If items are of diffent types, break.
@@ -610,8 +688,6 @@ class DialogueQuestScorer(GameScorer):
         Returns:
             bool: True if match, else False
         """
-        val_to_compare = item_a
-        gold = item_b
         threshold = 90
         match = False
         # Both items are strings
@@ -675,11 +751,9 @@ class DialogueQuestScorer(GameScorer):
         """
         return round((sum(char_count) / total), 2) if total != 0 else 0
 
-    # FIXME: Cap metric at 0
     @staticmethod
-    def _calculate_bench_score(request_accuracy, database_accuracy, penalty):
-        # return ((request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)) * 100
-        return max(0, (request_accuracy * 0.6) + (database_accuracy * 0.4) - (penalty * 0.1)) * 100
+    def _calculate_bench_score(tsr, database_accuracy, penalty):
+        return max(0, (tsr * 0.7) + (database_accuracy * 0.3) - (penalty * 0.1)) * 100
 
 
 class DialogueQuestBenchmark(GameBenchmark):
