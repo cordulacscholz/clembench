@@ -4,7 +4,6 @@
 import os
 import random
 import json
-import string
 import math
 from copy import deepcopy
 
@@ -29,7 +28,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         words = self.load_json(WORDS_PATH.format(LANG))
         self.stop = words['STOP']
 
-    # Variations on topic, variations with same topic...
     def on_generate(self):
         """Generates instances of DialogueQuest
 
@@ -37,7 +35,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             dict: Instances file for DialogueQuest
         """
         print("Generating instance...")
-        # TODO: Add language specific structure
         prompt_a = self.load_template('resources/initial_prompts/prompt_a')
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
@@ -49,17 +46,14 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             for game_id in range(N_INSTANCES):
                 topic = self._select_topic()
                 article = self._select_article(topic)
-                goal_object = self._sample_random_json_objects(topic, 1)
                 example_object = self._sample_random_json_objects(topic, 1)
-                print(example_object)
 
                 # Select restricted number of database items available to the Answerer (to avoid exceeding the model's token limit)
                 sample_data = self._sample_random_json_objects(topic, N_DATABASE_ITEMS)
 
-                # Insert goal object at random index in list of sample data to ensure a solution can be found
+                # Select goal object
+                goal_object = random.choice(sample_data)
                 selected_data = deepcopy(sample_data)
-                random_index = random.randint(0, len(selected_data))
-                selected_data.insert(random_index, goal_object)
 
                 # Ensure that goal and example object are not the same
                 while example_object == goal_object:
@@ -98,7 +92,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             article (str): Article for topic (EN, DE specific)
             slots_given (_type_): _description_
             slots_to_fill (_type_): _description_
-            stop (str): Signal for indicating fulfillment
+            stop (str): Signal for indicating fulfilment
             example_object (dict): _description_
 
         Returns:
@@ -158,9 +152,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             article = ""
         return article
 
-    # TODO: Work out best way of goal selection (number depending on topic)
-    # Deal with "ref" keys
-    # Refine key selection
     @staticmethod
     def _select_slots(goal_object: dict, categorical_slots: list, non_categorical_slots: list):
         """Selects slots which are given (categorical slots) and slots which are to be filled (non-categorical slots) from goal object
@@ -173,8 +164,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         Returns:
             dict, dict: Slots given, Slots to fill
         """
-        # TODO: See what could be a good way to choose/modify this
-
         # Remove key-values pairs with val=='no', as this does not work for a goal ("need hotel with no internet")
         filtered_goal_object = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
 
