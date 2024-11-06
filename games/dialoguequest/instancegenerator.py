@@ -129,7 +129,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         text = prompt.replace('$EXAMPLE$', str(example_object))
         return text
 
-    # TODO: Adjust for AR, RU, ZH (suffixes)
+    # TODO: Adjust for AR, RU, ZH
     def _select_article(self, topic):
         """Adjustment for article for language specific prompt depending on noun(EN, DE).
 
@@ -152,8 +152,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             article = ""
         return article
 
-    @staticmethod
-    def _select_slots(goal_object: dict, categorical_slots: list, non_categorical_slots: list):
+    def _select_slots(self, goal_object: dict, categorical_slots: list, non_categorical_slots: list):
         """Selects slots which are given (categorical slots) and slots which are to be filled (non-categorical slots) from goal object
 
         Args:
@@ -164,15 +163,35 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         Returns:
             dict, dict: Slots given, Slots to fill
         """
+        # Choose constrains (k/v pairs)
+
+        # Get all keys which are categorical (~informable)
         # Remove key-values pairs with val=='no', as this does not work for a goal ("need hotel with no internet")
-        filtered_goal_object = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
+        requestable_slots_goal = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
 
-        # Filter number_of_slots by difficulty or some similar category?
-        number_of_slots = math.floor(len(filtered_goal_object)/2)
-        random_keys_given = random.sample(list(filtered_goal_object.keys()), number_of_slots)
-        slots_given = {key: filtered_goal_object[key] for key in random_keys_given}
+        print(f"GOAL: {requestable_slots_goal}")
 
-        slots_to_fill = random.sample(non_categorical_slots, number_of_slots)
+        # Randomly choose slots the constraints should be taken from
+        # MultiWOZ constraint average: 2-3
+        n_slots_to_choose = self._choose_number(len(requestable_slots_goal), preferred_range=(2, 3))
+        print(n_slots_to_choose)
+
+        # Randomly select slots as constraints + add their values
+        random_keys_given = random.sample(list(requestable_slots_goal.keys()), n_slots_to_choose)
+        print(f"RANDOMGIVEN: {random_keys_given}")
+        slots_given = {key: requestable_slots_goal[key] for key in random_keys_given}
+        print(f"GIVEN: {slots_given}")
+
+        # Get all keys which are non-categorical (~requestable)
+        # MultiWOZ constraint average: 3-4
+        available_slots_to_request = [slot for slot in non_categorical_slots if slot in goal_object]
+        print(f"REQUEST: {available_slots_to_request}")
+
+        n_slots_to_request = self._choose_number(len(available_slots_to_request), preferred_range=(2, 3))
+        print(n_slots_to_request)
+
+        slots_to_fill = random.sample(available_slots_to_request, n_slots_to_request)
+        print(f"TOFILL: {slots_to_fill}")
         return slots_given, slots_to_fill
 
     @staticmethod
@@ -204,13 +223,32 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         Returns:
             dict: Items selected
         """
+        data = self._load_database_file(topic)
         if n == 1:
-            data = self._load_database_file(topic)
             selected = random.choice(data)
         else:
-            data = self._load_database_file(topic)
             selected = random.sample(data, n)
         return selected
+
+    @staticmethod
+    def _choose_number(list_length, preferred_range=(2, 3)):
+        """Chooses a number based on the list length and preferred range.
+
+        Args:
+            list_length: The length of the list.
+            preferred_range: A tuple of the preferred minimum and maximum numbers.
+
+        Returns:
+            The chosen number.
+        """
+
+        min_preferred, max_preferred = preferred_range
+        if list_length >= max_preferred:
+            return random.choice(range(min_preferred, max_preferred + 1))
+        elif list_length >= min_preferred:
+            return list_length
+        else:
+            return 1
 
     @staticmethod
     def _get_cat_and_non_cat_keys(topic: str):
