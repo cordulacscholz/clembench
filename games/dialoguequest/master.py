@@ -379,7 +379,7 @@ class DialogueQuest(GameMaster):
             self.violated_request_counts[self.game.current_turn] += 1
             return False
         # Check whether last sentence of answer is incomplete, exception for stop string
-        elif response.strip()[-1] not in [".", "?", "!"] and self.stop not in response:
+        elif response.strip()[-1] not in [".", "?", "!", ")"] and self.stop not in response:
             action = {'type': 'metadata', 'content': f"Response {from_} incomplete."}
             self.log_event(from_='GM', to='GM', action=action)
             # increase the number of violated requests
@@ -418,12 +418,11 @@ class DialogueQuest(GameMaster):
 
             # If key exists in current_state, update the corresponding item
             for item in self.current_state:
-                # FIXME: Never overwrite with None values!
-                if item.get(key_to_check) == input_key:
+                if item.get(key_to_check).lower() == input_key.lower():
                     for key, value in item_answer_given.items():
                         # Update the corresponding item in current_state
                         if value is not None:
-                            item[key] = value 
+                            item[key] = value
                             found_match = True
                     break  # Stop processing after updating
 
