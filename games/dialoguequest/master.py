@@ -132,9 +132,6 @@ class DialogueQuest(GameMaster):
         logger.info('Game turn: %d', self.game.current_turn)
         print(f"CURRENT TURN: {self.game.current_turn}")
 
-        # print(f"TURN: {self.game.current_turn}")
-        # print(f"HISTORY PLAYER A: {self.game.questioner.history}")
-        # print(f"HISTORY PLAYER B: {self.game.answerer.history}")
 
         valid_response_a = self._get_valid_response('a', self.game.current_turn)
 
@@ -154,10 +151,6 @@ class DialogueQuest(GameMaster):
             action = {'type': 'send message', 'content': self.initial_prompt_b}
             self.log_event(from_='GM', to='Player 2', action=action)
 
-        # add A's reply to the transcript
-        action = {'type': 'send message', 'content': answer_a}
-        self.log_event(from_='GM', to='Player 2', action=action)
-
         # add A's reply to B's history
         self.game._append_utterance(answer_a, 'b', 'user')
 
@@ -171,11 +164,15 @@ class DialogueQuest(GameMaster):
 
         # Check and break if Player A has uttered the fulfilment keyword
         if str(self.stop).lower() in answer_a.lower():
-            action = {'type': 'fulfilled', 'content': 'End game.'}
+            action = {'type': 'fulfilled', 'content': 'Ending game...'}
             self.log_event(from_='GM', to='GM', action=action)
             self.fulfilled = True
             self.final_choice = str(answer_a.lower())
-            # return False
+            return False
+
+        # add A's reply to the transcript
+        action = {'type': 'send message', 'content': answer_a}
+        self.log_event(from_='GM', to='Player 2', action=action)
 
         valid_response_b = self._get_valid_response('b', self.game.current_turn)
 
@@ -198,13 +195,6 @@ class DialogueQuest(GameMaster):
         self.char_count_b[self.game.current_turn] = len(answer_b)
         self.word_count_b[self.game.current_turn] = len(answer_b.split())
         self.avg_sentence_count_b[self.game.current_turn] = self._calculate_avg_sentence_length(answer_b)
-
-
-        # If fulfilment keyword had been uttered by Player A, stop here
-        if self.fulfilled:
-            self.final_choice = self.final_choice + "\n" + answer_b
-            print(f"FULTILLED! {self.fulfilled}")
-            return False
 
         last_assistant_utterance = self.game.get_latest_relevant_utterance('b', role='assistant')
         last_user_utterance = self.game.get_latest_relevant_utterance('b', role='user')
@@ -418,13 +408,14 @@ class DialogueQuest(GameMaster):
 
             # If key exists in current_state, update the corresponding item
             for item in self.current_state:
-                if item.get(key_to_check).lower() == input_key.lower():
-                    for key, value in item_answer_given.items():
-                        # Update the corresponding item in current_state
-                        if value is not None:
-                            item[key] = value
-                            found_match = True
-                    break  # Stop processing after updating
+                if item.get(key_to_check) is not None:
+                    if item.get(key_to_check).lower() == input_key.lower():
+                        for key, value in item_answer_given.items():
+                            # Update the corresponding item in current_state
+                            if value is not None:
+                                item[key] = value
+                                found_match = True
+                        break  # Stop processing after updating
 
             if not found_match:
                 self.current_state.append(item_answer_given)
