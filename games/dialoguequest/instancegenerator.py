@@ -40,8 +40,15 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
         reprompt = self.load_template('resources/initial_prompts/reprompt')
 
-        for n in range(0, N_EXPERIMENTS):
-            experiment = self.add_experiment(n)
+        reprompt_options = ["reprompt", "no_reprompt"]
+
+        for reprompt_option in reprompt_options:
+        # for topic in TOPICS:
+        # for n in range(0, N_EXPERIMENTS):
+            # experiment = self.add_experiment(n)
+            # experiment = self.add_experiment(topic)
+            self.reprompt_option = True if reprompt_option == "reprompt" else False
+            experiment = self.add_experiment(reprompt_option)
 
             for game_id in range(N_INSTANCES):
                 topic = self._select_topic()
@@ -74,6 +81,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 instance['slots_to_fill'] = slots_to_fill
                 instance['goal'] = goal_object
                 instance['data'] = selected_data
+                instance['reprompt_option'] = self.reprompt_option
 
     @staticmethod
     def _select_topic():
