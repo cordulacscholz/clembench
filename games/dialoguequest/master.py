@@ -16,6 +16,7 @@ from thefuzz import fuzz
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 import numpy as np
+import re
 from games.dialoguequest.constants import (
     GAME_NAME, LANG, MAX_TURNS, WORDS_PATH)
 
@@ -698,6 +699,10 @@ class DialogueQuestScorer(GameScorer):
             bool: True if match, else False
         """
         threshold = 90
+
+        item_a = re.sub(r"\s+", "", item_a)
+        item_b = re.sub(r"\s+", "", item_b)
+
         match = False
         # Both items are strings
         if isinstance(item_a, str) and isinstance(item_b, str):
@@ -746,6 +751,10 @@ class DialogueQuestScorer(GameScorer):
             str: Modified string
         """
         return some_string.strip().lower()
+
+    @staticmethod
+    def _remove_whitespace(some_string):
+        return re.sub(r"\s+", "", some_string)
 
     @staticmethod
     def calculate_average_count(char_count, total):
