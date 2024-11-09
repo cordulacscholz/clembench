@@ -34,7 +34,8 @@ class DialogueQuest(GameMaster):
     def __init__(self, experiment: Dict, player_models: List[Model]):
         super().__init__(GAME_NAME, experiment, player_models)
         self.max_turns: int = MAX_TURNS
-        self.max_reprompts = 3
+        self.reprompt = False
+        self.max_reprompts = 3 if self.reprompt else 0
 
         # Load language specific words
         words = self.load_json(WORDS_PATH.format(LANG))
@@ -45,6 +46,8 @@ class DialogueQuest(GameMaster):
         self.success: bool = False
         self.complete_turns: int = 0
         self.fulfilled = False
+        self.text_fail = False
+        self.json_fail = False
 
     def setup(self, **game_instance):
         logger.info("setup")
@@ -132,7 +135,6 @@ class DialogueQuest(GameMaster):
         logger.info('Game turn: %d', self.game.current_turn)
         print(f"CURRENT TURN: {self.game.current_turn}")
 
-
         valid_response_a = self._get_valid_response('a', self.game.current_turn)
 
         # Validate that the values of answer_a are filled
@@ -143,7 +145,8 @@ class DialogueQuest(GameMaster):
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
             self.log_event(from_='GM', to='GM', action=action)
-            self.abort = True
+            self.text_fail = True
+            self.aborted = True
             return False
 
         # Add B's initial prompt to the transcript
@@ -183,6 +186,7 @@ class DialogueQuest(GameMaster):
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
             self.log_event(from_='GM', to='GM', action=action)
+            self.text_fail = True
             self.aborted = True
             return False
 
@@ -212,6 +216,7 @@ class DialogueQuest(GameMaster):
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
             self.log_event(from_='GM', to='GM', action=action)
+            self.json_fail = True
             self.abort = True
             return False
 
@@ -497,6 +502,8 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_REQUEST_COUNT_PARSED, self.parsed_request_counts)
         self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
         self.log_key(ms.METRIC_ABORTED, self.aborted)
+        self.log_key('Text Fail', self.text_fail)
+        self.log_key('JSON Fail', self.json_fail)
         # self.log_key(ms.METRIC_SUCCESS, self.success)
         # self.log_key(ms.METRIC_LOSE, (1 if not self.success and not self.aborted else 0))
         self.log_key('Conversational turns A', self.conversational_turns_a)
@@ -559,6 +566,9 @@ class DialogueQuestScorer(GameScorer):
         tsr, accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, user_goal, data)
         success = 1 if tsr >= 0.9 else 0
         lose = 1 if not success and not aborted else 0
+        text_fail = int(episode_interactions['Text Fail'])
+        json_fail = int(episode_interactions['JSON Fail'])
+        # TODO: Add fail cases!
 
         self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
@@ -568,6 +578,8 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score(ms.METRIC_SUCCESS, success)
         self.log_episode_score(ms.METRIC_LOSE, lose)
         self.log_episode_score(ms.METRIC_ABORTED, aborted)
+        self.log_episode_score("Text Fail", text_fail)
+        self.log_episode_score("JSON Fail", json_fail)
         self.log_episode_score("Task Success Rate", tsr)
         self.log_episode_score("Accuracy of data", accuracy_with_data)
         self.log_episode_score("Penalty for invented slots", penalty)
