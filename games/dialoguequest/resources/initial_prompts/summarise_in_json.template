@@ -1,7 +1,7 @@
-Please create a JSON object using only the text provided below in "TEXT". Use the text exactly as it is written without adding any background information.
+Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.
 
 Data Extraction Rules:
-- Extract only from "TEXT_TO_SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.
+- Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.
 - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.
 - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.
 - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.
@@ -9,8 +9,9 @@ Data Extraction Rules:
 Response Structure:
 - Start directly with the JSON code, adhering exactly to the format below.
 - Use double quotes for all JSON strings. Do not add comments or any additional explanation.
+- Do not use markup (```json), start directly with the json code ([{"name": ...}])
 
 EXAMPLE structure:
 [$EXAMPLE$, $EXAMPLE$]
 
-TEXT_TO_SUMMARISE:
+TEXT TO SUMMARISE:
