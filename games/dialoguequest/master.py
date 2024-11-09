@@ -270,7 +270,6 @@ class DialogueQuest(GameMaster):
                     merged_prompt = f"{self.reprompt}\n{latest_utterance}"
                 else:
                     merged_prompt = latest_utterance
-                # print(f"MERGED PROMPT {merged_prompt}")
                 prompt, raw_answer, answer, from_ = self.game.summarise_or_reprompt(merged_prompt, player)
                 action = {'type': 'send message', 'content': merged_prompt}
                 self.log_event(from_='GM', to=from_, action=action)
@@ -498,8 +497,8 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_REQUEST_COUNT_PARSED, self.parsed_request_counts)
         self.log_key(ms.METRIC_REQUEST_COUNT_VIOLATED, self.violated_request_counts)
         self.log_key(ms.METRIC_ABORTED, self.aborted)
-        self.log_key(ms.METRIC_SUCCESS, self.success)
-        self.log_key(ms.METRIC_LOSE, (1 if not self.success and not self.aborted else 0))
+        # self.log_key(ms.METRIC_SUCCESS, self.success)
+        # self.log_key(ms.METRIC_LOSE, (1 if not self.success and not self.aborted else 0))
         self.log_key('Conversational turns A', self.conversational_turns_a)
         self.log_key('Conversational turns B', self.conversational_turns_b)
         self.log_key('Char count A', self.char_count_a)
@@ -541,8 +540,8 @@ class DialogueQuestScorer(GameScorer):
         p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED]
         v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED]
 
-        success = int(episode_interactions[ms.METRIC_SUCCESS])
-        lose = int(episode_interactions[ms.METRIC_LOSE])
+        # success = int(episode_interactions[ms.METRIC_SUCCESS])
+        # lose = int(episode_interactions[ms.METRIC_LOSE])
 
         for turn in range(0, played_turns):
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
@@ -558,6 +557,8 @@ class DialogueQuestScorer(GameScorer):
         # Episode level scores
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
         tsr, accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, user_goal, data)
+        success = 1 if tsr >= 0.9 else 0
+        lose = 1 if not success and not aborted else 0
 
         self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
