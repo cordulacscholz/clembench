@@ -34,8 +34,8 @@ class DialogueQuest(GameMaster):
     def __init__(self, experiment: Dict, player_models: List[Model]):
         super().__init__(GAME_NAME, experiment, player_models)
         self.max_turns: int = MAX_TURNS
-        self.reprompt = False
-        self.max_reprompts = 3 if self.reprompt else 0
+        # self.reprompt = False
+        # self.max_reprompts = 3 if self.reprompt else 0
 
         # Load language specific words
         words = self.load_json(WORDS_PATH.format(LANG))
@@ -92,6 +92,8 @@ class DialogueQuest(GameMaster):
         self.current_state = []
         self.final_choice = None
         self.final_suggestion = None
+        self.reprompt_option = game_instance["reprompt_option"]
+        self.max_reprompts = 3 if self.reprompt_option else 0
 
         self.log_next_turn()
 
@@ -636,8 +638,12 @@ class DialogueQuestScorer(GameScorer):
         input_key = final_suggestion[key_to_check]
 
         for item in data:
-            if self._match_fuzzily(item.get(key_to_check), input_key):
-                return item
+            if key_to_check == 'id':
+                if item.get(key_to_check) == input_key:
+                    return item
+            if key_to_check == 'name':
+                if self._match_fuzzily(item.get(key_to_check), input_key):
+                    return item
         return None
 
     def _check_for_database_slots(self, final_suggestion: dict, given_slots: dict, data: list):
@@ -655,7 +661,7 @@ class DialogueQuestScorer(GameScorer):
         acc_data = 0
 
         if not final_suggestion:
-            return 0.0, 0.0, 0
+            return 0, 0, 0
 
         # Retrieve database entry using id or name as fallback
         db_item = self._find_database_entry(final_suggestion, data)
