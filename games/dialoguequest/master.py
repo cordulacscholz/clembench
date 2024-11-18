@@ -44,7 +44,6 @@ class DialogueQuest(GameMaster):
 
         # initialise attributes that will be used for the evaluation scores
         self.aborted: bool = False
-        self.success: bool = False
         self.complete_turns: int = 0
         self.fulfilled = False
         self.text_fail = False
@@ -74,6 +73,7 @@ class DialogueQuest(GameMaster):
         self.request_counts = [0] * (self.game.max_turns + 1)
         self.parsed_request_counts = [0] * (self.game.max_turns + 1)
         self.violated_request_counts = [0] * (self.game.max_turns + 1)
+        self.summarisation_penalty = [0] * (self.game.max_turns + 1)
         self.char_count_a = [0] * (self.game.max_turns + 1)
         self.char_count_b = [0] * (self.game.max_turns + 1)
         self.word_count_a = [0] * (self.game.max_turns + 1)
@@ -119,8 +119,6 @@ class DialogueQuest(GameMaster):
             action = {'type': 'metadata', 'content': f'final choice: {self.final_choice}'}
             self.log_event(from_='GM', to='GM', action=action)
             self.final_suggestion = self._select_final_suggestion()
-            if self.final_suggestion:
-                self.success = True
             action = {'type': 'metadata', 'content': f"Log final suggestion:{self.final_suggestion}"}
             self.log_event(from_='GM', to='GM', action=action)
 
@@ -206,10 +204,12 @@ class DialogueQuest(GameMaster):
         last_assistant_utterance = self.game.get_latest_relevant_utterance('b', role='assistant')
         last_user_utterance = self.game.get_latest_relevant_utterance('b', role='user')
 
-        # merge summarisation prompt with last utterance to be summed up
-        merged_json_prompt = f"{self.summarise_in_json_prompt}\n{last_user_utterance}\n\n{last_assistant_utterance}"
+        last_turns_to_summarise = f"{last_user_utterance}\n\n{last_assistant_utterance}"
 
-        valid_response_json = self._get_valid_json_response(merged_json_prompt, 'b', self.game.current_turn)
+        # merge summarisation prompt with last utterance to be summed up
+        merged_json_prompt = f"{self.summarise_in_json_prompt}\n{last_turns_to_summarise}"
+
+        valid_response_json = self._get_valid_json_response(merged_json_prompt, last_turns_to_summarise, 'b', self.game.current_turn)
 
         # Validate json structure; if failure, abort
         if valid_response_json and any(valid_response_json):
@@ -297,7 +297,7 @@ class DialogueQuest(GameMaster):
             attempts += 1
         return None, None, None, None
 
-    def _get_valid_json_response(self, merged_prompt: str, player: str, current_turn: int):
+    def _get_valid_json_response(self, merged_prompt: str, last_turns_to_summarise, player: str, current_turn: int):
         """Get a valid summary in json from a player. Reprompt self.max_reprompts times if answer not valid.
 
         Args:
@@ -324,6 +324,7 @@ class DialogueQuest(GameMaster):
             validated_json = self._validate_json(answer)
 
             if validated_json is not None:
+                self._check_for_text_adherence(validated_json, last_turns_to_summarise)
                 self._update_current_state(validated_json)
                 action = {'type': 'Game state', 'content': f"updated game state: {self.current_state}"}
                 self.log_event(from_='GM', to='GM', action=action)
@@ -389,14 +390,95 @@ class DialogueQuest(GameMaster):
             self.parsed_request_counts[self.game.current_turn] += 1
             return True
 
+    def _check_fuzzy_match(self, k, v, aligned_text: str, threshold: int):
+        aligned_key = self._clean_string(k)
+        k_contained_in_text = fuzz.partial_ratio(aligned_key, aligned_text) >= threshold
+
+        if isinstance(v, str):
+            print(f"TYPE V: {type(v), {v}}")
+            aligned_value = self._clean_string(v)
+            v_contained_in_text = fuzz.partial_ratio(aligned_value, aligned_text) >= threshold
+            print(k_contained_in_text)
+            print(v_contained_in_text)
+            return k_contained_in_text or v_contained_in_text
+
+        # If the value is a list, check each item
+        elif isinstance(v, list):
+            items_match = [fuzz.partial_ratio(self._clean_string(str(item)), aligned_text) >= threshold for item in v]
+            return k_contained_in_text or any(items_match)
+
+        # FIXME: Counter needs to be increased each time one k/v pair does not match
+        # If the value is a dictionary, check each key-value pair
+        # elif isinstance(v, dict):
+        #     for item in 
+            # dict_items_match = [(fuzz.partial_ratio(self._clean_string(str(k)), aligned_text) >= threshold and fuzz.partial_ratio(self._clean_string(str(v)), aligned_text) >= threshold) for k, v in v.items()]
+            # return k_contained_in_text or all(dict_items_match)
+        else:
+            print(f"INSTANCE NOT KNOWN {v}, {aligned_text}")
+
+    # FIXME: Make this work properly! Double-check if working correctly
+    def _check_for_text_adherence(self, answer_in_json: list, text: str):
+        aligned_text = self._clean_string(text)
+        threshold = 90
+        # Iterate through all itms of the json answer and search if either key or value are included in the answer as text
+        if isinstance(answer_in_json, list):
+            for item in answer_in_json:
+                for k, v in item.items():
+                    # Only check if a value is not empty (as that would be okay)
+                    if v:
+                        # For dicts, check each item of the dict separately
+                        if isinstance(v, dict):
+                            for sub_key, sub_value in v.items():
+                                # Increment counter if the sub_key and sub_value pair fails adherence
+                                if not self._check_fuzzy_match(sub_key, sub_value, aligned_text, threshold):
+                                    print(f"NO MATCH: {sub_key}, {sub_value}, {aligned_text}")
+                                    self.summarisation_penalty[self.game.current_turn] += 1
+                                else:
+                                    print(f"MATCH: {sub_key}, {sub_value}, {aligned_text}")
+                        # For lists, check list in itself
+                        elif isinstance(v, list):
+                            if not self._check_fuzzy_match(k, v, aligned_text, threshold):
+                                print(f"NO MATCH: {k}, {v}, {aligned_text}")
+                                self.summarisation_penalty[self.game.current_turn] += 1
+                        elif isinstance(v, str):
+                            # Check the key and value for a fuzzy match in the text
+                            if not self._check_fuzzy_match(k, v, aligned_text, threshold):
+                                print(f"NO MATCH: {k}, {v}, {aligned_text}")
+                                self.summarisation_penalty[self.game.current_turn] += 1
+                            else:
+                                print(f"MATCH: {k}, {v}, {aligned_text}")
+        return False
+
+    @staticmethod
+    def _clean_string(some_string: str):
+        """Strips and modifies string for comparison.
+
+        Args:
+            some_string (str): Input string
+
+        Returns:
+            str: Modified string
+        """
+        return some_string.strip().lower()
+
     def _update_current_state(self, answer_in_json: list) -> None:
         """Updates the internal game state. Check if id or name in structure. If so: If current_state is empty, add element. If current_state already contains items, add new info to those.
 
         Args:
             answer_in_json (list): updated game state.
         """
+        #TODO: Add check for summarisation penalty
+        # For each key/value pair in json, check if either k or v in text. if not mentioned, penalty for not adhering to summarisation rules.
+
         for item_answer_given in answer_in_json:
+            # Check if id or name is given and not empty
             if 'id' not in item_answer_given and 'name' not in item_answer_given:
+                continue
+
+            id_value = (item_answer_given.get('id') or '').strip()
+            name_value = (item_answer_given.get('name') or '').strip()
+            if not id_value or not name_value:
+            # elif item_answer_given['id'].strip() is None or item_answer_given['name'].strip() is None:
                 continue
 
             # update current_game_state
@@ -507,8 +589,7 @@ class DialogueQuest(GameMaster):
         self.log_key(ms.METRIC_ABORTED, self.aborted)
         self.log_key('Text Fail', self.text_fail)
         self.log_key('JSON Fail', self.json_fail)
-        # self.log_key(ms.METRIC_SUCCESS, self.success)
-        # self.log_key(ms.METRIC_LOSE, (1 if not self.success and not self.aborted else 0))
+        self.log_key('Summarisation Penalty', self.summarisation_penalty)
         self.log_key('Conversational turns A', self.conversational_turns_a)
         self.log_key('Conversational turns B', self.conversational_turns_b)
         self.log_key('Char count A', self.char_count_a)
@@ -537,6 +618,7 @@ class DialogueQuestScorer(GameScorer):
         user_goal = episode_interactions['User goal']
         data = episode_interactions['data']
 
+        summarisation_penalty = episode_interactions['Summarisation Penalty']
         char_count_a = episode_interactions['Char count A']
         char_count_b = episode_interactions['Char count B']
         word_count_a = episode_interactions['Word count A']
@@ -550,13 +632,11 @@ class DialogueQuestScorer(GameScorer):
         p_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_PARSED]
         v_reqs = episode_interactions[ms.METRIC_REQUEST_COUNT_VIOLATED]
 
-        # success = int(episode_interactions[ms.METRIC_SUCCESS])
-        # lose = int(episode_interactions[ms.METRIC_LOSE])
-
         for turn in range(0, played_turns):
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT, reqs[turn])
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_PARSED, p_reqs[turn])
             self.log_turn_score(turn, ms.METRIC_REQUEST_COUNT_VIOLATED, v_reqs[turn])
+            self.log_turn_score(turn, "Summarisation Penalty", summarisation_penalty[turn])
             self.log_turn_score(turn, "Character Count A", char_count_a[turn])
             self.log_turn_score(turn, "Character Count B", char_count_b[turn])
             self.log_turn_score(turn, "Word Count A", word_count_a[turn])
@@ -566,12 +646,11 @@ class DialogueQuestScorer(GameScorer):
 
         # Episode level scores
         aborted = int(episode_interactions[ms.METRIC_ABORTED])
-        tsr, accuracy_with_data, penalty = self._check_for_database_slots(final_suggestion, user_goal, data)
+        tsr = self._calculate_task_success_rate(final_suggestion, user_goal, data)
         success = 1 if tsr >= 0.9 else 0
         lose = 1 if not success and not aborted else 0
         text_fail = int(episode_interactions['Text Fail'])
         json_fail = int(episode_interactions['JSON Fail'])
-        # TODO: Add fail cases!
 
         self.log_episode_score("n Turns", n_turns)
         self.log_episode_score(ms.METRIC_REQUEST_COUNT, sum(reqs))
@@ -584,46 +663,69 @@ class DialogueQuestScorer(GameScorer):
         self.log_episode_score("Text Fail", text_fail)
         self.log_episode_score("JSON Fail", json_fail)
         self.log_episode_score("Task Success Rate", tsr)
-        self.log_episode_score("Accuracy of data", accuracy_with_data)
-        self.log_episode_score("Penalty for invented slots", penalty)
-        self.log_episode_score(ms.BENCH_SCORE, self._calculate_bench_score(tsr, accuracy_with_data, penalty) if not aborted else np.nan)
+        self.log_episode_score(ms.BENCH_SCORE, self._calculate_bench_score(tsr, sum(summarisation_penalty)) if not aborted else np.nan)
+        self.log_episode_score("Summarisation Penatly", sum(summarisation_penalty))
         self.log_episode_score("Conversational turns A", conversational_turns_a)
         self.log_episode_score("Conversational turns B", conversational_turns_b)
-        self.log_episode_score("Average Char Count A", self.calculate_average_count(char_count_a, conversational_turns_a))
-        self.log_episode_score("Average Char Count B", self.calculate_average_count(char_count_b, conversational_turns_b))
-        self.log_episode_score("Average Word Count A", self.calculate_average_count(word_count_a, conversational_turns_a))
-        self.log_episode_score("Average Word Count B", self.calculate_average_count(word_count_b, conversational_turns_b))
-        self.log_episode_score("Average Sentence Count A", self.calculate_average_count(avg_sentence_count_a, conversational_turns_a))
-        self.log_episode_score("Average Sentence Count B", self.calculate_average_count(avg_sentence_count_b, conversational_turns_b))
+        self.log_episode_score("Average Char Count A", self._calculate_average_count(char_count_a, conversational_turns_a))
+        self.log_episode_score("Average Char Count B", self._calculate_average_count(char_count_b, conversational_turns_b))
+        self.log_episode_score("Average Word Count A", self._calculate_average_count(word_count_a, conversational_turns_a))
+        self.log_episode_score("Average Word Count B", self._calculate_average_count(word_count_b, conversational_turns_b))
+        self.log_episode_score("Average Sentence Count A", self._calculate_average_count(avg_sentence_count_a, conversational_turns_a))
+        self.log_episode_score("Average Sentence Count B", self._calculate_average_count(avg_sentence_count_b, conversational_turns_b))
 
-    def _calculate_task_success_rate(self, given_slots: dict, final_suggestion: dict, db_item: dict):
-        """Calculates an accuracy of correctly generated goals. For constraints, checks if key/value pair is correct in final_suggestion and, as a fallback, in database item (since the slot might just have been implied). For requests, checks if there is a k/v pair in final_suggestion.
+    def _calculate_task_success_rate(self, final_suggestion: dict, user_goal: dict, data: dict):
+        """
+        Calculates Task Success Rate. Evaluates constraints and requests.
+        Constraints are checked for correctness in final_suggestion and db_item.
+        Requests are checked for correctness and presence in final_suggestion
 
         Args:
-            given_slots (dict): Goals which should have been reached
-            final_suggestion (dict): Solution given
-            db_item (dict): Database item corresponding to solution given
+            final_suggestion (dict): solution proposed by the model
+            user_goal (dict): goals (constraints + requests to be fulfilled)
+            db_item (dict): original database
 
         Returns:
-            float: Task Success Rate
+            float: Task Success Rate, between 0 and 1
         """
-        total_goals = len(given_slots)
-        successful_matches = 0
+        # tsr=0 if no final_suggestion given
+        if not final_suggestion:
+            return 0
 
-        for slot, expected_value in given_slots.items():
-            # If the value is 'required', we only check for the presence of the slot in final_suggestion or db_item
-            if expected_value == 'required':
-                if slot in final_suggestion:
-                    successful_matches += 1
-            # Otherwise, compare the values directly using fuzzy matching
-            else:
-                # Check in final suggestion first
-                if slot in final_suggestion and self._match_fuzzily(final_suggestion[slot], expected_value):
-                    successful_matches += 1
-                # Check in database item as a fallback
-                elif db_item and slot in db_item and self._match_fuzzily(db_item[slot], expected_value):
-                    successful_matches += 1
-        return successful_matches / total_goals if total_goals > 0 else 0
+        # Retrieve database entry using id or name as fallback
+        db_item = self._find_database_entry(final_suggestion, data)
+
+        # If no matching database item found, tsr=0
+        if not db_item:
+            return 0
+
+        # Separate constraints and requests from the user goal
+        constraints = {k: v for k, v in user_goal.items() if v != "required"}
+        requests = [k for k, v in user_goal.items() if v == "required"]
+
+        total_constraints = len(constraints)
+        total_requests = len(requests)
+        successful_constraints = 0
+        successful_requests = 0
+
+        # Validate constraints
+        for slot, expected_value in constraints.items():
+            # Check if the slot exists in the final suggestion and matches the database: slot needs to exist in db_item + val needs to exist in db item + value must be same as expected value
+            if (slot in final_suggestion and slot in db_item and self._match_fuzzily(final_suggestion[slot], db_item[slot]) and (db_item[slot] == expected_value)):
+                successful_constraints += 1
+
+        # Validate requests
+        for item in requests:
+            # Check if the slot exists in the final suggestion and matches the database
+            if (item in final_suggestion and item in db_item and self._match_fuzzily(final_suggestion[item], db_item[item])):
+                successful_requests += 1
+
+        # Calculate fulfillment rates
+        constraint_rate = successful_constraints / total_constraints if total_constraints > 0 else 1
+        request_rate = successful_requests / total_requests if total_requests > 0 else 1
+
+        tsr = (0.5 * constraint_rate) + (0.5 * request_rate)
+        return tsr
 
     def _find_database_entry(self, final_suggestion: dict, data: list):
         """Finds the corresponding entry in the database based on id or name.
@@ -635,58 +737,23 @@ class DialogueQuestScorer(GameScorer):
         Returns:
             dict or None: Corresponding database item if found, else None
         """
-        key_to_check = 'id' if 'id' in final_suggestion else 'name'
-        input_key = final_suggestion[key_to_check]
+        try:
+            key_to_check = 'id' if 'id' in final_suggestion else 'name'
 
-        for item in data:
-            if key_to_check == 'id':
-                if item.get(key_to_check) == input_key:
-                    return item
-            if key_to_check == 'name':
-                if self._match_fuzzily(item.get(key_to_check), input_key):
-                    return item
+            input_key = final_suggestion[key_to_check]
+
+            for item in data:
+                if key_to_check == 'id':
+                    if item.get(key_to_check) == input_key:
+                        return item
+                if key_to_check == 'name':
+                    if self._match_fuzzily(item.get(key_to_check), input_key):
+                        return item
+        except KeyError:
+            print(f"Key '{key_to_check}' not found in final_suggestion: {final_suggestion}")
+            return None
+
         return None
-
-    def _check_for_database_slots(self, final_suggestion: dict, given_slots: dict, data: list):
-        """Check final suggestion against given slots and data for comparison.
-
-        Args:
-            final_suggestion (dict): Final object generated and suggested in dialogue.
-            given_slots (dict): User goals or required slots.
-            data (list): Original database items for comparison.
-
-        Returns:
-            float, float, int: Task success rate, accuracy with database, and penalty for invented slots.
-        """
-        penalty = 0
-        acc_data = 0
-
-        if not final_suggestion:
-            return 0, 0, 0
-
-        # Retrieve database entry using id or name as fallback
-        db_item = self._find_database_entry(final_suggestion, data)
-
-        # Calculate Task Success Rate using given slots and final suggestion
-        tsr = self._calculate_task_success_rate(given_slots, final_suggestion, db_item)
-
-        # Calculate Database Accuracy and Penalty for Invented Slots
-        if db_item:
-            total_pairs = len(final_suggestion)
-            correct_vals = 0
-
-            for k, v in final_suggestion.items():
-                if k in db_item:
-                    # Use fuzzy match if available or direct equality
-                    if self._match_fuzzily(v, db_item[k]):
-                        correct_vals += 1
-                else:
-                    # Slot is invented, add to penalty
-                    penalty += 1
-
-            acc_data = correct_vals / total_pairs if total_pairs > 0 else 0
-
-        return tsr, acc_data, penalty
 
     def _match_fuzzily(self, item_a, item_b):
         """Checks if two items have at least 90% similarity. If items are of diffent types, break.
@@ -699,9 +766,6 @@ class DialogueQuestScorer(GameScorer):
             bool: True if match, else False
         """
         threshold = 90
-
-        item_a = re.sub(r"\s+", "", item_a)
-        item_b = re.sub(r"\s+", "", item_b)
 
         match = False
         # Both items are strings
@@ -750,6 +814,7 @@ class DialogueQuestScorer(GameScorer):
         Returns:
             str: Modified string
         """
+        some_string = re.sub(r"\s+", "", some_string)
         return some_string.strip().lower()
 
     @staticmethod
@@ -757,7 +822,7 @@ class DialogueQuestScorer(GameScorer):
         return re.sub(r"\s+", "", some_string)
 
     @staticmethod
-    def calculate_average_count(char_count, total):
+    def _calculate_average_count(char_count, total):
         """Calculate an average character count.
 
         Args:
@@ -770,8 +835,17 @@ class DialogueQuestScorer(GameScorer):
         return round((sum(char_count) / total), 2) if total != 0 else 0
 
     @staticmethod
-    def _calculate_bench_score(tsr, database_accuracy, penalty):
-        return max(0, (tsr * 0.7) + (database_accuracy * 0.3) - (penalty * 0.1)) * 100
+    def _calculate_bench_score(tsr: float, penalty: int):
+        """Calculates bench score.
+
+        Args:
+            tsr (float): Calculated tsr
+            penalty (int): Summed up penalty for wrongly provided json k/v pairs
+
+        Retunrs:
+            Float: Bench score, between 0 and 100
+        """  
+        return max(0, ((tsr * 100) - (penalty)))
 
 
 class DialogueQuestBenchmark(GameBenchmark):
