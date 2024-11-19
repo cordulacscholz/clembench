@@ -40,7 +40,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
         reprompt = self.load_template('resources/initial_prompts/reprompt')
 
-        reprompt_options = ["reprompt", "no_reprompt"]
+        reprompt_options = ["no_reprompt", "reprompt"]
 
         for reprompt_option in reprompt_options:
         # for topic in TOPICS:
@@ -51,7 +51,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             experiment = self.add_experiment(reprompt_option)
 
             for game_id in range(N_INSTANCES):
-                topic = self._select_topic()
+                topic = TOPICS[game_id % len(TOPICS)]
                 article = self._select_article(topic)
                 example_object = self._sample_random_json_objects(topic, 1)
 
@@ -82,13 +82,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
                 instance['goal'] = goal_object
                 instance['data'] = selected_data
                 instance['reprompt_option'] = self.reprompt_option
-
-    @staticmethod
-    def _select_topic():
-        """Selects a topic out of possible lists of topics
-        """
-        topic = random.choice(TOPICS)
-        return topic
 
     @staticmethod
     def _create_prompt_a(prompt: str, topic: str, article: str, slots_given, slots_to_fill, stop: str, example_object) -> str:
