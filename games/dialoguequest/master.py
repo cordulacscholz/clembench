@@ -700,7 +700,9 @@ class DialogueQuestScorer(GameScorer):
             return 0
 
         # Separate constraints and requests from the user goal
+        # Constraints dictionary: k/v needed
         constraints = {k: v for k, v in user_goal.items() if v != "required"}
+        # Requests list: v needed
         requests = [k for k, v in user_goal.items() if v == "required"]
 
         total_constraints = len(constraints)
@@ -711,8 +713,13 @@ class DialogueQuestScorer(GameScorer):
         # Validate constraints
         for slot, expected_value in constraints.items():
             # Check if the slot exists in the final suggestion and matches the database: slot needs to exist in db_item + val needs to exist in db item + value must be same as expected value
-            if (slot in final_suggestion and slot in db_item and self._match_fuzzily(final_suggestion[slot], db_item[slot]) and (db_item[slot] == expected_value)):
-                successful_constraints += 1
+            if slot in final_suggestion:
+                if slot in db_item and self._match_fuzzily(final_suggestion[slot], db_item[slot]) and (db_item[slot] == expected_value):
+                    successful_constraints += 1
+            # Slot might be not explicitly mentioned in the final_suggestion, but might be present in matching db_item (= was implied by the Questioner's request, but not explicitly repeated by the Answerer). Counted as fulfilled too.
+            else:
+                if slot in db_item and (db_item[slot] == expected_value):
+                    successful_constraints += 1
 
         # Validate requests
         for item in requests:
@@ -844,7 +851,7 @@ class DialogueQuestScorer(GameScorer):
 
         Retunrs:
             Float: Bench score, between 0 and 100
-        """  
+        """
         return max(0, ((tsr * 100) - (penalty)))
 
 
