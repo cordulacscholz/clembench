@@ -1,13 +1,17 @@
-Please create a json object from the text that is provided below. Use only the text given below found in TEXT, do not use other background information which you might find in your database.
+Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.
 
-Find all relevant data only in the text and build an according json structure from that. Always provide a list which might include one or more items. Handle each instance that is suggested in the text as a separate item. Be sure to build the structure adhering to your input data, also see the example below for reference. 
+Data Extraction Rules:
+- Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.
+- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.
+- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.
+- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.
 
-Important: Be sure to always include a name or an id, if given! Do not invent new keys, but only use the ones given in the example object. If the content does not match any key, that is fine, then nothing needs to be added. If you do not find anything to sum up, return an empty json object.
-
-Always start with the json code immediately, as in the example structure, never add a name (like "answer"). Always use double quotes, never single quotes! 
-Reply with the json structure only, do not add any comments.
+Response Structure:
+- Start directly with the JSON code, adhering exactly to the format below.
+- Use double quotes for all JSON strings. Do not add comments or any additional explanation.
+- Do not use markup (```json), start directly with the json code ([{"name": ...}])
 
 EXAMPLE structure:
 [$EXAMPLE$, $EXAMPLE$]
 
-TEXT to convert into json:
+TEXT TO SUMMARISE:

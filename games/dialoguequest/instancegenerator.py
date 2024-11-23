@@ -4,7 +4,6 @@
 import os
 import random
 import json
-import string
 import math
 from copy import deepcopy
 
@@ -29,7 +28,6 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         words = self.load_json(WORDS_PATH.format(LANG))
         self.stop = words['STOP']
 
-    # Variations on topic, variations with same topic...
     def on_generate(self):
         """Generates instances of DialogueQuest
 
@@ -37,56 +35,51 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             dict: Instances file for DialogueQuest
         """
         print("Generating instance...")
-        # TODO: Add language specific structure
         prompt_a = self.load_template('resources/initial_prompts/prompt_a')
         prompt_b = self.load_template('resources/initial_prompts/prompt_b')
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
         reprompt = self.load_template('resources/initial_prompts/reprompt')
 
-        for n in range(0, N_EXPERIMENTS):
-            experiment = self.add_experiment(n)
+        reprompt_options = ["no-reprompt", "reprompt"]
 
-            for game_id in range(N_INSTANCES):
-                topic = self._select_topic()
-                article = self._select_article(topic)
-                goal_object = self._sample_random_json_objects(topic, 1)
-                example_object = self._sample_random_json_objects(topic, 1)
-                print(example_object)
+        for reprompt_option in reprompt_options:
+            for n in N_DATABASE_ITEMS:
+                self.reprompt_option = True if reprompt_option == "reprompt" else False
+                name = f"{reprompt_option}_{n}db"
+                experiment = self.add_experiment(name)
 
-                # Select restricted number of database items available to the Answerer (to avoid exceeding the model's token limit)
-                sample_data = self._sample_random_json_objects(topic, N_DATABASE_ITEMS)
-
-                # Insert goal object at random index in list of sample data to ensure a solution can be found
-                selected_data = deepcopy(sample_data)
-                random_index = random.randint(0, len(selected_data))
-                selected_data.insert(random_index, goal_object)
-
-                # Ensure that goal and example object are not the same
-                while example_object == goal_object:
+                for game_id in range(N_INSTANCES):
+                    topic = TOPICS[game_id % len(TOPICS)]
+                    article = self._select_article(topic)
                     example_object = self._sample_random_json_objects(topic, 1)
-                # Sort out categorical and non-categorial slots according to topic
-                categorical_slots, non_categorical_slots = self._get_cat_and_non_cat_keys(topic)
-                # Select NUMBER of cat slots for SLOTS_GIVEN
-                slots_given, slots_to_fill = self._select_slots(goal_object, categorical_slots, non_categorical_slots)
 
-                # Add all relevant parameters to instance file
-                instance = self.add_game_instance(experiment, game_id)
-                instance['prompt_player_a'] = self._create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
-                instance['prompt_player_b'] = self._create_prompt_b(prompt_b, example_object, selected_data)
-                instance['summarise_in_json'] = self._create_summarisation_prompt(summarise_in_json, example_object)
-                instance['reprompt'] = reprompt
-                instance['max_turns'] = MAX_TURNS
-                instance['slots_given'] = slots_given
-                instance['slots_to_fill'] = slots_to_fill
-                instance['goal'] = goal_object
-                instance['data'] = selected_data
+                    # Select restricted number of database items available to the Answerer (to avoid exceeding the model's token limit)
+                    sample_data = self._sample_random_json_objects(topic, n)
 
-    @staticmethod
-    def _select_topic():
-        """Selects a topic out of possible lists of topics
-        """
-        topic = random.choice(TOPICS)
-        return topic
+                    # Select goal object
+                    goal_object = random.choice(sample_data)
+                    selected_data = deepcopy(sample_data)
+
+                    # Ensure that goal and example object are not the same
+                    while example_object == goal_object:
+                        example_object = self._sample_random_json_objects(topic, 1)
+                    # Sort out categorical and non-categorial slots according to topic
+                    categorical_slots, non_categorical_slots = self._get_cat_and_non_cat_keys(topic)
+                    # Select NUMBER of cat slots for SLOTS_GIVEN
+                    slots_given, slots_to_fill = self._select_slots(goal_object, categorical_slots, non_categorical_slots)
+
+                    # Add all relevant parameters to instance file
+                    instance = self.add_game_instance(experiment, game_id)
+                    instance['prompt_player_a'] = self._create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
+                    instance['prompt_player_b'] = self._create_prompt_b(prompt_b, example_object, selected_data)
+                    instance['summarise_in_json'] = self._create_summarisation_prompt(summarise_in_json, example_object)
+                    instance['reprompt'] = reprompt
+                    instance['max_turns'] = MAX_TURNS
+                    instance['slots_given'] = slots_given
+                    instance['slots_to_fill'] = slots_to_fill
+                    instance['goal'] = goal_object
+                    instance['data'] = selected_data
+                    instance['reprompt_option'] = self.reprompt_option
 
     @staticmethod
     def _create_prompt_a(prompt: str, topic: str, article: str, slots_given, slots_to_fill, stop: str, example_object) -> str:
@@ -98,7 +91,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             article (str): Article for topic (EN, DE specific)
             slots_given (_type_): _description_
             slots_to_fill (_type_): _description_
-            stop (str): Signal for indicating fulfillment
+            stop (str): Signal for indicating fulfilment
             example_object (dict): _description_
 
         Returns:
@@ -135,7 +128,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         text = prompt.replace('$EXAMPLE$', str(example_object))
         return text
 
-    # TODO: Adjust for AR, RU, ZH (suffixes)
+    # TODO: Adjust for AR, RU, ZH
     def _select_article(self, topic):
         """Adjustment for article for language specific prompt depending on noun(EN, DE).
 
@@ -158,11 +151,7 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
             article = ""
         return article
 
-    # TODO: Work out best way of goal selection (number depending on topic)
-    # Deal with "ref" keys
-    # Refine key selection
-    @staticmethod
-    def _select_slots(goal_object: dict, categorical_slots: list, non_categorical_slots: list):
+    def _select_slots(self, goal_object: dict, categorical_slots: list, non_categorical_slots: list):
         """Selects slots which are given (categorical slots) and slots which are to be filled (non-categorical slots) from goal object
 
         Args:
@@ -173,17 +162,27 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         Returns:
             dict, dict: Slots given, Slots to fill
         """
-        # TODO: See what could be a good way to choose/modify this
+        # Choose constrains (k/v pairs)
 
+        # Get all keys which are categorical (~informable)
         # Remove key-values pairs with val=='no', as this does not work for a goal ("need hotel with no internet")
-        filtered_goal_object = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
+        requestable_slots_goal = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
 
-        # Filter number_of_slots by difficulty or some similar category?
-        number_of_slots = math.floor(len(filtered_goal_object)/2)
-        random_keys_given = random.sample(list(filtered_goal_object.keys()), number_of_slots)
-        slots_given = {key: filtered_goal_object[key] for key in random_keys_given}
+        # Randomly choose slots the constraints should be taken from
+        # MultiWOZ constraint average: 2-3
+        n_slots_to_choose = self._choose_number(len(requestable_slots_goal), preferred_range=(2, 3))
 
-        slots_to_fill = random.sample(non_categorical_slots, number_of_slots)
+        # Randomly select slots as constraints + add their values
+        random_keys_given = random.sample(list(requestable_slots_goal.keys()), n_slots_to_choose)
+        slots_given = {key: requestable_slots_goal[key] for key in random_keys_given}
+
+        # Get all keys which are non-categorical (~requestable)
+        # MultiWOZ constraint average: 3-4
+        available_slots_to_request = [slot for slot in non_categorical_slots if slot in goal_object]
+
+        n_slots_to_request = self._choose_number(len(available_slots_to_request), preferred_range=(2, 3))
+
+        slots_to_fill = random.sample(available_slots_to_request, n_slots_to_request)
         return slots_given, slots_to_fill
 
     @staticmethod
@@ -215,13 +214,32 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         Returns:
             dict: Items selected
         """
+        data = self._load_database_file(topic)
         if n == 1:
-            data = self._load_database_file(topic)
             selected = random.choice(data)
         else:
-            data = self._load_database_file(topic)
             selected = random.sample(data, n)
         return selected
+
+    @staticmethod
+    def _choose_number(list_length, preferred_range=(2, 3)):
+        """Chooses a number based on the list length and preferred range.
+
+        Args:
+            list_length: The length of the list.
+            preferred_range: A tuple of the preferred minimum and maximum numbers.
+
+        Returns:
+            The chosen number.
+        """
+
+        min_preferred, max_preferred = preferred_range
+        if list_length >= max_preferred:
+            return random.choice(range(min_preferred, max_preferred + 1))
+        elif list_length >= min_preferred:
+            return list_length
+        else:
+            return 1
 
     @staticmethod
     def _get_cat_and_non_cat_keys(topic: str):
