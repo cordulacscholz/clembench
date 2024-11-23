@@ -40,48 +40,46 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         summarise_in_json = self.load_template('resources/initial_prompts/summarise_in_json')
         reprompt = self.load_template('resources/initial_prompts/reprompt')
 
-        reprompt_options = ["no_reprompt", "reprompt"]
+        reprompt_options = ["no-reprompt", "reprompt"]
 
         for reprompt_option in reprompt_options:
-        # for topic in TOPICS:
-        # for n in range(0, N_EXPERIMENTS):
-            # experiment = self.add_experiment(n)
-            # experiment = self.add_experiment(topic)
-            self.reprompt_option = True if reprompt_option == "reprompt" else False
-            experiment = self.add_experiment(reprompt_option)
+            for n in N_DATABASE_ITEMS:
+                self.reprompt_option = True if reprompt_option == "reprompt" else False
+                name = f"{reprompt_option}_{n}db"
+                experiment = self.add_experiment(name)
 
-            for game_id in range(N_INSTANCES):
-                topic = TOPICS[game_id % len(TOPICS)]
-                article = self._select_article(topic)
-                example_object = self._sample_random_json_objects(topic, 1)
-
-                # Select restricted number of database items available to the Answerer (to avoid exceeding the model's token limit)
-                sample_data = self._sample_random_json_objects(topic, N_DATABASE_ITEMS)
-
-                # Select goal object
-                goal_object = random.choice(sample_data)
-                selected_data = deepcopy(sample_data)
-
-                # Ensure that goal and example object are not the same
-                while example_object == goal_object:
+                for game_id in range(N_INSTANCES):
+                    topic = TOPICS[game_id % len(TOPICS)]
+                    article = self._select_article(topic)
                     example_object = self._sample_random_json_objects(topic, 1)
-                # Sort out categorical and non-categorial slots according to topic
-                categorical_slots, non_categorical_slots = self._get_cat_and_non_cat_keys(topic)
-                # Select NUMBER of cat slots for SLOTS_GIVEN
-                slots_given, slots_to_fill = self._select_slots(goal_object, categorical_slots, non_categorical_slots)
 
-                # Add all relevant parameters to instance file
-                instance = self.add_game_instance(experiment, game_id)
-                instance['prompt_player_a'] = self._create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
-                instance['prompt_player_b'] = self._create_prompt_b(prompt_b, example_object, selected_data)
-                instance['summarise_in_json'] = self._create_summarisation_prompt(summarise_in_json, example_object)
-                instance['reprompt'] = reprompt
-                instance['max_turns'] = MAX_TURNS
-                instance['slots_given'] = slots_given
-                instance['slots_to_fill'] = slots_to_fill
-                instance['goal'] = goal_object
-                instance['data'] = selected_data
-                instance['reprompt_option'] = self.reprompt_option
+                    # Select restricted number of database items available to the Answerer (to avoid exceeding the model's token limit)
+                    sample_data = self._sample_random_json_objects(topic, n)
+
+                    # Select goal object
+                    goal_object = random.choice(sample_data)
+                    selected_data = deepcopy(sample_data)
+
+                    # Ensure that goal and example object are not the same
+                    while example_object == goal_object:
+                        example_object = self._sample_random_json_objects(topic, 1)
+                    # Sort out categorical and non-categorial slots according to topic
+                    categorical_slots, non_categorical_slots = self._get_cat_and_non_cat_keys(topic)
+                    # Select NUMBER of cat slots for SLOTS_GIVEN
+                    slots_given, slots_to_fill = self._select_slots(goal_object, categorical_slots, non_categorical_slots)
+
+                    # Add all relevant parameters to instance file
+                    instance = self.add_game_instance(experiment, game_id)
+                    instance['prompt_player_a'] = self._create_prompt_a(prompt_a, topic, article, slots_given, slots_to_fill, self.stop, example_object)
+                    instance['prompt_player_b'] = self._create_prompt_b(prompt_b, example_object, selected_data)
+                    instance['summarise_in_json'] = self._create_summarisation_prompt(summarise_in_json, example_object)
+                    instance['reprompt'] = reprompt
+                    instance['max_turns'] = MAX_TURNS
+                    instance['slots_given'] = slots_given
+                    instance['slots_to_fill'] = slots_to_fill
+                    instance['goal'] = goal_object
+                    instance['data'] = selected_data
+                    instance['reprompt_option'] = self.reprompt_option
 
     @staticmethod
     def _create_prompt_a(prompt: str, topic: str, article: str, slots_given, slots_to_fill, stop: str, example_object) -> str:
@@ -170,29 +168,21 @@ class DialogueQuestInstanceGenerator(GameInstanceGenerator):
         # Remove key-values pairs with val=='no', as this does not work for a goal ("need hotel with no internet")
         requestable_slots_goal = {key: goal_object[key] for key in categorical_slots if key in goal_object and goal_object[key] != "no"}
 
-        print(f"GOAL: {requestable_slots_goal}")
-
         # Randomly choose slots the constraints should be taken from
         # MultiWOZ constraint average: 2-3
         n_slots_to_choose = self._choose_number(len(requestable_slots_goal), preferred_range=(2, 3))
-        print(n_slots_to_choose)
 
         # Randomly select slots as constraints + add their values
         random_keys_given = random.sample(list(requestable_slots_goal.keys()), n_slots_to_choose)
-        print(f"RANDOMGIVEN: {random_keys_given}")
         slots_given = {key: requestable_slots_goal[key] for key in random_keys_given}
-        print(f"GIVEN: {slots_given}")
 
         # Get all keys which are non-categorical (~requestable)
         # MultiWOZ constraint average: 3-4
         available_slots_to_request = [slot for slot in non_categorical_slots if slot in goal_object]
-        print(f"REQUEST: {available_slots_to_request}")
 
         n_slots_to_request = self._choose_number(len(available_slots_to_request), preferred_range=(2, 3))
-        print(n_slots_to_request)
 
         slots_to_fill = random.sample(available_slots_to_request, n_slots_to_request)
-        print(f"TOFILL: {slots_to_fill}")
         return slots_given, slots_to_fill
 
     @staticmethod

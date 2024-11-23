@@ -141,7 +141,6 @@ class DialogueQuest(GameMaster):
         # Validate that the values of answer_a are filled
         if valid_response_a and any(valid_response_a):
             prompt, raw_answer, answer_a, from_ = valid_response_a
-            # print(f"VALID A: {valid_response_a}")
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
@@ -182,7 +181,6 @@ class DialogueQuest(GameMaster):
 
         if valid_response_b and any(valid_response_b):
             prompt, raw_answer, answer_b, from_ = valid_response_b
-            # print(f"VALID A: {valid_response_b}")
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
@@ -214,7 +212,6 @@ class DialogueQuest(GameMaster):
         # Validate json structure; if failure, abort
         if valid_response_json and any(valid_response_json):
             prompt, raw_answer, answer_a, from_ = valid_response_json
-            # print(f"VALID JSON: {valid_response_json}")
         else:
             print("ABORTING.")
             action = {'type': 'metadata', 'content': 'too many reprompts; abort'}
@@ -291,7 +288,6 @@ class DialogueQuest(GameMaster):
 
             if self._validate_text(answer, from_):
                 return prompt, raw_answer, answer, from_
-            print(f"not valid, execute else {attempts}")
             action = {'type': 'invalid response, try again', 'content': "invalid"}
             self.log_event(from_='GM', to='GM', action=action)
             attempts += 1
@@ -329,7 +325,6 @@ class DialogueQuest(GameMaster):
                 action = {'type': 'Game state', 'content': f"updated game state: {self.current_state}"}
                 self.log_event(from_='GM', to='GM', action=action)
                 return prompt, raw_answer, answer, from_
-            print(f"not valid, execute else {attempts}")
             action = {'type': 'invalid response, try again', 'content': "invalid"}
             self.log_event(from_='GM', to='GM', action=action)
             attempts += 1
@@ -345,7 +340,6 @@ class DialogueQuest(GameMaster):
             dict: json structure of answer given
         """
         answer_in_json = self._repair_json(answer_in_json)
-        print(f"JSON ANSWER: {answer_in_json}")
         try:
             parsed_json = json.loads(answer_in_json)
             action = {'type': 'metadata', 'content': "json successfully parsed"}
@@ -395,24 +389,14 @@ class DialogueQuest(GameMaster):
         k_contained_in_text = fuzz.partial_ratio(aligned_key, aligned_text) >= threshold
 
         if isinstance(v, str):
-            print(f"TYPE V: {type(v), {v}}")
             aligned_value = self._clean_string(v)
             v_contained_in_text = fuzz.partial_ratio(aligned_value, aligned_text) >= threshold
-            print(k_contained_in_text)
-            print(v_contained_in_text)
             return k_contained_in_text or v_contained_in_text
 
         # If the value is a list, check each item
         elif isinstance(v, list):
             items_match = [fuzz.partial_ratio(self._clean_string(str(item)), aligned_text) >= threshold for item in v]
             return k_contained_in_text or any(items_match)
-
-        # FIXME: Counter needs to be increased each time one k/v pair does not match
-        # If the value is a dictionary, check each key-value pair
-        # elif isinstance(v, dict):
-        #     for item in 
-            # dict_items_match = [(fuzz.partial_ratio(self._clean_string(str(k)), aligned_text) >= threshold and fuzz.partial_ratio(self._clean_string(str(v)), aligned_text) >= threshold) for k, v in v.items()]
-            # return k_contained_in_text or all(dict_items_match)
         else:
             print(f"INSTANCE NOT KNOWN {v}, {aligned_text}")
 
@@ -431,22 +415,15 @@ class DialogueQuest(GameMaster):
                             for sub_key, sub_value in v.items():
                                 # Increment counter if the sub_key and sub_value pair fails adherence
                                 if not self._check_fuzzy_match(sub_key, sub_value, aligned_text, threshold):
-                                    print(f"NO MATCH: {sub_key}, {sub_value}, {aligned_text}")
                                     self.summarisation_penalty[self.game.current_turn] += 1
-                                else:
-                                    print(f"MATCH: {sub_key}, {sub_value}, {aligned_text}")
                         # For lists, check list in itself
                         elif isinstance(v, list):
                             if not self._check_fuzzy_match(k, v, aligned_text, threshold):
-                                print(f"NO MATCH: {k}, {v}, {aligned_text}")
                                 self.summarisation_penalty[self.game.current_turn] += 1
                         elif isinstance(v, str):
                             # Check the key and value for a fuzzy match in the text
                             if not self._check_fuzzy_match(k, v, aligned_text, threshold):
-                                print(f"NO MATCH: {k}, {v}, {aligned_text}")
                                 self.summarisation_penalty[self.game.current_turn] += 1
-                            else:
-                                print(f"MATCH: {k}, {v}, {aligned_text}")
         return False
 
     @staticmethod
