@@ -28,15 +28,11 @@ class DialogueQuest(GameMaster):
     """Play a single instance of a DialogueQuest.
 
     Args:
-        GameMaster (_type_): _description_
-        experiment
-        player_models
+        GameMaster (GameMaster): Prepares and plays one episode of a game instance.
     """
     def __init__(self, experiment: Dict, player_models: List[Model]):
         super().__init__(GAME_NAME, experiment, player_models)
         self.max_turns: int = MAX_TURNS
-        # self.reprompt = False
-        # self.max_reprompts = 3 if self.reprompt else 0
 
         # Load language specific words
         words = self.load_json(WORDS_PATH.format(LANG))
@@ -230,6 +226,15 @@ class DialogueQuest(GameMaster):
 
     @staticmethod
     def _create_user_goal(constraints: dict, requests: list):
+        """Creates a user goal for internal usage, combining constraints and requests in one dictionary. Setting values for requests to "required".
+
+        Args:
+            constraints (dict): Collected constraints of the episode
+            requests (list): Collected requests of the episode
+
+        Returns:
+            dict: Dictionary of user goal with request values set to "required"
+        """
         user_goal = {}
         for key, value in constraints.items():
             user_goal[key] = value
@@ -385,6 +390,17 @@ class DialogueQuest(GameMaster):
             return True
 
     def _check_fuzzy_match(self, k, v, aligned_text: str, threshold: int):
+        """Compares the dict keys and vals if contained in text.
+
+        Args:
+            k (str): Key to be checked
+            v (str): Value to be checked
+            aligned_text (str): Last answer
+            threshold (int): Threshold to pass
+
+        Returns:
+            bool: True if match, else False.
+        """
         aligned_key = self._clean_string(k)
         k_contained_in_text = fuzz.partial_ratio(aligned_key, aligned_text) >= threshold
 
@@ -400,8 +416,16 @@ class DialogueQuest(GameMaster):
         else:
             print(f"INSTANCE NOT KNOWN {v}, {aligned_text}")
 
-    # FIXME: Make this work properly! Double-check if working correctly
     def _check_for_text_adherence(self, answer_in_json: list, text: str):
+        """Checks if the json contents are contained in the text.
+
+        Args:
+            answer_in_json (list): Answer in json format.
+            text (str): Last relevant text to be examined.
+
+        Returns:
+            bool: False if not in answer.
+        """
         aligned_text = self._clean_string(text)
         threshold = 90
         # Iterate through all itms of the json answer and search if either key or value are included in the answer as text
@@ -444,9 +468,6 @@ class DialogueQuest(GameMaster):
         Args:
             answer_in_json (list): updated game state.
         """
-        #TODO: Add check for summarisation penalty
-        # For each key/value pair in json, check if either k or v in text. if not mentioned, penalty for not adhering to summarisation rules.
-
         for item_answer_given in answer_in_json:
             # Check if id or name is given and not empty
             if 'id' not in item_answer_given and 'name' not in item_answer_given:
@@ -455,7 +476,6 @@ class DialogueQuest(GameMaster):
             id_value = (item_answer_given.get('id') or '').strip()
             name_value = (item_answer_given.get('name') or '').strip()
             if not id_value or not name_value:
-            # elif item_answer_given['id'].strip() is None or item_answer_given['name'].strip() is None:
                 continue
 
             # update current_game_state
@@ -481,7 +501,7 @@ class DialogueQuest(GameMaster):
                             if value is not None:
                                 item[key] = value
                                 found_match = True
-                        break  # Stop processing after updating
+                        break
 
             if not found_match:
                 self.current_state.append(item_answer_given)
@@ -585,7 +605,7 @@ class DialogueQuestScorer(GameScorer):
         """Compute episode-level and turn-level scores.
 
         Args:
-            episode_interactions (Dict): _description_
+            episode_interactions (Dict): Game interactions file.
         """
 
         played_turns = episode_interactions['Complete turns']
@@ -803,6 +823,14 @@ class DialogueQuestScorer(GameScorer):
 
     @staticmethod
     def _remove_whitespace(some_string):
+        """Removes whitespace from string.
+
+        Args:
+            some_string (str): String to be modified.
+
+        Returns:
+            str: Modified string.
+        """
         return re.sub(r"\s+", "", some_string)
 
     @staticmethod
