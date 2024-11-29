@@ -74,7 +74,6 @@ class Answerer(Player):
             # utterance = "[{'name': 'Igel's Inn', 'people': '200'}, {'ONE': 'ONE', 'TWO': 'TWO'}, {'id': '3456789', 'address': 'Nordbahnstraße 3'}, {'address': 'Test Drive 4', 'id': '8475875', 'name': 'test', 'additional_key': 'hello!]."
         else:
             utterance = "Hi!"
-        # return json_example
         return utterance
 
 
@@ -117,7 +116,7 @@ class DialogueQuestGame:
         # append the initial message of each player to their history
         self.questioner.history.append({'role': 'user', 'content': prompt_player_a})
         self.answerer.history.append({'role': 'user', 'content': prompt_player_b})
-        # Mock turn to ensure alternation of roles
+        # mock turn to ensure alternation of roles
         self.answerer.history.append({'role': 'assistant', 'content': "OK"})
 
     def get_utterance(self, player: str, current_turn: int) -> str:
