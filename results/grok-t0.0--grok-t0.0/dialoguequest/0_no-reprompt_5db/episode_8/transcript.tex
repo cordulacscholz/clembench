@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a restaurant to be:\\ \tt {'pricerange': 'moderate', 'area': 'centre'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'phone', 'food']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi there! I'm looking to book a restaurant in the city centre with moderate pricing. Could you help me find a place that serves good food, and also provide the postcode and phone number for the restaurant? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'Crowne Plaza Hotel 20 Downing Street', 'area': 'centre', 'food': 'international', 'id': '14742', 'introduction': '', 'location': [52.20342, 0.12171], 'name': 'bloomsbury restaurant', 'phone': '08719429180', 'postcode': 'cb23dt', 'pricerange': 'moderate', 'signature': 'coconut and red chilli monkfish', 'type': 'restaurant'}, {'address': '17 Hills Road City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19222', 'introduction': 'sesame restaurant and bar offers a wide variety of traditional chinese cuisine for lunch or dinner with wifi access and a television screen in the basement', 'location': [52.197154, 0.129511], 'name': 'sesame restaurant and bar', 'phone': '01223358899', 'postcode': 'cb21nw', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '31 Newnham Road Newnham', 'area': 'west', 'food': 'indian', 'id': '19254', 'introduction': 'indian house serve a variety of indian dishes to eat in or take away they also have a selection of english dishes on their menu', 'location': [52.199012, 0.113196], 'name': 'india house', 'phone': '01223461661', 'postcode': 'cb39ey', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '83 Regent Street', 'area': 'centre', 'food': 'modern european', 'id': '3697', 'introduction': 'de luca cucina bar in the heart of cambridge is a stylish spot to enjoy food, wine, cocktails and coffee all in a vibrant atmosphere. The cocktail bar at the front is perfect for coffee and light meals in the day and cocktails in the evening. An open kitchen provides real excitement with head chef darren kiegher and his team preparing simply delicious italian food using locally sourced ingredients.', 'location': [52.2002, 0.1268], 'name': 'de luca cucina and bar', 'phone': '01223356666', 'postcode': 'cb21aw', 'pricerange': 'moderate', 'signature': 'roasted barbary duck breast served with sweet potato wedges and mange tout with a red wine sauce', 'type': 'restaurant'}, {'address': '1 Kings Parade', 'area': 'centre', 'food': 'british', 'id': '6941', 'introduction': '', 'location': [52.20439, 0.11784], 'name': 'the cambridge chop house', 'phone': '01223359506', 'postcode': 'cb21sj', 'pricerange': 'expensive', 'signature': 'lamb barnsley chop potato and garlic bake greens and gravy', 'type': 'restaurant'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi there! I'm looking to book a restaurant in the city centre with moderate pricing. Could you help me find a place that serves good food, and also provide the postcode and phone number for the restaurant? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I'd be happy to help you find a restaurant in the city centre with moderate pricing. One option that fits your criteria is the **Bloomsbury Restaurant**. It's located at Crowne Plaza Hotel, 20 Downing Street, with the postcode CB2 3DT. You can reach them at 08719429180. Would you like to know more about the cuisine they offer or make a booking? The ID for this restaurant is **14742**. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '41518 Castle Street City Centre', 'area': 'west', 'food': 'indian', 'id': '19250', 'introduction': 'maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request', 'location': [52.212444, 0.112823], 'name': 'maharajah tandoori restaurant', 'phone': '01223358399', 'postcode': 'cb30ah', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '41518 Castle Street City Centre', 'area': 'west', 'food': 'indian', 'id': '19250', 'introduction': 'maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request', 'location': [52.212444, 0.112823], 'name': 'maharajah tandoori restaurant', 'phone': '01223358399', 'postcode': 'cb30ah', 'pricerange': 'expensive', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi there! I'm looking to book a restaurant in the city centre with moderate pricing. Could you help me find a place that serves good food, and also provide the postcode and phone number for the restaurant?\\ \tt \\ \tt I'd be happy to help you find a restaurant in the city centre with moderate pricing. One option that fits your criteria is the **Bloomsbury Restaurant**. It's located at Crowne Plaza Hotel, 20 Downing Street, with the postcode CB2 3DT. You can reach them at 08719429180. Would you like to know more about the cuisine they offer or make a booking? The ID for this restaurant is **14742**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "Crowne Plaza Hotel, 20 Downing Street", "id": "14742", "name": "Bloomsbury Restaurant", "phone": "08719429180", "postcode": "CB2 3DT"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'Crowne Plaza Hotel, 20 Downing Street', 'id': '14742', 'name': 'Bloomsbury Restaurant', 'phone': '08719429180', 'postcode': 'CB2 3DT'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 I'd be happy to help you find a restaurant in the city centre with moderate pricing. One option that fits your criteria is the **Bloomsbury Restaurant**. It's located at Crowne Plaza Hotel, 20 Downing Street, with the postcode CB2 3DT. You can reach them at 08719429180. Would you like to know more about the cuisine they offer or make a booking? The ID for this restaurant is **14742**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds great! Could you tell me what type of food they serve at Bloomsbury Restaurant? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds great! Could you tell me what type of food they serve at Bloomsbury Restaurant? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 The Bloomsbury Restaurant serves **international** cuisine. Would you like to know more about their signature dishes or make a booking? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '41518 Castle Street City Centre', 'area': 'west', 'food': 'indian', 'id': '19250', 'introduction': 'maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request', 'location': [52.212444, 0.112823], 'name': 'maharajah tandoori restaurant', 'phone': '01223358399', 'postcode': 'cb30ah', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '41518 Castle Street City Centre', 'area': 'west', 'food': 'indian', 'id': '19250', 'introduction': 'maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request', 'location': [52.212444, 0.112823], 'name': 'maharajah tandoori restaurant', 'phone': '01223358399', 'postcode': 'cb30ah', 'pricerange': 'expensive', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds great! Could you tell me what type of food they serve at Bloomsbury Restaurant?\\ \tt \\ \tt The Bloomsbury Restaurant serves **international** cuisine. Would you like to know more about their signature dishes or make a booking? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"food": "international", "id": "14742", "name": "Bloomsbury Restaurant"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'Crowne Plaza Hotel, 20 Downing Street', 'id': '14742', 'name': 'Bloomsbury Restaurant', 'phone': '08719429180', 'postcode': 'CB2 3DT', 'food': 'international'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 The Bloomsbury Restaurant serves **international** cuisine. Would you like to know more about their signature dishes or make a booking? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 International cuisine sounds perfect. I'll go ahead and book the Bloomsbury Restaurant with the ID **14742**. Thanks for your help! FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: international cuisine sounds perfect. i'll go ahead and book the bloomsbury restaurant with the id **14742**. thanks for your help! fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': 'Crowne Plaza Hotel, 20 Downing Street', 'id': '14742', 'name': 'Bloomsbury Restaurant', 'phone': '08719429180', 'postcode': 'CB2 3DT', 'food': 'international'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

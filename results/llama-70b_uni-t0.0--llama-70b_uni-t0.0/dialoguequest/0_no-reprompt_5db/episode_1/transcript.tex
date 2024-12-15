@@ -1,0 +1,432 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a hotel. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a hotel to be:\\ \tt {'pricerange': 'moderate', 'internet': 'yes'}\\ \tt \\ \tt Make sure to get:\\ \tt ['address', 'name', 'phone']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 I'm looking to book a hotel. I'd like the hotel to have moderate pricing and have internet available. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': '328a histon road', 'area': 'north', 'internet': 'yes', 'parking': 'yes', 'id': '13', 'location': [52.227589, 0.112288], 'name': 'city centre north b and b', 'phone': '01223312843', 'postcode': 'cb43ht', 'price': {'single': '40'}, 'pricerange': 'cheap', 'stars': '0', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '56 saint barnabas road', 'area': 'centre', 'internet': 'yes', 'parking': 'yes', 'id': '2', 'location': [52.1986444444444, 0.138133333333333], 'name': 'alexander bed and breakfast', 'phone': '01223525725', 'postcode': 'cb12de', 'price': {'double': '50', 'single': '40'}, 'pricerange': 'cheap', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '78-80 milton road', 'area': 'north', 'internet': 'yes', 'parking': 'yes', 'id': '21', 'location': [52.2309912, 0.1295545], 'name': 'home from home', 'phone': '01223323555', 'postcode': 'cb41la', 'price': {'double': '75', 'family': '105', 'single': '50'}, 'pricerange': 'moderate', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '78-80 milton road', 'area': 'north', 'internet': 'yes', 'parking': 'yes', 'id': '25', 'location': [52.2309912, 0.1295545], 'name': 'limehouse', 'phone': '01223300552', 'postcode': 'cb42je', 'price': {'double': '75', 'single': '40'}, 'pricerange': 'moderate', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 I'm looking to book a hotel. I'd like the hotel to have moderate pricing and have internet available. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Based on your requirements, I'd like to suggest a few options. However, I'd like to clarify that the options I have are guesthouses, not hotels. They do meet your criteria of having moderate pricing and internet availability.\\ \tt \\ \tt Before I suggest some options, I'd like to ask, are you looking for a specific type of room, such as a single, double, or family room? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '56 saint barnabas road', 'area': 'centre', 'internet': 'yes', 'parking': 'yes', 'id': '2', 'location': [52.1986444444444, 0.138133333333333], 'name': 'alexander bed and breakfast', 'phone': '01223525725', 'postcode': 'cb12de', 'price': {'double': '50', 'single': '40'}, 'pricerange': 'cheap', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '56 saint barnabas road', 'area': 'centre', 'internet': 'yes', 'parking': 'yes', 'id': '2', 'location': [52.1986444444444, 0.138133333333333], 'name': 'alexander bed and breakfast', 'phone': '01223525725', 'postcode': 'cb12de', 'price': {'double': '50', 'single': '40'}, 'pricerange': 'cheap', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt I'm looking to book a hotel. I'd like the hotel to have moderate pricing and have internet available. Can you suggest some options for me?\\ \tt \\ \tt Based on your requirements, I'd like to suggest a few options. However, I'd like to clarify that the options I have are guesthouses, not hotels. They do meet your criteria of having moderate pricing and internet availability.\\ \tt \\ \tt Before I suggest some options, I'd like to ask, are you looking for a specific type of room, such as a single, double, or family room? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Based on your requirements, I'd like to suggest a few options. However, I'd like to clarify that the options I have are guesthouses, not hotels. They do meet your criteria of having moderate pricing and internet availability.\\ \tt \\ \tt Before I suggest some options, I'd like to ask, are you looking for a specific type of room, such as a single, double, or family room? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 I'm looking for a double room. And that's okay, guesthouses are fine too. Please go ahead and suggest some options. What are they? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 I'm looking for a double room. And that's okay, guesthouses are fine too. Please go ahead and suggest some options. What are they? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Based on your requirements, I'd like to suggest a few options. \\ \tt \\ \tt I have a few guesthouses that meet your criteria of having moderate pricing, internet availability, and a double room. \\ \tt \\ \tt One option is the "Hobsons House" guesthouse, which has a double room available for £75. It's located at 96 Barton Road, has internet and parking available, and has a 3-star rating. The id for this guesthouse is 20.\\ \tt \\ \tt Would you like me to suggest more options or would you like to book this one? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '56 saint barnabas road', 'area': 'centre', 'internet': 'yes', 'parking': 'yes', 'id': '2', 'location': [52.1986444444444, 0.138133333333333], 'name': 'alexander bed and breakfast', 'phone': '01223525725', 'postcode': 'cb12de', 'price': {'double': '50', 'single': '40'}, 'pricerange': 'cheap', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '56 saint barnabas road', 'area': 'centre', 'internet': 'yes', 'parking': 'yes', 'id': '2', 'location': [52.1986444444444, 0.138133333333333], 'name': 'alexander bed and breakfast', 'phone': '01223525725', 'postcode': 'cb12de', 'price': {'double': '50', 'single': '40'}, 'pricerange': 'cheap', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt I'm looking for a double room. And that's okay, guesthouses are fine too. Please go ahead and suggest some options. What are they?\\ \tt \\ \tt Based on your requirements, I'd like to suggest a few options. \\ \tt \\ \tt I have a few guesthouses that meet your criteria of having moderate pricing, internet availability, and a double room. \\ \tt \\ \tt One option is the "Hobsons House" guesthouse, which has a double room available for £75. It's located at 96 Barton Road, has internet and parking available, and has a 3-star rating. The id for this guesthouse is 20.\\ \tt \\ \tt Would you like me to suggest more options or would you like to book this one? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "96 Barton Road", "id": "20", "name": "Hobsons House", "price": {"double": "75"}, "stars": "3", "type": "guesthouse"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '96 Barton Road', 'id': '20', 'name': 'Hobsons House', 'price': {'double': '75'}, 'stars': '3', 'type': 'guesthouse'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Based on your requirements, I'd like to suggest a few options. \\ \tt \\ \tt I have a few guesthouses that meet your criteria of having moderate pricing, internet availability, and a double room. \\ \tt \\ \tt One option is the "Hobsons House" guesthouse, which has a double room available for £75. It's located at 96 Barton Road, has internet and parking available, and has a 3-star rating. The id for this guesthouse is 20.\\ \tt \\ \tt Would you like me to suggest more options or would you like to book this one? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds like a good option, but I'd like to see a few more before I make a decision. Also, could you tell me the phone number for Hobsons House? And do you have any other options with similar prices and amenities? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds like a good option, but I'd like to see a few more before I make a decision. Also, could you tell me the phone number for Hobsons House? And do you have any other options with similar prices and amenities? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I can provide you with the phone number for Hobsons House, which is 01223304906.\\ \tt \\ \tt As for other options, I have another guesthouse that meets your criteria. One option is the "Limehouse" guesthouse, which has a double room available for £75. It's located at 78-80 Milton Road, has internet and parking available, and has a 4-star rating. The id for this guesthouse is 25.\\ \tt \\ \tt Here is the updated list of options:\\ \tt \\ \tt [{"address": "96 Barton Road", "id": "20", "name": "Hobsons House", "phone": "01223304906", "price": {"double": "75"}, "stars": "3", "type": "guesthouse"}, {"address": "78-80 Milton Road", "id": "25", "name": "Limehouse", "price": {"double": "75"}, "stars": "4", "type": "guest 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 incomplete. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 invalid 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 too many reprompts; abort 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

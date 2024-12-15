@@ -1,0 +1,108 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a hotel. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a hotel to be:\\ \tt {'parking': 'yes', 'internet': 'yes', 'stars': '4'}\\ \tt \\ \tt Make sure to get:\\ \tt ['phone', 'postcode', 'address']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Sure, I can help you find a hotel that meets your requirements. You're looking for a 4-star hotel that offers parking and internet. Let me find some options for you.\\ \tt \\ \tt I've found a few hotels that might suit your needs. Here are a couple of them:\\ \tt \\ \tt 1. **Hotel Grandview**\\ \tt    - **Parking:** Yes\\ \tt    - **Internet:** Yes\\ \tt    - **Stars:** 4\\ \tt    - **Phone:** +1 234 567 8900\\ \tt    - **Postcode:** 12345\\ \tt    - **Address:** 123 Main Street, Cityville\\ \tt \\ \tt 2. **Hotel Cityscape**\\ \tt    - **Parking:** Yes\\ \tt    - **Internet:** Yes\\ \tt    - **Stars:** 4\\ \tt    - **Phone:** +1 321 654 0987\\ \tt    - **Postcode:** 54321\\ \tt    - ** 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 incomplete. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 invalid 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 too many reprompts; abort 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

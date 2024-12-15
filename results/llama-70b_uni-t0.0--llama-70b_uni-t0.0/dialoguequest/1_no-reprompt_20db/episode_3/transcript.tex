@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'area': 'centre', 'type': 'nightclub'}\\ \tt \\ \tt Make sure to get:\\ \tt ['address', 'openhours', 'name']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi, I'm looking to book an attraction in the city centre. I'm particularly interested in nightclubs. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'wheeler street', 'area': 'centre', 'entrance fee': '?', 'id': '66', 'location': [52.20431, 0.119215], 'name': 'the cambridge corn exchange', 'openhours': '?', 'phone': '01223357851', 'postcode': 'cb23qe', 'pricerange': '?', 'type': 'theatre'}, {'address': "saint andrew's street", 'area': 'centre', 'entrance fee': 'free', 'id': '27', 'location': [52.203572, 0.123778], 'name': 'emmanuel college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223334200', 'postcode': 'cb23ap', 'pricerange': 'free', 'type': 'college'}, {'address': "king's parade", 'area': 'centre', 'entrance fee': 'free', 'id': '58', 'location': [52.202839, 0.116394], 'name': "saint catharine's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223338300', 'postcode': 'cb21rl', 'pricerange': 'free', 'type': 'college'}, {'address': 'the old pumping station, cheddars lane', 'area': 'east', 'entrance fee': '5 pounds', 'id': '14', 'location': [52.21247, 0.15619], 'name': 'cambridge museum of technology', 'openhours': 'it opens on sunday from 2:00 p.m. to 5:00 p.m.', 'phone': '01223368650', 'postcode': 'cb58ld', 'pricerange': 'expensive', 'type': 'museum'}, {'address': "king's parade", 'area': 'centre', 'entrance fee': '2 pounds', 'id': '25', 'location': [52.2028416666667, 0.117844444444444], 'name': 'corpus christi', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223338000', 'postcode': 'cb21rh', 'pricerange': 'cheap', 'type': 'college'}, {'address': 'the grafton centre, east road', 'area': 'centre', 'entrance fee': '?', 'id': '75', 'location': [52.20571, 0.131061], 'name': 'vue cinema', 'openhours': '?', 'phone': '08712240240', 'postcode': 'cb11ps', 'pricerange': '?', 'type': 'cinema'}, {'address': '10 king s parade', 'area': 'centre', 'entrance fee': 'free', 'id': '52', 'location': [52.2034781571435, 0.119176917855308], 'name': 'primavera', 'openhours': 'it opens from 11:00 a.m. to 4:30 p.m. on sunday, from 10:00 a.m. to 5:00 p.m. from monday to friday, and from 10:00 a.m. to 5:30 p.m. on saturday', 'phone': '01223357708', 'postcode': 'cb21sj', 'pricerange': 'free', 'type': 'museum'}, {'address': 'trumpington street', 'area': 'centre', 'entrance fee': 'free', 'id': '70', 'location': [52.19855, 0.121785], 'name': 'the fitzwilliam museum', 'openhours': 'from tuesday to saturday it opens from 10 a.m. to 5 p.m. while on sunday, monday and bank holidays it opens from 12 to 5 p.m.', 'phone': '01223332900', 'postcode': 'cb21rb', 'pricerange': 'free', 'type': 'museum'}, {'address': 'sidney street', 'area': 'centre', 'entrance fee': 'free', 'id': '63', 'location': [52.207464, 0.121342], 'name': 'sidney sussex college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223338800', 'postcode': 'cb23hu', 'pricerange': 'free', 'type': 'college'}, {'address': 'castle street', 'area': 'west', 'entrance fee': 'free', 'id': '37', 'location': [52.212405, 0.113075], 'name': "kettle's yard", 'openhours': 'it opens from 11:30 a.m. to 5:00 p.m. tuesday to sunday', 'phone': '01223748100', 'postcode': 'cb30aq', 'pricerange': 'free', 'type': 'museum'}, {'address': 'jedburgh court, kings hedges', 'area': 'north', 'entrance fee': '?', 'id': '39', 'location': [52.23171, 0.122415], 'name': 'kings hedges learner pool', 'openhours': '?', 'phone': '01223353248', 'postcode': 'cb42xh', 'pricerange': '?', 'type': 'swimmingpool'}, {'address': "14 king's parade", 'area': 'south', 'entrance fee': 'free', 'id': '6', 'location': [52.1725982, 0.1112224], 'name': 'byard art', 'openhours': 'it opens from 09:30 a.m. to 5:30 p.m. from monday to saturday, and from 11:00 a.m. to 4:00 p.m. on sunday', 'phone': '01223464646', 'postcode': 'cb21sj', 'pricerange': 'free', 'type': 'museum'}, {'address': 'unit 8, viking way, bar hill', 'area': 'west', 'entrance fee': '?', 'id': '77', 'location': [52.254, 0.016478], 'name': 'whale of a time', 'openhours': 'it opens from 09:30 a.m. to 6:00 p.m. daily', 'phone': '01954781018', 'postcode': 'cb238el', 'pricerange': '?', 'type': 'entertainment'}, {'address': 'girton college, huntingdon road', 'area': 'west', 'entrance fee': 'free', 'id': '51', 'location': [52.228375, 0.0837527777777778], 'name': "people's portraits exhibition at girton college", 'openhours': 'it opens from 2:00 p.m. to 4:00 p.m. daily from february to july', 'phone': '01223338901', 'postcode': 'cb3ojg', 'pricerange': 'free', 'type': 'museum'}, {'address': 'free school lane', 'area': 'centre', 'entrance fee': 'free', 'id': '78', 'location': [52.203117, 0.118928], 'name': 'whipple museum of the history of science', 'openhours': 'it opens from 12:30 p.m. to 4:30 p.m. from monday to friday', 'phone': '01223330906', 'postcode': 'cb23rh', 'pricerange': 'free', 'type': 'museum'}, {'address': 'trinity street', 'area': 'centre', 'entrance fee': 'free', 'id': '30', 'location': [52.205861, 0.117972], 'name': 'gonville and caius college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223332400', 'postcode': 'cb21ta', 'pricerange': 'free', 'type': 'college'}, {'address': 'anglia ruskin enterprise, east road', 'area': 'centre', 'entrance fee': '?', 'id': '44', 'location': [52.20571, 0.131061], 'name': 'mumford theatre', 'openhours': '?', 'phone': '08451962320', 'postcode': 'cb11pt', 'pricerange': '?', 'type': 'theatre'}, {'address': 'market square', 'area': 'centre', 'entrance fee': '2 pounds', 'id': '31', 'location': [52.2049472222222, 0.118222222222222], 'name': "great saint mary's church", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m.', 'phone': '01223350914', 'postcode': 'cb23pq', 'pricerange': 'cheap', 'type': 'architecture'}, {'address': '8 market passage', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '69', 'location': [52.206144, 0.120283], 'name': 'the fez club', 'openhours': 'it opens on monday from 9 p.m. to 2 a.m.. it is closed on tuesday. from wednesday to saturday it opens from 9 p.m. to 2 a.m. and it is closed on sunday', 'phone': '01223519224', 'postcode': 'cb23hx', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': "saint andrew's street", 'area': 'centre', 'entrance fee': 'free', 'id': '19', 'location': [52.20635, 0.121727777777778], 'name': "christ's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223334900', 'postcode': 'cb23bu', 'pricerange': 'free', 'type': 'college'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi, I'm looking to book an attraction in the city centre. I'm particularly interested in nightclubs. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I'd be happy to help you with that. Based on your interest in nightclubs in the city centre, I found one option that fits your request.\\ \tt \\ \tt I suggest you consider "The Fez Club" (id: 69). It's located at 8 Market Passage in the city centre. The entrance fee is 5 pounds, and it's open from 9 p.m. to 2 a.m. on Mondays, Wednesdays, Thursdays, Fridays, and Saturdays. Please note that it's closed on Tuesdays and Sundays.\\ \tt \\ \tt Would you like to book "The Fez Club" or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'sidney street', 'area': 'centre', 'entrance fee': 'free', 'id': '63', 'location': [52.207464, 0.121342], 'name': 'sidney sussex college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223338800', 'postcode': 'cb23hu', 'pricerange': 'free', 'type': 'college'}, {'address': 'sidney street', 'area': 'centre', 'entrance fee': 'free', 'id': '63', 'location': [52.207464, 0.121342], 'name': 'sidney sussex college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223338800', 'postcode': 'cb23hu', 'pricerange': 'free', 'type': 'college'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi, I'm looking to book an attraction in the city centre. I'm particularly interested in nightclubs. Can you suggest some options for me?\\ \tt \\ \tt I'd be happy to help you with that. Based on your interest in nightclubs in the city centre, I found one option that fits your request.\\ \tt \\ \tt I suggest you consider "The Fez Club" (id: 69). It's located at 8 Market Passage in the city centre. The entrance fee is 5 pounds, and it's open from 9 p.m. to 2 a.m. on Mondays, Wednesdays, Thursdays, Fridays, and Saturdays. Please note that it's closed on Tuesdays and Sundays.\\ \tt \\ \tt Would you like to book "The Fez Club" or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "8 Market Passage", "area": "city centre", "entrance fee": "5 pounds", "id": "69", "name": "The Fez Club", "openhours": "it's open from 9 p.m. to 2 a.m. on Mondays, Wednesdays, Thursdays, Fridays, and Saturdays. Please note that it's closed on Tuesdays and Sundays."}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '8 Market Passage', 'area': 'city centre', 'entrance fee': '5 pounds', 'id': '69', 'name': 'The Fez Club', 'openhours': "it's open from 9 p.m. to 2 a.m. on Mondays, Wednesdays, Thursdays, Fridays, and Saturdays. Please note that it's closed on Tuesdays and Sundays."}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 I'd be happy to help you with that. Based on your interest in nightclubs in the city centre, I found one option that fits your request.\\ \tt \\ \tt I suggest you consider "The Fez Club" (id: 69). It's located at 8 Market Passage in the city centre. The entrance fee is 5 pounds, and it's open from 9 p.m. to 2 a.m. on Mondays, Wednesdays, Thursdays, Fridays, and Saturdays. Please note that it's closed on Tuesdays and Sundays.\\ \tt \\ \tt Would you like to book "The Fez Club" or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds like a great option. Before I make a decision, do you have any other nightclubs in the city centre that I could consider? I'd like to compare a few options before booking. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds like a great option. Before I make a decision, do you have any other nightclubs in the city centre that I could consider? I'd like to compare a few options before booking. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Unfortunately, based on our previous conversation, I only found one nightclub in the city centre that matches your request, which is "The Fez Club" (id: 69). I don't have any other options to suggest at this time. If you'd like, I can try to look for other types of attractions in the city centre, or you can go ahead and book "The Fez Club" if it meets your needs. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'sidney street', 'area': 'centre', 'entrance fee': 'free', 'id': '63', 'location': [52.207464, 0.121342], 'name': 'sidney sussex college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223338800', 'postcode': 'cb23hu', 'pricerange': 'free', 'type': 'college'}, {'address': 'sidney street', 'area': 'centre', 'entrance fee': 'free', 'id': '63', 'location': [52.207464, 0.121342], 'name': 'sidney sussex college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223338800', 'postcode': 'cb23hu', 'pricerange': 'free', 'type': 'college'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds like a great option. Before I make a decision, do you have any other nightclubs in the city centre that I could consider? I'd like to compare a few options before booking.\\ \tt \\ \tt Unfortunately, based on our previous conversation, I only found one nightclub in the city centre that matches your request, which is "The Fez Club" (id: 69). I don't have any other options to suggest at this time. If you'd like, I can try to look for other types of attractions in the city centre, or you can go ahead and book "The Fez Club" if it meets your needs. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"id": "69", "name": "The Fez Club"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '8 Market Passage', 'area': 'city centre', 'entrance fee': '5 pounds', 'id': '69', 'name': 'The Fez Club', 'openhours': "it's open from 9 p.m. to 2 a.m. on Mondays, Wednesdays, Thursdays, Fridays, and Saturdays. Please note that it's closed on Tuesdays and Sundays."}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Unfortunately, based on our previous conversation, I only found one nightclub in the city centre that matches your request, which is "The Fez Club" (id: 69). I don't have any other options to suggest at this time. If you'd like, I can try to look for other types of attractions in the city centre, or you can go ahead and book "The Fez Club" if it meets your needs. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 In that case, I think I'll go ahead and book "The Fez Club" (id: 69). It seems to fit all my requirements, so I'm happy to proceed with the booking. FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: in that case, i think i'll go ahead and book "the fez club" (id: 69). it seems to fit all my requirements, so i'm happy to proceed with the booking. fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': '8 Market Passage', 'area': 'city centre', 'entrance fee': '5 pounds', 'id': '69', 'name': 'The Fez Club', 'openhours': "it's open from 9 p.m. to 2 a.m. on Mondays, Wednesdays, Thursdays, Fridays, and Saturdays. Please note that it's closed on Tuesdays and Sundays."} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

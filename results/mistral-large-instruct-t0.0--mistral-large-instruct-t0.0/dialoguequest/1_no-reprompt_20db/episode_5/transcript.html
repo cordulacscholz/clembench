@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+  
+
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for no-reprompt_20db, episode 5 with mistral-large-instruct-t0.0--mistral-large-instruct-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>You are a customer who wants to make a booking.<br/><br/>You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.<br/><br/>You need a restaurant to be:<br/>{&#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;}<br/><br/>Make sure to get:<br/>[&#x27;postcode&#x27;, &#x27;phone&#x27;, &#x27;name&#x27;]<br/><br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Make sure to never use any markup and only respond in natural language!<br/><br/>Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.<br/></p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 0</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>Sure, I&#x27;d like to book a restaurant in the centre of town, and I&#x27;m looking for something on the expensive side. Could you suggest a few options that fit these criteria?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>You are an assistant who is assisting someone with making a booking.<br/><br/>Make sure that you provide them with all relevant information.<br/>In case you need some more information, ask them.<br/>Suggest one option which fits the request.<br/>You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!<br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.<br/><br/>Relevant data: [{&#x27;address&#x27;: &#x27;88 Mill Road City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19185&#x27;, &#x27;introduction&#x27;: &#x27;rice house serve a variety of popular chinese dishes at their restaurant&#x27;, &#x27;location&#x27;: [52.199332, 0.138395], &#x27;name&#x27;: &#x27;rice house&#x27;, &#x27;phone&#x27;: &#x27;01223367755&#x27;, &#x27;postcode&#x27;: &#x27;cb12bd&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Hotel Felix Whitehouse Lane Huntingdon Road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;7492&#x27;, &#x27;introduction&#x27;: &#x27;Critically acclaimed food in luxurious and stylish surroundings, overlooking the hotels lush gardens.&#x27;, &#x27;location&#x27;: [52.22414, 0.09194], &#x27;name&#x27;: &#x27;graffiti&#x27;, &#x27;phone&#x27;: &#x27;01223277977&#x27;, &#x27;postcode&#x27;: &#x27;cb30lx&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;signature&#x27;: &#x27;panfried fillet of brill tempura of langoustine crushed garden peas shellfish basil nage&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &quot;St. Michael&#x27;s Church Trinity Street City Centre&quot;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;european&#x27;, &#x27;id&#x27;: &#x27;19227&#x27;, &#x27;introduction&#x27;: &quot;digby trout is a chain of restaurants that are located in many of london&#x27;s premier tourist attractions. they serve modern european cuisine and are open for lunch and dinner. situated in st michaels church, michaelhouse cafe serves coffee sandwiches and lunch from a regularly changing menu&quot;, &#x27;location&#x27;: [52.20608, 0.118215], &#x27;name&#x27;: &#x27;michaelhouse cafe&#x27;, &#x27;phone&#x27;: &#x27;01223309147&#x27;, &#x27;postcode&#x27;: &#x27;cb21su&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;21 - 24 Northampton Street&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;14810&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.21031, 0.11381], &#x27;name&#x27;: &#x27;saint johns chop house&#x27;, &#x27;phone&#x27;: &#x27;01223353110&#x27;, &#x27;postcode&#x27;: &#x27;cb30ad&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;signature&#x27;: &#x27;barnsley chop braised potatoes roast celeriac red cabbage and port sauce&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;15 Magdalene Street City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;italian&#x27;, &#x27;id&#x27;: &#x27;19247&#x27;, &#x27;introduction&#x27;: &#x27;la margherita serve a variety of italian and vegetarian dishes at their restaurant&#x27;, &#x27;location&#x27;: [52.210226, 0.115646], &#x27;name&#x27;: &#x27;la margherita&#x27;, &#x27;phone&#x27;: &#x27;01223315232&#x27;, &#x27;postcode&#x27;: &#x27;cb30af&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Bridge Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;french&#x27;, &#x27;id&#x27;: &#x27;19230&#x27;, &#x27;introduction&#x27;: &#x27;cote is a modern french bistro offering some of the classic and simple favourites of french cuisine&#x27;, &#x27;location&#x27;: [52.209028, 0.118296], &#x27;name&#x27;: &#x27;cote&#x27;, &#x27;phone&#x27;: &#x27;01223311053&#x27;, &#x27;postcode&#x27;: &#x27;cb21uf&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Cambridge Leisure Park Clifton Way&#x27;, &#x27;area&#x27;: &#x27;south&#x27;, &#x27;food&#x27;: &#x27;portuguese&#x27;, &#x27;id&#x27;: &#x27;12238&#x27;, &#x27;introduction&#x27;: &quot;It&#x27;s Nandos&quot;, &#x27;location&#x27;: [52.19017, 0.13699], &#x27;name&#x27;: &#x27;nandos&#x27;, &#x27;phone&#x27;: &#x27;01223327908&#x27;, &#x27;postcode&#x27;: &#x27;cb17dy&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;43 High Street Cherry Hinton Cherry Hinton&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19198&#x27;, &#x27;location&#x27;: [52.186739, 0.173048], &#x27;name&#x27;: &#x27;sitar tandoori&#x27;, &#x27;phone&#x27;: &#x27;01223249955&#x27;, &#x27;postcode&#x27;: &#x27;cb19hx&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Market Hill City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;italian&#x27;, &#x27;id&#x27;: &#x27;19240&#x27;, &#x27;location&#x27;: [52.205442, 0.119706], &#x27;name&#x27;: &#x27;stazione restaurant and coffee bar&#x27;, &#x27;phone&#x27;: &#x27;01223352607&#x27;, &#x27;postcode&#x27;: &#x27;cb23nj&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;36 Saint Andrews Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;japanese&#x27;, &#x27;id&#x27;: &#x27;12638&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.203, 0.12375], &#x27;name&#x27;: &#x27;wagamama&#x27;, &#x27;phone&#x27;: &#x27;01223462354&#x27;, &#x27;postcode&#x27;: &#x27;cb23ar&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;12 Norfolk Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19186&#x27;, &#x27;introduction&#x27;: &#x27;lan hong house serves great value home cooked authentic chinese food with over two five dishes available from the buffet&#x27;, &#x27;location&#x27;: [52.204609, 0.137976], &#x27;name&#x27;: &#x27;lan hong house&#x27;, &#x27;phone&#x27;: &#x27;01223350420&#x27;, &#x27;postcode&#x27;: &#x27;cb12lf&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;82 Cherry Hinton Road Cherry Hinton&#x27;, &#x27;area&#x27;: &#x27;south&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19192&#x27;, &#x27;location&#x27;: [52.188528, 0.140627], &#x27;name&#x27;: &#x27;the good luck chinese food takeaway&#x27;, &#x27;phone&#x27;: &#x27;01223244149&#x27;, &#x27;postcode&#x27;: &#x27;cb17ag&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;35 Newnham Road Newnham&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;thai&#x27;, &#x27;id&#x27;: &#x27;19256&#x27;, &#x27;introduction&#x27;: &#x27;sala thong serves a variety of thai dishes at their restaurant catering for private parties of up to 40 guests is available upon request&#x27;, &#x27;location&#x27;: [52.199012, 0.113196], &#x27;name&#x27;: &#x27;sala thong&#x27;, &#x27;phone&#x27;: &#x27;01223323178&#x27;, &#x27;postcode&#x27;: &#x27;cb39ey&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;35 Saint Andrews Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;19235&#x27;, &#x27;introduction&#x27;: &#x27;the varsity restaurant serves a variety of international and vegetarian dishes and can cater for private parties of up to 40 guests upon request&#x27;, &#x27;location&#x27;: [52.202793, 0.123488], &#x27;name&#x27;: &#x27;the varsity restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223356060&#x27;, &#x27;postcode&#x27;: &#x27;cb23ar&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;15 - 19 Trumpington Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;european&#x27;, &#x27;id&#x27;: &#x27;4607&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.19934, 0.12146], &#x27;name&#x27;: &#x27;hotel du vin and bistro&#x27;, &#x27;phone&#x27;: &#x27;01223227330&#x27;, &#x27;postcode&#x27;: &#x27;cb21qa&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;signature&#x27;: &#x27;&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Regent Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;north american&#x27;, &#x27;id&#x27;: &#x27;19209&#x27;, &#x27;introduction&#x27;: &#x27;gourmet burger kitchen has a trendy interior and, although a bit more expensive than the average high street burger joint, the delicious burgers and other dishes are huge and freshly prepared with large side orders to match. Catering for vegetarians is provided&#x27;, &#x27;location&#x27;: [52.20103, 0.126023], &#x27;name&#x27;: &#x27;gourmet burger kitchen&#x27;, &#x27;phone&#x27;: &#x27;01223312598&#x27;, &#x27;postcode&#x27;: &#x27;cb21ab&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Doubletree by Hilton Cambridge Granta Place Mill Lane&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;modern european&#x27;, &#x27;id&#x27;: &#x27;10347&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20025, 0.11659], &#x27;name&#x27;: &#x27;riverside brasserie&#x27;, &#x27;phone&#x27;: &#x27;01223259988&#x27;, &#x27;postcode&#x27;: &#x27;cb21rt&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Napier Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19174&#x27;, &#x27;introduction&#x27;: &#x27;tang chinese is a buffet restaurant and bar serving a variety of dishes for lunch and dinner there is also a takeaway menu available&#x27;, &#x27;location&#x27;: [52.207702, 0.133982], &#x27;name&#x27;: &#x27;tang chinese&#x27;, &#x27;phone&#x27;: &#x27;01223357187&#x27;, &#x27;postcode&#x27;: &#x27;cb11hr&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;34 - 35 Green Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;gastropub&#x27;, &#x27;id&#x27;: &#x27;12482&#x27;, &#x27;introduction&#x27;: &#x27;slug lettuce is a premium high street bar that serves a wide range of restaurant quality food to suit all occasions and appetites.&#x27;, &#x27;location&#x27;: [52.20683, 0.1192], &#x27;name&#x27;: &#x27;the slug and lettuce&#x27;, &#x27;postcode&#x27;: &#x27;cb23ju&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;74 Mill Road City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19180&#x27;, &#x27;introduction&#x27;: &#x27;kohinoor serves a variety of indian and vegetarian dishes at their restaurant a takeaway and delivery service is also available&#x27;, &#x27;location&#x27;: [52.200422, 0.135784], &#x27;name&#x27;: &#x27;kohinoor&#x27;, &#x27;phone&#x27;: &#x27;01223323639&#x27;, &#x27;postcode&#x27;: &#x27;cb12as&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/></p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Sure, I&#x27;d like to book a restaurant in the centre of town, and I&#x27;m looking for something on the expensive side. Could you suggest a few options that fit these criteria?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Certainly! One option that fits your criteria is &quot;Cote,&quot; located at Bridge Street in the city centre. It&#x27;s a modern French bistro offering some of the classic and simple favorites of French cuisine. The phone number for Cote is 01223311053, and the postcode is CB21UF. Would you like more details or to proceed with a booking at Cote?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;33 Bridge Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;european&#x27;, &#x27;id&#x27;: &#x27;6780&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20951, 0.11669], &#x27;name&#x27;: &#x27;galleria&#x27;, &#x27;phone&#x27;: &#x27;01223362054&#x27;, &#x27;postcode&#x27;: &#x27;cb21uw&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;signature&#x27;: &#x27;poached fillets of monkfish in lemongrass with sweet red chilli cream sauce and tiger prawns with leeks and mushrooms served with rice&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;33 Bridge Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;european&#x27;, &#x27;id&#x27;: &#x27;6780&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20951, 0.11669], &#x27;name&#x27;: &#x27;galleria&#x27;, &#x27;phone&#x27;: &#x27;01223362054&#x27;, &#x27;postcode&#x27;: &#x27;cb21uw&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;signature&#x27;: &#x27;poached fillets of monkfish in lemongrass with sweet red chilli cream sauce and tiger prawns with leeks and mushrooms served with rice&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>Sure, I&#x27;d like to book a restaurant in the centre of town, and I&#x27;m looking for something on the expensive side. Could you suggest a few options that fit these criteria?<br/><br/>Certainly! One option that fits your criteria is &quot;Cote,&quot; located at Bridge Street in the city centre. It&#x27;s a modern French bistro offering some of the classic and simple favorites of French cuisine. The phone number for Cote is 01223311053, and the postcode is CB21UF. Would you like more details or to proceed with a booking at Cote?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;name&quot;: &quot;Cote&quot;, &quot;address&quot;: &quot;Bridge Street City Centre&quot;, &quot;area&quot;: &quot;centre&quot;, &quot;food&quot;: &quot;french&quot;, &quot;phone&quot;: &quot;01223311053&quot;, &quot;postcode&quot;: &quot;CB21UF&quot;, &quot;pricerange&quot;: &quot;expensive&quot;, &quot;type&quot;: &quot;restaurant&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;name&#x27;: &#x27;Cote&#x27;, &#x27;address&#x27;: &#x27;Bridge Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;french&#x27;, &#x27;phone&#x27;: &#x27;01223311053&#x27;, &#x27;postcode&#x27;: &#x27;CB21UF&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>Certainly! One option that fits your criteria is &quot;Cote,&quot; located at Bridge Street in the city centre. It&#x27;s a modern French bistro offering some of the classic and simple favorites of French cuisine. The phone number for Cote is 01223311053, and the postcode is CB21UF. Would you like more details or to proceed with a booking at Cote?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 1</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>That sounds great! Could you also suggest one more option before I make my final decision?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>That sounds great! Could you also suggest one more option before I make my final decision?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Of course! Another option that fits your criteria is &quot;Michaelhouse Cafe,&quot; located at St. Michael&#x27;s Church, Trinity Street in the city centre. It serves modern European cuisine and is open for lunch and dinner. The phone number for Michaelhouse Cafe is 01223309147, and the postcode is CB21SU. Would you like more details or to proceed with a booking at either Cote or Michaelhouse Cafe?<br/><br/>[{&quot;name&quot;: &quot;Michaelhouse Cafe&quot;, &quot;address&quot;: &quot;St. Michael&#x27;s Church Trinity Street City Centre&quot;, &quot;area&quot;: &quot;centre&quot;, &quot;food&quot;: &quot;european&quot;, &quot;phone&quot;: &quot;01223309147&quot;, &quot;postcode&quot;: &quot;CB21SU&quot;, &quot;pricerange&quot;: &quot;expensive&quot;, &quot;type&quot;: &quot;restaurant&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 incomplete.</p>
+    </div>
+
+    <div speaker="Game Master: invalid response, try again" class="msg gm-gm">
+        <p>invalid</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>too many reprompts; abort</p>
+    </div>
+
+    <div speaker="Game Master: end" class="msg gm-gm">
+        <p>Game finished.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

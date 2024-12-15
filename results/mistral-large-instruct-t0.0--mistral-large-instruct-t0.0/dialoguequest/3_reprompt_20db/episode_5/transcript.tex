@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a restaurant to be:\\ \tt {'pricerange': 'expensive', 'area': 'centre'}\\ \tt \\ \tt Make sure to get:\\ \tt ['food', 'phone']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Sure, I'm looking for a restaurant in the centre that is on the expensive side. Could you suggest some options and provide details about the type of food they serve and their phone numbers? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'Cambridge Leisure Park Clifton Way', 'area': 'south', 'food': 'portuguese', 'id': '12238', 'introduction': "It's Nandos", 'location': [52.19017, 0.13699], 'name': 'nandos', 'phone': '01223327908', 'postcode': 'cb17dy', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': 'Cambridge Lodge Hotel 139 Huntingdon Road City Centre', 'area': 'west', 'food': 'european', 'id': '19252', 'introduction': 'located in the cambridge lodge hotel, this restaurant serves a variety of european and vegetarian dishes and can cater for private parties of up to 20 guests upon request.', 'location': [52.217736, 0.102505], 'name': 'cambridge lodge restaurant', 'phone': '01223355166', 'postcode': 'cb30dq', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '54 King Street City Centre', 'area': 'centre', 'food': 'italian', 'id': '19176', 'introduction': 'clowns cafe serve a variety of drinks as well as italian dishes such as pasta ciabatta and salads', 'location': [52.207312, 0.124201], 'name': 'clowns cafe', 'phone': '01223355711', 'postcode': 'cb11ln', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '22 Chesterton Road Chesterton', 'area': 'north', 'food': 'french', 'id': '19264', 'location': [52.213742, 0.1242], 'name': 'restaurant two two', 'phone': '01223351880', 'postcode': 'cb43ax', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '51 Trumpington Street City Centre', 'area': 'centre', 'food': 'british', 'id': '19224', 'introduction': 'fitzbillies restaurant serves a variety of bistro style lunches, anglo-european a la carte evening meals, as well as teas coffees and cakes throughout the day. catering for private parties is available upon request', 'location': [52.202598, 0.118342], 'name': 'fitzbillies restaurant', 'phone': '01223352500', 'postcode': 'cb21rg', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': 'Regent Street City Centre', 'area': 'centre', 'food': 'north american', 'id': '19209', 'introduction': 'gourmet burger kitchen has a trendy interior and, although a bit more expensive than the average high street burger joint, the delicious burgers and other dishes are huge and freshly prepared with large side orders to match. Catering for vegetarians is provided', 'location': [52.20103, 0.126023], 'name': 'gourmet burger kitchen', 'phone': '01223312598', 'postcode': 'cb21ab', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '52 Mill Road City Centre', 'area': 'centre', 'food': 'asian oriental', 'id': '19181', 'introduction': 'kymmoy is a noodle bar serving a wide variety of chinese thai cuisine for lunch and dinner', 'location': [52.200422, 0.135784], 'name': 'kymmoy', 'phone': '01223311911', 'postcode': 'cb12as', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '35 Saint Andrews Street City Centre', 'area': 'centre', 'food': 'international', 'id': '19235', 'introduction': 'the varsity restaurant serves a variety of international and vegetarian dishes and can cater for private parties of up to 40 guests upon request', 'location': [52.202793, 0.123488], 'name': 'the varsity restaurant', 'phone': '01223356060', 'postcode': 'cb23ar', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': 'Midsummer Common', 'area': 'centre', 'food': 'british', 'id': '508', 'introduction': '', 'location': [52.21251, 0.12774], 'name': 'midsummer house restaurant', 'phone': '01223369299', 'postcode': 'cb41ha', 'pricerange': 'expensive', 'signature': 'seared scallops with truffle apple and celeriac', 'type': 'restaurant'}, {'address': '40270 King Street City Centre', 'area': 'centre', 'food': 'modern european', 'id': '19177', 'introduction': 'darrys cookhouse and wine shop is an award winning drinking and dining restaurant and bar in the centre of cambridge', 'location': [52.207312, 0.124201], 'name': 'darrys cookhouse and wine shop', 'phone': '01223505015', 'postcode': 'cb11ln', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': 'Market Hill City Centre', 'area': 'centre', 'food': 'italian', 'id': '19240', 'location': [52.205442, 0.119706], 'name': 'stazione restaurant and coffee bar', 'phone': '01223352607', 'postcode': 'cb23nj', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '2 Rose Crescent City Centre', 'area': 'centre', 'food': 'mediterranean', 'id': '19238', 'introduction': 'the gardenia serves a variety of authentic greek and mediterranean dishes at their restaurant catering for private parties of up to two five guests is available upon request', 'location': [52.206098, 0.118713], 'name': 'the gardenia', 'phone': '01223356354', 'postcode': 'cb23ll', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': '17 Hills Road City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19222', 'introduction': 'sesame restaurant and bar offers a wide variety of traditional chinese cuisine for lunch or dinner with wifi access and a television screen in the basement', 'location': [52.197154, 0.129511], 'name': 'sesame restaurant and bar', 'phone': '01223358899', 'postcode': 'cb21nw', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '37 Newnham Road Newnham', 'area': 'west', 'food': 'indian', 'id': '19255', 'introduction': 'the rice boat serves an authentic kind of indian cuisine that originates from the villages of kerala where the spice trade originated', 'location': [52.199012, 0.113196], 'name': 'rice boat', 'phone': '01223302800', 'postcode': 'cb39ey', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '84 Regent Street City Centre', 'area': 'centre', 'food': 'mediterranean', 'id': '19217', 'introduction': 'shiraz serves traditional mediterranean cuisine accompanied by an extensive wine list with beers and spirits also available', 'location': [52.200187, 0.126407], 'name': 'shiraz restaurant', 'phone': '01223307581', 'postcode': 'cb21dp', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '32 Bridge Street City Centre', 'area': 'centre', 'food': 'italian', 'id': '19234', 'introduction': 'caffe uno is a chain of cafe style restaurants that offer a wide selection of meals and snacks to suit any time of the day including an extensive breakfast menu and choice of hot or cold drinks', 'location': [52.209632, 0.117213], 'name': 'caffe uno', 'phone': '01223448620', 'postcode': 'cb21uj', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': 'Milton Road Chesterton', 'area': 'north', 'food': 'chinese', 'id': '19260', 'introduction': 'A unique treat for all lovers of Chinese cuisine. From the Spice Islands to the food streets of Beijing and the finest ocean catch.', 'location': [52.215311, 0.12593], 'name': 'hakka', 'phone': '01223568988', 'postcode': 'cb41jy', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': 'Cambridge City Football Club Milton Road Chesterton', 'area': 'north', 'id': '19262', 'introduction': 'located in cambridge city football club, city stop restaurant serve a variety of english and italian dishes as well as offering a selection of vegetarian options catering for corporate events and private parties of up to 100 guests is available upon request.', 'location': [52.215157, 0.125015], 'name': 'city stop restaurant', 'phone': '01223363270', 'postcode': 'cb41uy', 'pricerange': 'expensive', 'food': 'european', 'type': 'restaurant'}, {'address': 'Corn Exchange Street', 'area': 'centre', 'food': 'gastropub', 'id': '31390', 'introduction': '', 'location': [52.204424, 0.12046], 'name': 'the cow pizza kitchen and bar', 'phone': '01223308871', 'postcode': 'cb23qf', 'pricerange': 'moderate', 'signature': 'wasabi spiked hamburger', 'type': 'restaurant'}, {'address': 'Cambridge Leisure Park Clifton Way Cherry Hinton', 'area': 'south', 'food': 'chinese', 'id': '19197', 'location': [52.190176, 0.13699], 'name': 'the lucky star', 'phone': '01223244277', 'postcode': 'cb17dy', 'pricerange': 'cheap', 'type': 'restaurant'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Sure, I'm looking for a restaurant in the centre that is on the expensive side. Could you suggest some options and provide details about the type of food they serve and their phone numbers? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! One option that fits your criteria is "fitzbillies restaurant." It's located in the city centre and serves British food. Their phone number is 01223352500. Would you like more details about this restaurant or any other options? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'Cambridge Retail Park Newmarket Road Fen Ditton', 'area': 'east', 'food': 'italian', 'id': '19275', 'introduction': 'pizza hut is a large chain with restaurants nationwide offering convenience pizzas pasta and salads to eat in or take away', 'location': [52.209742, 0.146975], 'name': 'pizza hut fen ditton', 'phone': '01223323737', 'postcode': 'cb58wr', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': 'Cambridge Retail Park Newmarket Road Fen Ditton', 'area': 'east', 'food': 'italian', 'id': '19275', 'introduction': 'pizza hut is a large chain with restaurants nationwide offering convenience pizzas pasta and salads to eat in or take away', 'location': [52.209742, 0.146975], 'name': 'pizza hut fen ditton', 'phone': '01223323737', 'postcode': 'cb58wr', 'pricerange': 'moderate', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Sure, I'm looking for a restaurant in the centre that is on the expensive side. Could you suggest some options and provide details about the type of food they serve and their phone numbers?\\ \tt \\ \tt Certainly! One option that fits your criteria is "fitzbillies restaurant." It's located in the city centre and serves British food. Their phone number is 01223352500. Would you like more details about this restaurant or any other options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"name": "fitzbillies restaurant", "food": "british", "phone": "01223352500"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'name': 'fitzbillies restaurant', 'food': 'british', 'phone': '01223352500'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! One option that fits your criteria is "fitzbillies restaurant." It's located in the city centre and serves British food. Their phone number is 01223352500. Would you like more details about this restaurant or any other options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds good. Could you also suggest one more option with a different cuisine, just to have a comparison? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds good. Could you also suggest one more option with a different cuisine, just to have a comparison? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Of course! Another option in the city centre that is on the expensive side is "gourmet burger kitchen." It serves North American food and their phone number is 01223312598. Would you like more information about either of these restaurants? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'Cambridge Retail Park Newmarket Road Fen Ditton', 'area': 'east', 'food': 'italian', 'id': '19275', 'introduction': 'pizza hut is a large chain with restaurants nationwide offering convenience pizzas pasta and salads to eat in or take away', 'location': [52.209742, 0.146975], 'name': 'pizza hut fen ditton', 'phone': '01223323737', 'postcode': 'cb58wr', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': 'Cambridge Retail Park Newmarket Road Fen Ditton', 'area': 'east', 'food': 'italian', 'id': '19275', 'introduction': 'pizza hut is a large chain with restaurants nationwide offering convenience pizzas pasta and salads to eat in or take away', 'location': [52.209742, 0.146975], 'name': 'pizza hut fen ditton', 'phone': '01223323737', 'postcode': 'cb58wr', 'pricerange': 'moderate', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds good. Could you also suggest one more option with a different cuisine, just to have a comparison?\\ \tt \\ \tt Of course! Another option in the city centre that is on the expensive side is "gourmet burger kitchen." It serves North American food and their phone number is 01223312598. Would you like more information about either of these restaurants? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"name": "gourmet burger kitchen", "food": "north american", "phone": "01223312598"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'name': 'fitzbillies restaurant', 'food': 'british', 'phone': '01223352500'}, {'name': 'gourmet burger kitchen', 'food': 'north american', 'phone': '01223312598'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Of course! Another option in the city centre that is on the expensive side is "gourmet burger kitchen." It serves North American food and their phone number is 01223312598. Would you like more information about either of these restaurants? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Thank you for the suggestions. I think I'll go with "fitzbillies restaurant." It sounds like a great choice. FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: thank you for the suggestions. i think i'll go with "fitzbillies restaurant." it sounds like a great choice. fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'name': 'fitzbillies restaurant', 'food': 'british', 'phone': '01223352500'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

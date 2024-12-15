@@ -1,0 +1,564 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a hotel. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a hotel to be:\\ \tt {'parking': 'yes', 'type': 'hotel'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'name', 'phone']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi there! I'm looking to book a hotel with parking. Can you help me find one? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': '124 tenison road', 'area': 'east', 'internet': 'yes', 'parking': 'no', 'id': '0', 'location': [52.1963733, 0.1987426], 'name': 'a and b guest house', 'phone': '01223315702', 'postcode': 'cb12dp', 'price': {'double': '70', 'family': '90', 'single': '50'}, 'pricerange': 'moderate', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '138 perne road', 'area': 'east', 'internet': 'yes', 'parking': 'yes', 'id': '12', 'location': [52.1935027777778, 0.155355555555556], 'name': 'carolina bed and breakfast', 'phone': '01223247015', 'postcode': 'cb13nx', 'price': {'double': '75', 'family': '100', 'single': '45'}, 'pricerange': 'moderate', 'stars': '4', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '74 chesterton road', 'area': 'north', 'internet': 'yes', 'parking': 'yes', 'id': '7', 'location': [52.2309912, 0.1295545], 'name': 'ashley hotel', 'phone': '01223350059', 'postcode': 'cb41er', 'price': {'double': '75', 'family': '85'}, 'pricerange': 'moderate', 'stars': '2', 'takesbookings': 'yes', 'type': 'hotel'}, {'address': '151 hills road', 'area': 'south', 'internet': 'yes', 'parking': 'yes', 'id': '11', 'location': [52.1725982, 0.1112224], 'name': 'bridge guest house', 'phone': '01223247942', 'postcode': 'cb28rj', 'price': {'double': '75', 'family': '90', 'single': '50'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi there! I'm looking to book a hotel with parking. Can you help me find one? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! I've found a nice guesthouse called **Hobsons House** in the west area. It has parking, offers internet, and is rated 3 stars. The price for a double room is £75. Would you like to book this one? Its ID is **20**. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi there! I'm looking to book a hotel with parking. Can you help me find one?\\ \tt \\ \tt Certainly! I've found a nice guesthouse called **Hobsons House** in the west area. It has parking, offers internet, and is rated 3 stars. The price for a double room is £75. Would you like to book this one? Its ID is **20**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"name": "Hobsons House", "area": "west", "internet": "yes", "parking": "yes", "id": "20", "stars": "3", "price": {"double": "75"}}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'name': 'Hobsons House', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'stars': '3', 'price': {'double': '75'}}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! I've found a nice guesthouse called **Hobsons House** in the west area. It has parking, offers internet, and is rated 3 stars. The price for a double room is £75. Would you like to book this one? Its ID is **20**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Thanks for the suggestion, but I'm actually looking for a hotel, not a guesthouse. Do you have any hotels with parking available? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Thanks for the suggestion, but I'm actually looking for a hotel, not a guesthouse. Do you have any hotels with parking available? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I understand you're looking for a hotel specifically. I have a suggestion for you: **Ashley Hotel** in the north area. It has parking, offers internet, and is rated 2 stars. The price for a double room is £75. Would you like to book this one? Its ID is **7**. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Thanks for the suggestion, but I'm actually looking for a hotel, not a guesthouse. Do you have any hotels with parking available?\\ \tt \\ \tt I understand you're looking for a hotel specifically. I have a suggestion for you: **Ashley Hotel** in the north area. It has parking, offers internet, and is rated 2 stars. The price for a double room is £75. Would you like to book this one? Its ID is **7**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"name": "Ashley Hotel", "area": "north", "internet": "yes", "parking": "yes", "id": "7", "stars": "2", "price": {"double": "75"}}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'name': 'Hobsons House', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'stars': '3', 'price': {'double': '75'}}, {'name': 'Ashley Hotel', 'area': 'north', 'internet': 'yes', 'parking': 'yes', 'id': '7', 'stars': '2', 'price': {'double': '75'}}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 I understand you're looking for a hotel specifically. I have a suggestion for you: **Ashley Hotel** in the north area. It has parking, offers internet, and is rated 2 stars. The price for a double room is £75. Would you like to book this one? Its ID is **7**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds good! Can you give me the postcode, name, and phone number for Ashley Hotel? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds good! Can you give me the postcode, name, and phone number for Ashley Hotel? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Here are the details for **Ashley Hotel**: \\ \tt - **Postcode**: cb41er\\ \tt - **Name**: Ashley Hotel\\ \tt - **Phone**: 01223350059\\ \tt \\ \tt Would you like to proceed with the booking? Its ID is **7**. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}, {'address': '96 barton road', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'location': [52.2283801, 0.0782873], 'name': 'hobsons house', 'phone': '01223304906', 'postcode': 'cb39lh', 'price': {'double': '75', 'family': '110', 'single': '59'}, 'pricerange': 'moderate', 'stars': '3', 'takesbookings': 'yes', 'type': 'guesthouse'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds good! Can you give me the postcode, name, and phone number for Ashley Hotel?\\ \tt \\ \tt Here are the details for **Ashley Hotel**: \\ \tt - **Postcode**: cb41er\\ \tt - **Name**: Ashley Hotel\\ \tt - **Phone**: 01223350059\\ \tt \\ \tt Would you like to proceed with the booking? Its ID is **7**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"name": "Ashley Hotel", "postcode": "cb41er", "phone": "01223350059", "id": "7"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'name': 'Hobsons House', 'area': 'west', 'internet': 'yes', 'parking': 'yes', 'id': '20', 'stars': '3', 'price': {'double': '75'}}, {'name': 'Ashley Hotel', 'area': 'north', 'internet': 'yes', 'parking': 'yes', 'id': '7', 'stars': '2', 'price': {'double': '75'}, 'postcode': 'cb41er', 'phone': '01223350059'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Here are the details for **Ashley Hotel**: \\ \tt - **Postcode**: cb41er\\ \tt - **Name**: Ashley Hotel\\ \tt - **Phone**: 01223350059\\ \tt \\ \tt Would you like to proceed with the booking? Its ID is **7**. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 3 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Yes, I'd like to book Ashley Hotel. Please go ahead with the booking. FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: yes, i'd like to book ashley hotel. please go ahead with the booking. fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'name': 'Ashley Hotel', 'area': 'north', 'internet': 'yes', 'parking': 'yes', 'id': '7', 'stars': '2', 'price': {'double': '75'}, 'postcode': 'cb41er', 'phone': '01223350059'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

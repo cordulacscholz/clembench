@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+  
+
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for no-reprompt_5db, episode 2 with mistral-large-instruct-t0.0--mistral-large-instruct-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>You are a customer who wants to make a booking.<br/><br/>You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.<br/><br/>You need a restaurant to be:<br/>{&#x27;area&#x27;: &#x27;centre&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;}<br/><br/>Make sure to get:<br/>[&#x27;postcode&#x27;, &#x27;food&#x27;]<br/><br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Make sure to never use any markup and only respond in natural language!<br/><br/>Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.<br/></p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 0</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>Sure, I&#x27;d like to book a restaurant in the city centre that&#x27;s on the cheaper side. Could you suggest some options and let me know their postcodes and the type of food they serve?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>You are an assistant who is assisting someone with making a booking.<br/><br/>Make sure that you provide them with all relevant information.<br/>In case you need some more information, ask them.<br/>Suggest one option which fits the request.<br/>You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!<br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.<br/><br/>Relevant data: [{&#x27;address&#x27;: &#x27;Cambridge Leisure Park Clifton Way Cherry Hinton&#x27;, &#x27;area&#x27;: &#x27;south&#x27;, &#x27;food&#x27;: &#x27;italian&#x27;, &#x27;id&#x27;: &#x27;19195&#x27;, &#x27;introduction&#x27;: &#x27;frankie and bennys has a traditional 1950s new york feel to it with its original family photographs, traditional wooden furniture and period music. They serve a wide range of authentic american and italian dishes.&#x27;, &#x27;location&#x27;: [52.190176, 0.13699], &#x27;name&#x27;: &#x27;frankie and bennys&#x27;, &#x27;phone&#x27;: &#x27;01223412430&#x27;, &#x27;postcode&#x27;: &#x27;cb17dy&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Regent Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19212&#x27;, &#x27;introduction&#x27;: &#x27;charlie chan serves a variety of popular chinese dishes at their restaurant&#x27;, &#x27;location&#x27;: [52.201743, 0.124843], &#x27;name&#x27;: &#x27;charlie chan&#x27;, &#x27;phone&#x27;: &#x27;01223361763&#x27;, &#x27;postcode&#x27;: &#x27;cb21db&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;8 Norfolk Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19187&#x27;, &#x27;location&#x27;: [52.204609, 0.137976], &#x27;name&#x27;: &#x27;panahar&#x27;, &#x27;phone&#x27;: &#x27;01223355012&#x27;, &#x27;postcode&#x27;: &#x27;cb12lf&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Midsummer Common&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;508&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.21251, 0.12774], &#x27;name&#x27;: &#x27;midsummer house restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223369299&#x27;, &#x27;postcode&#x27;: &#x27;cb41ha&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;signature&#x27;: &#x27;seared scallops with truffle apple and celeriac&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;12 Bridge Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;italian&#x27;, &#x27;id&#x27;: &#x27;19229&#x27;, &#x27;introduction&#x27;: &#x27;ask is a leading name in the uk casual dining market with over 100 restaurants across the uk. ask is the perfect place to relax and enjoy mouthwatering risottos an extended range of hearty al forno dishes and all your favourite pastas pizzas and salads&#x27;, &#x27;location&#x27;: [52.209028, 0.118296], &#x27;name&#x27;: &#x27;ask restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223364917&#x27;, &#x27;postcode&#x27;: &#x27;cb21uf&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/></p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Sure, I&#x27;d like to book a restaurant in the city centre that&#x27;s on the cheaper side. Could you suggest some options and let me know their postcodes and the type of food they serve?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Sure, I can help with that. There&#x27;s a restaurant called &quot;charlie chan&quot; which serves Chinese food. It&#x27;s located in the city centre and is in the cheaper price range. The postcode for this restaurant is CB21DB. Would you like more information about this option or would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;Thompsons Lane Fen Ditton&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;mediterranean&#x27;, &#x27;id&#x27;: &#x27;19268&#x27;, &#x27;location&#x27;: [52.210013, 0.118007], &#x27;name&#x27;: &#x27;la mimosa&#x27;, &#x27;phone&#x27;: &#x27;01223362525&#x27;, &#x27;postcode&#x27;: &#x27;cb58aq&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Thompsons Lane Fen Ditton&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;mediterranean&#x27;, &#x27;id&#x27;: &#x27;19268&#x27;, &#x27;location&#x27;: [52.210013, 0.118007], &#x27;name&#x27;: &#x27;la mimosa&#x27;, &#x27;phone&#x27;: &#x27;01223362525&#x27;, &#x27;postcode&#x27;: &#x27;cb58aq&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>Sure, I&#x27;d like to book a restaurant in the city centre that&#x27;s on the cheaper side. Could you suggest some options and let me know their postcodes and the type of food they serve?<br/><br/>Sure, I can help with that. There&#x27;s a restaurant called &quot;charlie chan&quot; which serves Chinese food. It&#x27;s located in the city centre and is in the cheaper price range. The postcode for this restaurant is CB21DB. Would you like more information about this option or would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;name&quot;: &quot;charlie chan&quot;, &quot;food&quot;: &quot;chinese&quot;, &quot;postcode&quot;: &quot;CB21DB&quot;, &quot;pricerange&quot;: &quot;cheap&quot;, &quot;area&quot;: &quot;centre&quot;, &quot;type&quot;: &quot;restaurant&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;name&#x27;: &#x27;charlie chan&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;postcode&#x27;: &#x27;CB21DB&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>Sure, I can help with that. There&#x27;s a restaurant called &quot;charlie chan&quot; which serves Chinese food. It&#x27;s located in the city centre and is in the cheaper price range. The postcode for this restaurant is CB21DB. Would you like more information about this option or would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 1</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>That sounds good. Could you also suggest another option just so I can compare? I&#x27;d like to know the postcode and the type of food for that one as well.</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>That sounds good. Could you also suggest another option just so I can compare? I&#x27;d like to know the postcode and the type of food for that one as well.</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Certainly! Another option is &quot;ask restaurant,&quot; which serves Italian food. It&#x27;s also located in the city centre and is in the cheaper price range. The postcode for this restaurant is CB21UF. Would you like more information about either of these options or would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;Thompsons Lane Fen Ditton&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;mediterranean&#x27;, &#x27;id&#x27;: &#x27;19268&#x27;, &#x27;location&#x27;: [52.210013, 0.118007], &#x27;name&#x27;: &#x27;la mimosa&#x27;, &#x27;phone&#x27;: &#x27;01223362525&#x27;, &#x27;postcode&#x27;: &#x27;cb58aq&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Thompsons Lane Fen Ditton&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;mediterranean&#x27;, &#x27;id&#x27;: &#x27;19268&#x27;, &#x27;location&#x27;: [52.210013, 0.118007], &#x27;name&#x27;: &#x27;la mimosa&#x27;, &#x27;phone&#x27;: &#x27;01223362525&#x27;, &#x27;postcode&#x27;: &#x27;cb58aq&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>That sounds good. Could you also suggest another option just so I can compare? I&#x27;d like to know the postcode and the type of food for that one as well.<br/><br/>Certainly! Another option is &quot;ask restaurant,&quot; which serves Italian food. It&#x27;s also located in the city centre and is in the cheaper price range. The postcode for this restaurant is CB21UF. Would you like more information about either of these options or would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;name&quot;: &quot;ask restaurant&quot;, &quot;food&quot;: &quot;italian&quot;, &quot;postcode&quot;: &quot;CB21UF&quot;, &quot;pricerange&quot;: &quot;cheap&quot;, &quot;area&quot;: &quot;centre&quot;, &quot;type&quot;: &quot;restaurant&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;name&#x27;: &#x27;charlie chan&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;postcode&#x27;: &#x27;CB21DB&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;name&#x27;: &#x27;ask restaurant&#x27;, &#x27;food&#x27;: &#x27;italian&#x27;, &#x27;postcode&#x27;: &#x27;CB21UF&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>Certainly! Another option is &quot;ask restaurant,&quot; which serves Italian food. It&#x27;s also located in the city centre and is in the cheaper price range. The postcode for this restaurant is CB21UF. Would you like more information about either of these options or would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 2</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>Thanks for the suggestions. I think I&#x27;ll go with &quot;charlie chan.&quot; Could you please proceed with the booking for that restaurant? FULFILLED</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master: fulfilled" class="msg gm-gm">
+        <p>Ending game...</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>final choice: thanks for the suggestions. i think i&#x27;ll go with &quot;charlie chan.&quot; could you please proceed with the booking for that restaurant? fulfilled</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Log final suggestion:{&#x27;name&#x27;: &#x27;charlie chan&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;postcode&#x27;: &#x27;CB21DB&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}</p>
+    </div>
+
+    <div speaker="Game Master: end" class="msg gm-gm">
+        <p>Game finished.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+  
+
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for no-reprompt_20db, episode 2 with llama-70b_uni-t0.0--llama-70b_uni-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>You are a customer who wants to make a booking.<br/><br/>You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.<br/><br/>You need a restaurant to be:<br/>{&#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;area&#x27;: &#x27;south&#x27;}<br/><br/>Make sure to get:<br/>[&#x27;address&#x27;, &#x27;phone&#x27;]<br/><br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Make sure to never use any markup and only respond in natural language!<br/><br/>Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.<br/></p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 0</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>I&#x27;m looking to book a restaurant in the south area. I&#x27;m open to trying something a bit pricey. Can you suggest some options for me?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>You are an assistant who is assisting someone with making a booking.<br/><br/>Make sure that you provide them with all relevant information.<br/>In case you need some more information, ask them.<br/>Suggest one option which fits the request.<br/>You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!<br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.<br/><br/>Relevant data: [{&#x27;address&#x27;: &#x27;7 Milton Road Chesterton&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19263&#x27;, &#x27;location&#x27;: [52.215157, 0.125015], &#x27;name&#x27;: &#x27;the nirala&#x27;, &#x27;phone&#x27;: &#x27;01223360966&#x27;, &#x27;postcode&#x27;: &#x27;cb41uy&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Cambridge Lodge Hotel 139 Huntingdon Road City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;european&#x27;, &#x27;id&#x27;: &#x27;19252&#x27;, &#x27;introduction&#x27;: &#x27;located in the cambridge lodge hotel, this restaurant serves a variety of european and vegetarian dishes and can cater for private parties of up to 20 guests upon request.&#x27;, &#x27;location&#x27;: [52.217736, 0.102505], &#x27;name&#x27;: &#x27;cambridge lodge restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223355166&#x27;, &#x27;postcode&#x27;: &#x27;cb30dq&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;4 Kings Parade City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;19226&#x27;, &#x27;introduction&#x27;: &#x27;the copper kettle serve a variety of english dishes at their restaurant including full english breakfasts lunches, roast dinners and baked potatoes. a takeaway menu is also provided&#x27;, &#x27;location&#x27;: [52.204387, 0.117841], &#x27;name&#x27;: &#x27;the copper kettle&#x27;, &#x27;phone&#x27;: &#x27;01223365068&#x27;, &#x27;postcode&#x27;: &#x27;cb21sj&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;12 Lensfield Road City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19219&#x27;, &#x27;location&#x27;: [52.198696, 0.12578], &#x27;name&#x27;: &#x27;golden house&#x27;, &#x27;phone&#x27;: &#x27;01842753771&#x27;, &#x27;postcode&#x27;: &#x27;cb21eg&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;86 Regent Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;asian oriental&#x27;, &#x27;id&#x27;: &#x27;19215&#x27;, &#x27;introduction&#x27;: &#x27;j restaurant offers a wide variety of sushi noodles and dim sum to eat in or takeaway a home delivery service is also available&#x27;, &#x27;location&#x27;: [52.200187, 0.126407], &#x27;name&#x27;: &#x27;j restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223307581&#x27;, &#x27;postcode&#x27;: &#x27;cb21dp&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;4 - 6 Rose Crescent&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;spanish&#x27;, &#x27;id&#x27;: &#x27;19237&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.206098, 0.118713], &#x27;name&#x27;: &#x27;la raza&#x27;, &#x27;phone&#x27;: &#x27;01223464550&#x27;, &#x27;postcode&#x27;: &#x27;cb23ll&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;signature&#x27;: &#x27;seafood paella&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;72 Regent Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19218&#x27;, &#x27;introduction&#x27;: &#x27;the gandhi serves a variety of indian and bangladeshi dishes at their restaurant to eat in or take away. Catering for private parties of up to 140 guests is available upon request&#x27;, &#x27;location&#x27;: [52.200187, 0.126407], &#x27;name&#x27;: &#x27;the gandhi&#x27;, &#x27;phone&#x27;: &#x27;01223353942&#x27;, &#x27;postcode&#x27;: &#x27;cb21dp&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Crowne Plaza Hotel 20 Downing Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;14742&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20342, 0.12171], &#x27;name&#x27;: &#x27;bloomsbury restaurant&#x27;, &#x27;phone&#x27;: &#x27;08719429180&#x27;, &#x27;postcode&#x27;: &#x27;cb23dt&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;signature&#x27;: &#x27;coconut and red chilli monkfish&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;1 Kings Parade&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;6941&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20439, 0.11784], &#x27;name&#x27;: &#x27;the cambridge chop house&#x27;, &#x27;phone&#x27;: &#x27;01223359506&#x27;, &#x27;postcode&#x27;: &#x27;cb21sj&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;signature&#x27;: &#x27;lamb barnsley chop potato and garlic bake greens and gravy&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;43 High Street Cherry Hinton Cherry Hinton&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19198&#x27;, &#x27;location&#x27;: [52.186739, 0.173048], &#x27;name&#x27;: &#x27;sitar tandoori&#x27;, &#x27;phone&#x27;: &#x27;01223249955&#x27;, &#x27;postcode&#x27;: &#x27;cb19hx&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;35 Saint Andrews Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;19235&#x27;, &#x27;introduction&#x27;: &#x27;the varsity restaurant serves a variety of international and vegetarian dishes and can cater for private parties of up to 40 guests upon request&#x27;, &#x27;location&#x27;: [52.202793, 0.123488], &#x27;name&#x27;: &#x27;the varsity restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223356060&#x27;, &#x27;postcode&#x27;: &#x27;cb23ar&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;100 Mill Road City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;african&#x27;, &#x27;id&#x27;: &#x27;19183&#x27;, &#x27;introduction&#x27;: &#x27;bedouin serves algerian cuisine&#x27;, &#x27;location&#x27;: [52.199332, 0.138395], &#x27;name&#x27;: &#x27;bedouin&#x27;, &#x27;phone&#x27;: &#x27;01223367660&#x27;, &#x27;postcode&#x27;: &#x27;cb12bd&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;82 Cherry Hinton Road Cherry Hinton&#x27;, &#x27;area&#x27;: &#x27;south&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19192&#x27;, &#x27;location&#x27;: [52.188528, 0.140627], &#x27;name&#x27;: &#x27;the good luck chinese food takeaway&#x27;, &#x27;phone&#x27;: &#x27;01223244149&#x27;, &#x27;postcode&#x27;: &#x27;cb17ag&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Doubletree by Hilton Cambridge Granta Place Mill Lane&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;modern european&#x27;, &#x27;id&#x27;: &#x27;10347&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20025, 0.11659], &#x27;name&#x27;: &#x27;riverside brasserie&#x27;, &#x27;phone&#x27;: &#x27;01223259988&#x27;, &#x27;postcode&#x27;: &#x27;cb21rt&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;88 Mill Road City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19185&#x27;, &#x27;introduction&#x27;: &#x27;rice house serve a variety of popular chinese dishes at their restaurant&#x27;, &#x27;location&#x27;: [52.199332, 0.138395], &#x27;name&#x27;: &#x27;rice house&#x27;, &#x27;phone&#x27;: &#x27;01223367755&#x27;, &#x27;postcode&#x27;: &#x27;cb12bd&#x27;, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;2G Cambridge Leisure Park Cherry Hinton Road Cherry Hinton&#x27;, &#x27;area&#x27;: &#x27;south&#x27;, &#x27;food&#x27;: &#x27;mexican&#x27;, &#x27;id&#x27;: &#x27;19194&#x27;, &#x27;introduction&#x27;: &#x27;chiquito is a chain of inexpensive tex mex restaurants predominantly aimed at tourists. They serve a variety of mexican and north of the border food as well as a range of cocktails&#x27;, &#x27;location&#x27;: [52.190176, 0.13699], &#x27;name&#x27;: &#x27;chiquito restaurant bar&#x27;, &#x27;phone&#x27;: &#x27;01223400170&#x27;, &#x27;postcode&#x27;: &#x27;cb17dy&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;Thompsons Lane Fen Ditton&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;mediterranean&#x27;, &#x27;id&#x27;: &#x27;19268&#x27;, &#x27;location&#x27;: [52.210013, 0.118007], &#x27;name&#x27;: &#x27;la mimosa&#x27;, &#x27;phone&#x27;: &#x27;01223362525&#x27;, &#x27;postcode&#x27;: &#x27;cb58aq&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;451 Newmarket Road Fen Ditton&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19270&#x27;, &#x27;introduction&#x27;: &#x27;curry prince is a neighbourhood indian restaurant serving authentic cuisine&#x27;, &#x27;location&#x27;: [52.213072, 0.149771], &#x27;name&#x27;: &#x27;curry prince&#x27;, &#x27;phone&#x27;: &#x27;01223566388&#x27;, &#x27;postcode&#x27;: &#x27;cb58jj&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;51 Trumpington Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;19224&#x27;, &#x27;introduction&#x27;: &#x27;fitzbillies restaurant serves a variety of bistro style lunches, anglo-european a la carte evening meals, as well as teas coffees and cakes throughout the day. catering for private parties is available upon request&#x27;, &#x27;location&#x27;: [52.202598, 0.118342], &#x27;name&#x27;: &#x27;fitzbillies restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223352500&#x27;, &#x27;postcode&#x27;: &#x27;cb21rg&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;54 King Street City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;italian&#x27;, &#x27;id&#x27;: &#x27;19176&#x27;, &#x27;introduction&#x27;: &#x27;clowns cafe serve a variety of drinks as well as italian dishes such as pasta ciabatta and salads&#x27;, &#x27;location&#x27;: [52.207312, 0.124201], &#x27;name&#x27;: &#x27;clowns cafe&#x27;, &#x27;phone&#x27;: &#x27;01223355711&#x27;, &#x27;postcode&#x27;: &#x27;cb11ln&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/></p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>I&#x27;m looking to book a restaurant in the south area. I&#x27;m open to trying something a bit pricey. Can you suggest some options for me?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>I&#x27;d be happy to help you with that. Based on your request, I found a few options in the south area that might interest you. <br/><br/>One option that caught my attention is the &quot;chiquito restaurant bar&quot; with id 19194. It&#x27;s a Mexican restaurant located in the south area, and it&#x27;s classified as expensive. They serve a variety of Mexican and North American food, as well as a range of cocktails. Would you like to know more about this option or would you like me to suggest a few more?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;1 Kings Parade&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;6941&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20439, 0.11784], &#x27;name&#x27;: &#x27;the cambridge chop house&#x27;, &#x27;phone&#x27;: &#x27;01223359506&#x27;, &#x27;postcode&#x27;: &#x27;cb21sj&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;signature&#x27;: &#x27;lamb barnsley chop potato and garlic bake greens and gravy&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;1 Kings Parade&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;6941&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20439, 0.11784], &#x27;name&#x27;: &#x27;the cambridge chop house&#x27;, &#x27;phone&#x27;: &#x27;01223359506&#x27;, &#x27;postcode&#x27;: &#x27;cb21sj&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;signature&#x27;: &#x27;lamb barnsley chop potato and garlic bake greens and gravy&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>I&#x27;m looking to book a restaurant in the south area. I&#x27;m open to trying something a bit pricey. Can you suggest some options for me?<br/><br/>I&#x27;d be happy to help you with that. Based on your request, I found a few options in the south area that might interest you. <br/><br/>One option that caught my attention is the &quot;chiquito restaurant bar&quot; with id 19194. It&#x27;s a Mexican restaurant located in the south area, and it&#x27;s classified as expensive. They serve a variety of Mexican and North American food, as well as a range of cocktails. Would you like to know more about this option or would you like me to suggest a few more?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;area&quot;: &quot;south&quot;, &quot;food&quot;: &quot;Mexican&quot;, &quot;id&quot;: &quot;19194&quot;, &quot;name&quot;: &quot;chiquito restaurant bar&quot;, &quot;pricerange&quot;: &quot;expensive&quot;, &quot;type&quot;: &quot;restaurant&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;area&#x27;: &#x27;south&#x27;, &#x27;food&#x27;: &#x27;Mexican&#x27;, &#x27;id&#x27;: &#x27;19194&#x27;, &#x27;name&#x27;: &#x27;chiquito restaurant bar&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>I&#x27;d be happy to help you with that. Based on your request, I found a few options in the south area that might interest you. <br/><br/>One option that caught my attention is the &quot;chiquito restaurant bar&quot; with id 19194. It&#x27;s a Mexican restaurant located in the south area, and it&#x27;s classified as expensive. They serve a variety of Mexican and North American food, as well as a range of cocktails. Would you like to know more about this option or would you like me to suggest a few more?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 1</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>That sounds interesting, but I&#x27;d like to know a bit more about it. Can you tell me the address and phone number of the Chiquito restaurant bar? And do you have any other options in the south area that might be a good fit for me?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>That sounds interesting, but I&#x27;d like to know a bit more about it. Can you tell me the address and phone number of the Chiquito restaurant bar? And do you have any other options in the south area that might be a good fit for me?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Based on the data, I found that the Chiquito restaurant bar has the address &quot;2G Cambridge Leisure Park Cherry Hinton Road Cherry Hinton&quot; and the phone number &quot;01223400170&quot;.<br/><br/>As for other options in the south area, I found another restaurant that might interest you. The &quot;good luck chinese food takeaway&quot; with id 19192 is located in the south area, and it&#x27;s classified as expensive. They serve Chinese food.<br/><br/>Here&#x27;s the updated list:<br/><br/>[{&quot;address&quot;: &quot;2G Cambridge Leisure Park Cherry Hinton Road Cherry Hinton&quot;, &quot;area&quot;: &quot;south&quot;, &quot;food&quot;: &quot;Mexican&quot;, &quot;id&quot;: &quot;19194&quot;, &quot;name&quot;: &quot;chiquito restaurant bar&quot;, &quot;phone&quot;: &quot;01223400170&quot;, &quot;pricerange&quot;: &quot;expensive&quot;, &quot;type&quot;: &quot;restaurant&quot;}, <br/>{&quot;area&quot;: &quot;south&quot;, &quot;food&quot;: &quot;Chinese&quot;, &quot;id&quot;: &quot;19192&quot;, &quot;name&quot;: &quot;the good luck chinese food takeaway&quot;,</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 incomplete.</p>
+    </div>
+
+    <div speaker="Game Master: invalid response, try again" class="msg gm-gm">
+        <p>invalid</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>too many reprompts; abort</p>
+    </div>
+
+    <div speaker="Game Master: end" class="msg gm-gm">
+        <p>Game finished.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

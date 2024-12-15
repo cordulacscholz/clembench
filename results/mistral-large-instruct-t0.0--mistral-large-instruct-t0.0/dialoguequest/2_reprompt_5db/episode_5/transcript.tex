@@ -1,0 +1,408 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a restaurant to be:\\ \tt {'area': 'centre', 'pricerange': 'cheap'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'phone', 'name']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Sure, I'd like to book a restaurant in the city centre that's on the cheaper side. Could you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'Crowne Plaza Hotel 20 Downing Street', 'area': 'centre', 'food': 'international', 'id': '14742', 'introduction': '', 'location': [52.20342, 0.12171], 'name': 'bloomsbury restaurant', 'phone': '08719429180', 'postcode': 'cb23dt', 'pricerange': 'moderate', 'signature': 'coconut and red chilli monkfish', 'type': 'restaurant'}, {'address': '40210 Millers Yard City Centre', 'area': 'centre', 'food': 'asian oriental', 'id': '19225', 'introduction': 'dojo noodle bar serves a variety of japanese chinese vietnamese korean and malaysian dishes to eat in or take away sister restaurant to touzai', 'location': [52.201423, 0.116661], 'name': 'dojo noodle bar', 'phone': '01223363471', 'postcode': 'cb21rq', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': '17 Hills Road City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19222', 'introduction': 'sesame restaurant and bar offers a wide variety of traditional chinese cuisine for lunch or dinner with wifi access and a television screen in the basement', 'location': [52.197154, 0.129511], 'name': 'sesame restaurant and bar', 'phone': '01223358899', 'postcode': 'cb21nw', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '82 Cherry Hinton Road Cherry Hinton', 'area': 'south', 'food': 'chinese', 'id': '19192', 'location': [52.188528, 0.140627], 'name': 'the good luck chinese food takeaway', 'phone': '01223244149', 'postcode': 'cb17ag', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '37 Newnham Road Newnham', 'area': 'west', 'food': 'indian', 'id': '19255', 'introduction': 'the rice boat serves an authentic kind of indian cuisine that originates from the villages of kerala where the spice trade originated', 'location': [52.199012, 0.113196], 'name': 'rice boat', 'phone': '01223302800', 'postcode': 'cb39ey', 'pricerange': 'expensive', 'type': 'restaurant'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Sure, I'd like to book a restaurant in the city centre that's on the cheaper side. Could you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! The Dojo Noodle Bar, located at 40210 Millers Yard in the city centre, serves a variety of Japanese, Chinese, Vietnamese, Korean, and Malaysian dishes. It's quite affordable and has the ID 19225. Would you like more information about this restaurant or would you like to proceed with the booking? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '11 Peas Hill City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19242', 'introduction': 'jinling noodle bar serves a wide range of chinese and shanghai dishes reflecting many different flavours and ingredients', 'location': [52.204453, 0.118693], 'name': 'jinling noodle bar', 'phone': '01223566188', 'postcode': 'cb23pp', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': '11 Peas Hill City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19242', 'introduction': 'jinling noodle bar serves a wide range of chinese and shanghai dishes reflecting many different flavours and ingredients', 'location': [52.204453, 0.118693], 'name': 'jinling noodle bar', 'phone': '01223566188', 'postcode': 'cb23pp', 'pricerange': 'moderate', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Sure, I'd like to book a restaurant in the city centre that's on the cheaper side. Could you suggest some options for me?\\ \tt \\ \tt Certainly! The Dojo Noodle Bar, located at 40210 Millers Yard in the city centre, serves a variety of Japanese, Chinese, Vietnamese, Korean, and Malaysian dishes. It's quite affordable and has the ID 19225. Would you like more information about this restaurant or would you like to proceed with the booking? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "40210 Millers Yard City Centre", "area": "centre", "food": "asian oriental", "id": "19225", "introduction": "dojo noodle bar serves a variety of japanese chinese vietnamese korean and malaysian dishes to eat in or take away sister restaurant to touzai", "location": [52.201423, 0.116661], "name": "dojo noodle bar", "phone": "01223363471", "postcode": "cb21rq", "pricerange": "cheap", "type": "restaurant"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '40210 Millers Yard City Centre', 'area': 'centre', 'food': 'asian oriental', 'id': '19225', 'introduction': 'dojo noodle bar serves a variety of japanese chinese vietnamese korean and malaysian dishes to eat in or take away sister restaurant to touzai', 'location': [52.201423, 0.116661], 'name': 'dojo noodle bar', 'phone': '01223363471', 'postcode': 'cb21rq', 'pricerange': 'cheap', 'type': 'restaurant'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! The Dojo Noodle Bar, located at 40210 Millers Yard in the city centre, serves a variety of Japanese, Chinese, Vietnamese, Korean, and Malaysian dishes. It's quite affordable and has the ID 19225. Would you like more information about this restaurant or would you like to proceed with the booking? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds good. Could you also provide me with their phone number? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds good. Could you also provide me with their phone number? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! The phone number for the Dojo Noodle Bar is 01223363471. Would you like to proceed with the booking? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '11 Peas Hill City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19242', 'introduction': 'jinling noodle bar serves a wide range of chinese and shanghai dishes reflecting many different flavours and ingredients', 'location': [52.204453, 0.118693], 'name': 'jinling noodle bar', 'phone': '01223566188', 'postcode': 'cb23pp', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': '11 Peas Hill City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19242', 'introduction': 'jinling noodle bar serves a wide range of chinese and shanghai dishes reflecting many different flavours and ingredients', 'location': [52.204453, 0.118693], 'name': 'jinling noodle bar', 'phone': '01223566188', 'postcode': 'cb23pp', 'pricerange': 'moderate', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds good. Could you also provide me with their phone number?\\ \tt \\ \tt Certainly! The phone number for the Dojo Noodle Bar is 01223363471. Would you like to proceed with the booking? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"phone": "01223363471"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '40210 Millers Yard City Centre', 'area': 'centre', 'food': 'asian oriental', 'id': '19225', 'introduction': 'dojo noodle bar serves a variety of japanese chinese vietnamese korean and malaysian dishes to eat in or take away sister restaurant to touzai', 'location': [52.201423, 0.116661], 'name': 'dojo noodle bar', 'phone': '01223363471', 'postcode': 'cb21rq', 'pricerange': 'cheap', 'type': 'restaurant'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! The phone number for the Dojo Noodle Bar is 01223363471. Would you like to proceed with the booking? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Yes, I'd like to book a table at the Dojo Noodle Bar. The ID is 19225. FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: yes, i'd like to book a table at the dojo noodle bar. the id is 19225. fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': '40210 Millers Yard City Centre', 'area': 'centre', 'food': 'asian oriental', 'id': '19225', 'introduction': 'dojo noodle bar serves a variety of japanese chinese vietnamese korean and malaysian dishes to eat in or take away sister restaurant to touzai', 'location': [52.201423, 0.116661], 'name': 'dojo noodle bar', 'phone': '01223363471', 'postcode': 'cb21rq', 'pricerange': 'cheap', 'type': 'restaurant'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

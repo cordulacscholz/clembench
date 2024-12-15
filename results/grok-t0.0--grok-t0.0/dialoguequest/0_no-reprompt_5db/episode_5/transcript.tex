@@ -1,0 +1,276 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a restaurant to be:\\ \tt {'area': 'centre', 'pricerange': 'cheap'}\\ \tt \\ \tt Make sure to get:\\ \tt ['food', 'address']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi there! I'd be happy to help you find a restaurant in the city center that's on the cheaper side. What type of food are you in the mood for? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'Milton Road Chesterton', 'area': 'north', 'food': 'chinese', 'id': '19260', 'introduction': 'A unique treat for all lovers of Chinese cuisine. From the Spice Islands to the food streets of Beijing and the finest ocean catch.', 'location': [52.215311, 0.12593], 'name': 'hakka', 'phone': '01223568988', 'postcode': 'cb41jy', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '86 Regent Street City Centre', 'area': 'centre', 'food': 'asian oriental', 'id': '19215', 'introduction': 'j restaurant offers a wide variety of sushi noodles and dim sum to eat in or takeaway a home delivery service is also available', 'location': [52.200187, 0.126407], 'name': 'j restaurant', 'phone': '01223307581', 'postcode': 'cb21dp', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': 'Jesus Lane Fen Ditton', 'area': 'centre', 'food': 'italian', 'id': '19269', 'introduction': 'the simple menu and kitchen concept at pizza express has retained its freshly made ideal, and you can still watch your pizza being prepared for you. This branch has live jazz music', 'location': [52.208252, 0.119957], 'name': 'pizza express Fen Ditton', 'phone': '01223324033', 'postcode': 'cb58ba', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': '72 Regent Street City Centre', 'area': 'centre', 'food': 'indian', 'id': '19218', 'introduction': 'the gandhi serves a variety of indian and bangladeshi dishes at their restaurant to eat in or take away. Catering for private parties of up to 140 guests is available upon request', 'location': [52.200187, 0.126407], 'name': 'the gandhi', 'phone': '01223353942', 'postcode': 'cb21dp', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': '4 - 6 Rose Crescent', 'area': 'centre', 'food': 'spanish', 'id': '19237', 'introduction': '', 'location': [52.206098, 0.118713], 'name': 'la raza', 'phone': '01223464550', 'postcode': 'cb23ll', 'pricerange': 'cheap', 'signature': 'seafood paella', 'type': 'restaurant'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi there! I'd be happy to help you find a restaurant in the city center that's on the cheaper side. What type of food are you in the mood for? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 If you're looking for something in the city center and on the cheaper side, how about trying some Indian cuisine? The Gandhi, with the ID **19218**, is located at 72 Regent Street, City Centre, and offers a variety of Indian and Bangladeshi dishes at a reasonable price. They also have options for both eating in and taking away. Would you like to know more about this place or are you interested in a different type of food? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'Cambridge Leisure Park Clifton Way Cherry Hinton', 'area': 'south', 'food': 'italian', 'id': '19195', 'introduction': 'frankie and bennys has a traditional 1950s new york feel to it with its original family photographs, traditional wooden furniture and period music. They serve a wide range of authentic american and italian dishes.', 'location': [52.190176, 0.13699], 'name': 'frankie and bennys', 'phone': '01223412430', 'postcode': 'cb17dy', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': 'Cambridge Leisure Park Clifton Way Cherry Hinton', 'area': 'south', 'food': 'italian', 'id': '19195', 'introduction': 'frankie and bennys has a traditional 1950s new york feel to it with its original family photographs, traditional wooden furniture and period music. They serve a wide range of authentic american and italian dishes.', 'location': [52.190176, 0.13699], 'name': 'frankie and bennys', 'phone': '01223412430', 'postcode': 'cb17dy', 'pricerange': 'expensive', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi there! I'd be happy to help you find a restaurant in the city center that's on the cheaper side. What type of food are you in the mood for?\\ \tt \\ \tt If you're looking for something in the city center and on the cheaper side, how about trying some Indian cuisine? The Gandhi, with the ID **19218**, is located at 72 Regent Street, City Centre, and offers a variety of Indian and Bangladeshi dishes at a reasonable price. They also have options for both eating in and taking away. Would you like to know more about this place or are you interested in a different type of food? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "72 Regent Street City Centre", "area": "centre", "food": "indian", "id": "19218", "name": "the gandhi", "pricerange": "cheap", "type": "restaurant"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '72 Regent Street City Centre', 'area': 'centre', 'food': 'indian', 'id': '19218', 'name': 'the gandhi', 'pricerange': 'cheap', 'type': 'restaurant'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 If you're looking for something in the city center and on the cheaper side, how about trying some Indian cuisine? The Gandhi, with the ID **19218**, is located at 72 Regent Street, City Centre, and offers a variety of Indian and Bangladeshi dishes at a reasonable price. They also have options for both eating in and taking away. Would you like to know more about this place or are you interested in a different type of food? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds great! I'll go with The Gandhi, **19218**. Thanks for your help! FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: that sounds great! i'll go with the gandhi, **19218**. thanks for your help! fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': '72 Regent Street City Centre', 'area': 'centre', 'food': 'indian', 'id': '19218', 'name': 'the gandhi', 'pricerange': 'cheap', 'type': 'restaurant'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

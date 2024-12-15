@@ -1,0 +1,276 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'type': 'entertainment', 'area': 'south'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'name']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Sure, I can help you find an entertainment attraction in the south area. Could you tell me a bit more about what kind of entertainment you're interested in? For example, are you looking for something like a theme park, a cinema, or a live show? Also, do you have a specific date in mind for your visit? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': '49 newnham road', 'area': 'west', 'entrance fee': 'free', 'id': '12', 'location': [52.198744, 0.113364], 'name': 'cambridge book and print gallery', 'openhours': 'it opens from 10:00 a.m. to 5:00 p.m. from tuesday to saturday', 'phone': '01223694264', 'postcode': 'cb39ey', 'pricerange': 'free', 'type': 'museum'}, {'address': 'jedburgh court, kings hedges', 'area': 'north', 'entrance fee': '?', 'id': '39', 'location': [52.23171, 0.122415], 'name': 'kings hedges learner pool', 'openhours': '?', 'phone': '01223353248', 'postcode': 'cb42xh', 'pricerange': '?', 'type': 'swimmingpool'}, {'address': '1 station road', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '24', 'location': [52.195173, 0.131644], 'name': 'club salsa', 'openhours': 'it opens at the university social club from 9:30 p.m. to 11:30 p.m. on wednesday, and from 10:00 p.m. to 01:00 a.m. on friday', 'phone': '07782218745', 'postcode': 'cb12jb', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': 'regent street', 'area': 'centre', 'entrance fee': 'free', 'id': '26', 'location': [52.2013777777778, 0.125194444444444], 'name': 'downing college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223334860', 'postcode': 'cb21dq', 'pricerange': 'free', 'type': 'college'}, {'address': 'cambridge leisure park, clifton way', 'area': 'south', 'entrance fee': '?', 'id': '65', 'location': [52.18568, 0.144638], 'name': 'tenpin', 'openhours': '?', 'phone': '08715501010', 'postcode': 'cb17dy', 'pricerange': '?', 'type': 'entertainment'}, {'address': 'market square', 'area': 'centre', 'entrance fee': '2 pounds', 'id': '31', 'location': [52.2049472222222, 0.118222222222222], 'name': "great saint mary's church", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m.', 'phone': '01223350914', 'postcode': 'cb23pq', 'pricerange': 'cheap', 'type': 'architecture'}, {'address': 'wollaston road', 'area': 'centre', 'entrance fee': 'free', 'id': '33', 'location': [52.200692, 0.133253], 'name': 'hughes hall', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223334898', 'postcode': 'cb12ew', 'pricerange': 'free', 'type': 'college'}, {'address': 'cherry hinton hall, cherry hinton road', 'area': 'east', 'entrance fee': 'free', 'id': '18', 'location': [52.186045, 0.157515], 'name': 'cherry hinton water play', 'openhours': 'it opens from may to september', 'phone': '01223446100', 'postcode': 'cb18dw', 'pricerange': 'free', 'type': 'park'}, {'address': '1-6 corn exchange street', 'area': 'centre', 'entrance fee': '4 pounds', 'id': '64', 'location': [52.203878, 0.12044], 'name': 'soul tree nightclub', 'openhours': 'it opens from 9:30 p.m. to 02:00 a.m. from sunday to tuesday, from 9:00 p.m. to 02:00 a.m. on wednesday, and from 9:00 p.m. to 02:30 a.m. from thursday to saturday', 'phone': '01223477900', 'postcode': 'cb23qf', 'pricerange': 'cheap', 'type': 'nightclub'}, {'address': 'cambridge passenger cruisers, jubilee house', 'area': 'north', 'entrance fee': '?', 'id': '55', 'location': [52.229515, 0.111645], 'name': 'riverboat georgina', 'openhours': '?', 'phone': '01223902091', 'postcode': 'cb43ax', 'pricerange': '?', 'type': 'boat'}, {'address': '8 market passage', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '69', 'location': [52.206144, 0.120283], 'name': 'the fez club', 'openhours': 'it opens on monday from 9 p.m. to 2 a.m.. it is closed on tuesday. from wednesday to saturday it opens from 9 p.m. to 2 a.m. and it is closed on sunday', 'phone': '01223519224', 'postcode': 'cb23hx', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': 'castle street', 'area': 'west', 'entrance fee': 'free', 'id': '37', 'location': [52.212405, 0.113075], 'name': "kettle's yard", 'openhours': 'it opens from 11:30 a.m. to 5:00 p.m. tuesday to sunday', 'phone': '01223748100', 'postcode': 'cb30aq', 'pricerange': 'free', 'type': 'museum'}, {'address': '22 sidney street', 'area': 'south', 'entrance fee': '?', 'id': '73', 'location': [52.1725982, 0.1112224], 'name': 'the place', 'openhours': 'it opens from 10:30 p.m. to 03:30 a.m. on tuesday, from 10:00 p.m. to 02:30 a.m. on thursday, from 10:00 p.m. to 04:00 a.m. on friday and saturday, and from 10:00 p.m. to 02:00 a.m. on sunday', 'phone': '01223324600', 'postcode': 'cb23hg', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': 'lensfield road', 'area': 'centre', 'entrance fee': 'free', 'id': '60', 'location': [52.19806, 0.123185], 'name': 'scott polar museum', 'openhours': 'it opens from 10:00 a.m. to 4:00 p.m. from tuesday to saturday', 'phone': '01223336540', 'postcode': 'cb21er', 'pricerange': 'free', 'type': 'museum'}, {'address': 'market street', 'area': 'centre', 'entrance fee': 'free', 'id': '32', 'location': [52.2057694444444, 0.120033333333333], 'name': 'holy trinity church', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m.', 'phone': '01223355397', 'postcode': 'cb23nz', 'pricerange': 'free', 'type': 'architecture'}, {'address': 'anglia ruskin university, east road', 'area': 'centre', 'entrance fee': 'free', 'id': '56', 'location': [52.20571, 0.131061], 'name': 'ruskin gallery', 'openhours': '?', 'phone': '01245493131', 'postcode': 'cb11pt', 'pricerange': 'free', 'type': 'museum'}, {'address': 'unit su43, grande arcade, saint andrews street', 'area': 'centre', 'entrance fee': 'free', 'id': '16', 'location': [52.204788, 0.1214], 'name': 'castle galleries', 'openhours': 'it opens from 09:00 a.m. to 6:00 p.m. every day except wednesday when it opens from 09:00 a.m. to 8:00 p.m., and sunday when it opens from 11:00 a.m. to 5:00 p.m.', 'phone': '01223307402', 'postcode': 'cb23bj', 'pricerange': 'free', 'type': 'museum'}, {'address': '1 wheeler street', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '36', 'location': [52.204192, 0.119187], 'name': 'kambar', 'openhours': 'it opens from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not', 'phone': '01223842725', 'postcode': 'cb23qb', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': 'fen causeway, newnham road,', 'area': 'south', 'entrance fee': 'free', 'id': '62', 'location': [52.17674, 0.14559], 'name': "sheep's green and lammas land park fen causeway", 'openhours': 'it is open from may to sept', 'phone': '01223302580', 'postcode': 'cb22ad', 'pricerange': 'free', 'type': 'park'}, {'address': 'sidgwick avenue', 'area': 'west', 'entrance fee': 'free', 'id': '46', 'location': [52.20987, 0.111565], 'name': 'museum of classical archaeology', 'openhours': 'it opens from 10:00 a.m. to 5:00 p.m. monday to friday', 'phone': '01223335153', 'postcode': 'cb39da', 'pricerange': 'free', 'type': 'museum'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Sure, I can help you find an entertainment attraction in the south area. Could you tell me a bit more about what kind of entertainment you're interested in? For example, are you looking for something like a theme park, a cinema, or a live show? Also, do you have a specific date in mind for your visit? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Sure, I can help with that. In the south area, one option that stands out is Tenpin, which is an entertainment venue. However, I don't have specific details about the type of entertainment offered there, such as whether it's bowling or another activity. The entrance fee and opening hours are also not specified in the information I have. If you're interested in bowling or similar activities, this could be a good fit. The address is Cambridge Leisure Park, Clifton Way, and the phone number is 08715501010. The postcode is CB17DY. Would you like more information on this option, or is there another type of entertainment you're looking for? The ID for Tenpin is 65. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': "the belfast yard, coldham's road", 'area': 'east', 'entrance fee': 'free', 'id': '57', 'location': [52.20858, 0.148702], 'name': 'saint barnabas press gallery', 'openhours': '?', 'phone': '01223902116', 'postcode': 'cb13ew', 'pricerange': 'free', 'type': 'museum'}, {'address': "the belfast yard, coldham's road", 'area': 'east', 'entrance fee': 'free', 'id': '57', 'location': [52.20858, 0.148702], 'name': 'saint barnabas press gallery', 'openhours': '?', 'phone': '01223902116', 'postcode': 'cb13ew', 'pricerange': 'free', 'type': 'museum'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Sure, I can help you find an entertainment attraction in the south area. Could you tell me a bit more about what kind of entertainment you're interested in? For example, are you looking for something like a theme park, a cinema, or a live show? Also, do you have a specific date in mind for your visit?\\ \tt \\ \tt Sure, I can help with that. In the south area, one option that stands out is Tenpin, which is an entertainment venue. However, I don't have specific details about the type of entertainment offered there, such as whether it's bowling or another activity. The entrance fee and opening hours are also not specified in the information I have. If you're interested in bowling or similar activities, this could be a good fit. The address is Cambridge Leisure Park, Clifton Way, and the phone number is 08715501010. The postcode is CB17DY. Would you like more information on this option, or is there another type of entertainment you're looking for? The ID for Tenpin is 65. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "Cambridge Leisure Park, Clifton Way", "area": "south", "entrance fee": "?", "id": "65", "location": [], "name": "Tenpin", "openhours": "?", "phone": "08715501010", "postcode": "CB17DY", "pricerange": "?", "type": "entertainment"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'Cambridge Leisure Park, Clifton Way', 'area': 'south', 'entrance fee': '?', 'id': '65', 'location': [], 'name': 'Tenpin', 'openhours': '?', 'phone': '08715501010', 'postcode': 'CB17DY', 'pricerange': '?', 'type': 'entertainment'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Sure, I can help with that. In the south area, one option that stands out is Tenpin, which is an entertainment venue. However, I don't have specific details about the type of entertainment offered there, such as whether it's bowling or another activity. The entrance fee and opening hours are also not specified in the information I have. If you're interested in bowling or similar activities, this could be a good fit. The address is Cambridge Leisure Park, Clifton Way, and the phone number is 08715501010. The postcode is CB17DY. Would you like more information on this option, or is there another type of entertainment you're looking for? The ID for Tenpin is 65. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Thanks for the details! Tenpin sounds like a great option for some fun and entertainment. Could you confirm if there are any other activities besides bowling, like a café or arcade games? Also, do you have the opening hours and entrance fees? If this fits what I'm looking for, I'll go ahead with booking it.\\ \tt \\ \tt If you don't have that information, I'm still interested in Tenpin. The ID 65 works for me. FULFILLED. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: thanks for the details! tenpin sounds like a great option for some fun and entertainment. could you confirm if there are any other activities besides bowling, like a café or arcade games? also, do you have the opening hours and entrance fees? if this fits what i'm looking for, i'll go ahead with booking it.\\ \tt \\ \tt if you don't have that information, i'm still interested in tenpin. the id 65 works for me. fulfilled. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': 'Cambridge Leisure Park, Clifton Way', 'area': 'south', 'entrance fee': '?', 'id': '65', 'location': [], 'name': 'Tenpin', 'openhours': '?', 'phone': '08715501010', 'postcode': 'CB17DY', 'pricerange': '?', 'type': 'entertainment'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

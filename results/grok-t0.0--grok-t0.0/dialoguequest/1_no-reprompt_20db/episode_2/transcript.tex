@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need a restaurant to be:\\ \tt {'pricerange': 'expensive', 'area': 'south'}\\ \tt \\ \tt Make sure to get:\\ \tt ['address', 'phone']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi there! I'd love to help you find a nice, expensive restaurant in the south part of town. Could you tell me if you have any preferences for cuisine or any specific features you're looking for? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': '7 Milton Road Chesterton', 'area': 'north', 'food': 'indian', 'id': '19263', 'location': [52.215157, 0.125015], 'name': 'the nirala', 'phone': '01223360966', 'postcode': 'cb41uy', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': 'Cambridge Lodge Hotel 139 Huntingdon Road City Centre', 'area': 'west', 'food': 'european', 'id': '19252', 'introduction': 'located in the cambridge lodge hotel, this restaurant serves a variety of european and vegetarian dishes and can cater for private parties of up to 20 guests upon request.', 'location': [52.217736, 0.102505], 'name': 'cambridge lodge restaurant', 'phone': '01223355166', 'postcode': 'cb30dq', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '4 Kings Parade City Centre', 'area': 'centre', 'food': 'british', 'id': '19226', 'introduction': 'the copper kettle serve a variety of english dishes at their restaurant including full english breakfasts lunches, roast dinners and baked potatoes. a takeaway menu is also provided', 'location': [52.204387, 0.117841], 'name': 'the copper kettle', 'phone': '01223365068', 'postcode': 'cb21sj', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': '12 Lensfield Road City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19219', 'location': [52.198696, 0.12578], 'name': 'golden house', 'phone': '01842753771', 'postcode': 'cb21eg', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': '86 Regent Street City Centre', 'area': 'centre', 'food': 'asian oriental', 'id': '19215', 'introduction': 'j restaurant offers a wide variety of sushi noodles and dim sum to eat in or takeaway a home delivery service is also available', 'location': [52.200187, 0.126407], 'name': 'j restaurant', 'phone': '01223307581', 'postcode': 'cb21dp', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': '4 - 6 Rose Crescent', 'area': 'centre', 'food': 'spanish', 'id': '19237', 'introduction': '', 'location': [52.206098, 0.118713], 'name': 'la raza', 'phone': '01223464550', 'postcode': 'cb23ll', 'pricerange': 'cheap', 'signature': 'seafood paella', 'type': 'restaurant'}, {'address': '72 Regent Street City Centre', 'area': 'centre', 'food': 'indian', 'id': '19218', 'introduction': 'the gandhi serves a variety of indian and bangladeshi dishes at their restaurant to eat in or take away. Catering for private parties of up to 140 guests is available upon request', 'location': [52.200187, 0.126407], 'name': 'the gandhi', 'phone': '01223353942', 'postcode': 'cb21dp', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': 'Crowne Plaza Hotel 20 Downing Street', 'area': 'centre', 'food': 'international', 'id': '14742', 'introduction': '', 'location': [52.20342, 0.12171], 'name': 'bloomsbury restaurant', 'phone': '08719429180', 'postcode': 'cb23dt', 'pricerange': 'moderate', 'signature': 'coconut and red chilli monkfish', 'type': 'restaurant'}, {'address': '1 Kings Parade', 'area': 'centre', 'food': 'british', 'id': '6941', 'introduction': '', 'location': [52.20439, 0.11784], 'name': 'the cambridge chop house', 'phone': '01223359506', 'postcode': 'cb21sj', 'pricerange': 'expensive', 'signature': 'lamb barnsley chop potato and garlic bake greens and gravy', 'type': 'restaurant'}, {'address': '43 High Street Cherry Hinton Cherry Hinton', 'area': 'east', 'food': 'indian', 'id': '19198', 'location': [52.186739, 0.173048], 'name': 'sitar tandoori', 'phone': '01223249955', 'postcode': 'cb19hx', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '35 Saint Andrews Street City Centre', 'area': 'centre', 'food': 'international', 'id': '19235', 'introduction': 'the varsity restaurant serves a variety of international and vegetarian dishes and can cater for private parties of up to 40 guests upon request', 'location': [52.202793, 0.123488], 'name': 'the varsity restaurant', 'phone': '01223356060', 'postcode': 'cb23ar', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': '100 Mill Road City Centre', 'area': 'centre', 'food': 'african', 'id': '19183', 'introduction': 'bedouin serves algerian cuisine', 'location': [52.199332, 0.138395], 'name': 'bedouin', 'phone': '01223367660', 'postcode': 'cb12bd', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '82 Cherry Hinton Road Cherry Hinton', 'area': 'south', 'food': 'chinese', 'id': '19192', 'location': [52.188528, 0.140627], 'name': 'the good luck chinese food takeaway', 'phone': '01223244149', 'postcode': 'cb17ag', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': 'Doubletree by Hilton Cambridge Granta Place Mill Lane', 'area': 'centre', 'food': 'modern european', 'id': '10347', 'introduction': '', 'location': [52.20025, 0.11659], 'name': 'riverside brasserie', 'phone': '01223259988', 'postcode': 'cb21rt', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': '88 Mill Road City Centre', 'area': 'centre', 'food': 'chinese', 'id': '19185', 'introduction': 'rice house serve a variety of popular chinese dishes at their restaurant', 'location': [52.199332, 0.138395], 'name': 'rice house', 'phone': '01223367755', 'postcode': 'cb12bd', 'pricerange': 'cheap', 'type': 'restaurant'}, {'address': '2G Cambridge Leisure Park Cherry Hinton Road Cherry Hinton', 'area': 'south', 'food': 'mexican', 'id': '19194', 'introduction': 'chiquito is a chain of inexpensive tex mex restaurants predominantly aimed at tourists. They serve a variety of mexican and north of the border food as well as a range of cocktails', 'location': [52.190176, 0.13699], 'name': 'chiquito restaurant bar', 'phone': '01223400170', 'postcode': 'cb17dy', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': 'Thompsons Lane Fen Ditton', 'area': 'centre', 'food': 'mediterranean', 'id': '19268', 'location': [52.210013, 0.118007], 'name': 'la mimosa', 'phone': '01223362525', 'postcode': 'cb58aq', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '451 Newmarket Road Fen Ditton', 'area': 'east', 'food': 'indian', 'id': '19270', 'introduction': 'curry prince is a neighbourhood indian restaurant serving authentic cuisine', 'location': [52.213072, 0.149771], 'name': 'curry prince', 'phone': '01223566388', 'postcode': 'cb58jj', 'pricerange': 'moderate', 'type': 'restaurant'}, {'address': '51 Trumpington Street City Centre', 'area': 'centre', 'food': 'british', 'id': '19224', 'introduction': 'fitzbillies restaurant serves a variety of bistro style lunches, anglo-european a la carte evening meals, as well as teas coffees and cakes throughout the day. catering for private parties is available upon request', 'location': [52.202598, 0.118342], 'name': 'fitzbillies restaurant', 'phone': '01223352500', 'postcode': 'cb21rg', 'pricerange': 'expensive', 'type': 'restaurant'}, {'address': '54 King Street City Centre', 'area': 'centre', 'food': 'italian', 'id': '19176', 'introduction': 'clowns cafe serve a variety of drinks as well as italian dishes such as pasta ciabatta and salads', 'location': [52.207312, 0.124201], 'name': 'clowns cafe', 'phone': '01223355711', 'postcode': 'cb11ln', 'pricerange': 'expensive', 'type': 'restaurant'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi there! I'd love to help you find a nice, expensive restaurant in the south part of town. Could you tell me if you have any preferences for cuisine or any specific features you're looking for? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I see you're looking for an expensive restaurant in the south part of town. How about trying **Chiquito Restaurant Bar**? It's located at 2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton, and offers Mexican cuisine. Their phone number is 01223400170, and the postcode is CB1 7DY. Would you like to know more about this option or do you have any other preferences? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '1 Kings Parade', 'area': 'centre', 'food': 'british', 'id': '6941', 'introduction': '', 'location': [52.20439, 0.11784], 'name': 'the cambridge chop house', 'phone': '01223359506', 'postcode': 'cb21sj', 'pricerange': 'expensive', 'signature': 'lamb barnsley chop potato and garlic bake greens and gravy', 'type': 'restaurant'}, {'address': '1 Kings Parade', 'area': 'centre', 'food': 'british', 'id': '6941', 'introduction': '', 'location': [52.20439, 0.11784], 'name': 'the cambridge chop house', 'phone': '01223359506', 'postcode': 'cb21sj', 'pricerange': 'expensive', 'signature': 'lamb barnsley chop potato and garlic bake greens and gravy', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi there! I'd love to help you find a nice, expensive restaurant in the south part of town. Could you tell me if you have any preferences for cuisine or any specific features you're looking for?\\ \tt \\ \tt I see you're looking for an expensive restaurant in the south part of town. How about trying **Chiquito Restaurant Bar**? It's located at 2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton, and offers Mexican cuisine. Their phone number is 01223400170, and the postcode is CB1 7DY. Would you like to know more about this option or do you have any other preferences? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton", "area": "south", "food": "mexican", "id": "19194", "name": "chiquito restaurant bar", "phone": "01223400170", "postcode": "cb17dy", "pricerange": "expensive", "type": "restaurant"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton', 'area': 'south', 'food': 'mexican', 'id': '19194', 'name': 'chiquito restaurant bar', 'phone': '01223400170', 'postcode': 'cb17dy', 'pricerange': 'expensive', 'type': 'restaurant'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 I see you're looking for an expensive restaurant in the south part of town. How about trying **Chiquito Restaurant Bar**? It's located at 2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton, and offers Mexican cuisine. Their phone number is 01223400170, and the postcode is CB1 7DY. Would you like to know more about this option or do you have any other preferences? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Chiquito Restaurant Bar sounds great! Could you also tell me if they have any special features or if there's anything else I should know before I make my decision? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Chiquito Restaurant Bar sounds great! Could you also tell me if they have any special features or if there's anything else I should know before I make my decision? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! Chiquito Restaurant Bar is known for its vibrant atmosphere, perfect for a lively dining experience. They offer a variety of Mexican and Tex-Mex dishes, along with a selection of cocktails. It's part of a chain, so you might find some familiar dishes if you've visited other locations. Would you like to know more about their menu or any other details? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '1 Kings Parade', 'area': 'centre', 'food': 'british', 'id': '6941', 'introduction': '', 'location': [52.20439, 0.11784], 'name': 'the cambridge chop house', 'phone': '01223359506', 'postcode': 'cb21sj', 'pricerange': 'expensive', 'signature': 'lamb barnsley chop potato and garlic bake greens and gravy', 'type': 'restaurant'}, {'address': '1 Kings Parade', 'area': 'centre', 'food': 'british', 'id': '6941', 'introduction': '', 'location': [52.20439, 0.11784], 'name': 'the cambridge chop house', 'phone': '01223359506', 'postcode': 'cb21sj', 'pricerange': 'expensive', 'signature': 'lamb barnsley chop potato and garlic bake greens and gravy', 'type': 'restaurant'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Chiquito Restaurant Bar sounds great! Could you also tell me if they have any special features or if there's anything else I should know before I make my decision?\\ \tt \\ \tt Certainly! Chiquito Restaurant Bar is known for its vibrant atmosphere, perfect for a lively dining experience. They offer a variety of Mexican and Tex-Mex dishes, along with a selection of cocktails. It's part of a chain, so you might find some familiar dishes if you've visited other locations. Would you like to know more about their menu or any other details? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton", "area": "south", "food": "mexican", "id": "19194", "name": "chiquito restaurant bar", "phone": "01223400170", "postcode": "cb17dy", "pricerange": "expensive", "type": "restaurant"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton', 'area': 'south', 'food': 'mexican', 'id': '19194', 'name': 'chiquito restaurant bar', 'phone': '01223400170', 'postcode': 'cb17dy', 'pricerange': 'expensive', 'type': 'restaurant'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! Chiquito Restaurant Bar is known for its vibrant atmosphere, perfect for a lively dining experience. They offer a variety of Mexican and Tex-Mex dishes, along with a selection of cocktails. It's part of a chain, so you might find some familiar dishes if you've visited other locations. Would you like to know more about their menu or any other details? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds wonderful! I'll go ahead and book **Chiquito Restaurant Bar** with the ID **12345**. Thank you for your help! FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: that sounds wonderful! i'll go ahead and book **chiquito restaurant bar** with the id **12345**. thank you for your help! fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': '2G Cambridge Leisure Park, Cherry Hinton Road, Cherry Hinton', 'area': 'south', 'food': 'mexican', 'id': '19194', 'name': 'chiquito restaurant bar', 'phone': '01223400170', 'postcode': 'cb17dy', 'pricerange': 'expensive', 'type': 'restaurant'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

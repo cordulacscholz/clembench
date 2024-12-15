@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'area': 'centre', 'type': 'nightclub'}\\ \tt \\ \tt Make sure to get:\\ \tt ['address', 'phone']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi, I'm looking to book an attraction in the city centre. I'm interested in a nightclub. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'free school lane', 'area': 'centre', 'entrance fee': 'free', 'id': '78', 'location': [52.203117, 0.118928], 'name': 'whipple museum of the history of science', 'openhours': 'it opens from 12:30 p.m. to 4:30 p.m. from monday to friday', 'phone': '01223330906', 'postcode': 'cb23rh', 'pricerange': 'free', 'type': 'museum'}, {'address': 'market square', 'area': 'centre', 'entrance fee': '2 pounds', 'id': '31', 'location': [52.2049472222222, 0.118222222222222], 'name': "great saint mary's church", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m.', 'phone': '01223350914', 'postcode': 'cb23pq', 'pricerange': 'cheap', 'type': 'architecture'}, {'address': '1 wheeler street', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '36', 'location': [52.204192, 0.119187], 'name': 'kambar', 'openhours': 'it opens from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not', 'phone': '01223842725', 'postcode': 'cb23qb', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': 'wollaston road', 'area': 'centre', 'entrance fee': 'free', 'id': '33', 'location': [52.200692, 0.133253], 'name': 'hughes hall', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223334898', 'postcode': 'cb12ew', 'pricerange': 'free', 'type': 'college'}, {'address': 'regent street', 'area': 'centre', 'entrance fee': 'free', 'id': '26', 'location': [52.2013777777778, 0.125194444444444], 'name': 'downing college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223334860', 'postcode': 'cb21dq', 'pricerange': 'free', 'type': 'college'}, {'address': 'cherry hinton road', 'area': 'east', 'entrance fee': '?', 'id': '17', 'location': [52.186045, 0.157515], 'name': 'cherry hinton hall and grounds', 'openhours': '?', 'phone': '01223446104', 'postcode': 'cb18dw', 'pricerange': '?', 'type': 'entertainment'}, {'address': 'bateman street', 'area': 'centre', 'entrance fee': '4 pounds', 'id': '15', 'location': [52.19525, 0.126], 'name': 'cambridge university botanic gardens', 'openhours': 'it opens from 10:00 a.m. to 6:00 p.m. from april to september, from 10:00 a.m. to 5:00 p.m. in february march and october, and from 10:00 a.m. to 4:00 p.m. from november to january', 'phone': '01223336265', 'postcode': 'cb21jf', 'pricerange': 'moderate', 'type': 'park'}, {'address': 'cafe jello gallery, 13 magdalene street', 'area': 'west', 'entrance fee': 'free', 'id': '7', 'location': [52.221949, 0.094948], 'name': 'cafe jello gallery', 'openhours': 'it opens from 10:30 a.m. to 5:30 p.m. thursday to saturday', 'phone': '01223312112', 'postcode': 'cb30af', 'pricerange': 'free', 'type': 'museum'}, {'address': "king's parade", 'area': 'centre', 'entrance fee': 'free', 'id': '58', 'location': [52.202839, 0.116394], 'name': "saint catharine's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223338300', 'postcode': 'cb21rl', 'pricerange': 'free', 'type': 'college'}, {'address': 'jesus lane', 'area': 'centre', 'entrance fee': 'free', 'id': '3', 'location': [52.2078083333333, 0.125616666666667], 'name': 'all saints church', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m., at other times the key can be borrowed from a nearby key holder.', 'phone': '01223452587', 'postcode': 'cb58bs', 'pricerange': 'free', 'type': 'architecture'}, {'address': "14 king's parade", 'area': 'south', 'entrance fee': 'free', 'id': '6', 'location': [52.1725982, 0.1112224], 'name': 'byard art', 'openhours': 'it opens from 09:30 a.m. to 5:30 p.m. from monday to saturday, and from 11:00 a.m. to 4:00 p.m. on sunday', 'phone': '01223464646', 'postcode': 'cb21sj', 'pricerange': 'free', 'type': 'museum'}, {'address': "gwydir street, no. 5 dale's brewery", 'area': 'centre', 'entrance fee': 'free', 'id': '79', 'location': [52.2002, 0.1385], 'name': 'williams art and antiques', 'openhours': 'it opens from 11:00 a.m. to 6:00 p.m. from tuesday to friday, from 11:00 a.m. to 5:00 p.m. on saturday and sunday, and it is closed on monday', 'phone': '01223311687', 'postcode': 'cb12lj', 'pricerange': 'free', 'type': 'museum'}, {'address': '251a chesterton road', 'area': 'centre', 'entrance fee': '?', 'id': '67', 'location': [52.211939, 0.118661], 'name': 'the cambridge punter', 'openhours': '?', 'phone': '07807718591', 'postcode': 'cb41as', 'pricerange': '?', 'type': 'boat'}, {'address': 'the old pumping station, cheddars lane', 'area': 'east', 'entrance fee': '5 pounds', 'id': '14', 'location': [52.21247, 0.15619], 'name': 'cambridge museum of technology', 'openhours': 'it opens on sunday from 2:00 p.m. to 5:00 p.m.', 'phone': '01223368650', 'postcode': 'cb58ld', 'pricerange': 'expensive', 'type': 'museum'}, {'address': '39 fitzroy street', 'area': 'centre', 'entrance fee': 'free', 'id': '54', 'location': [52.206823, 0.131361], 'name': 'regency gallery', 'openhours': '?', 'phone': '01223365454', 'postcode': 'cb11er', 'pricerange': 'free', 'type': 'museum'}, {'address': 'sidney street', 'area': 'centre', 'entrance fee': 'free', 'id': '63', 'location': [52.207464, 0.121342], 'name': 'sidney sussex college', 'openhours': 'it opens daily from 9 a.m. to 5 p.m. except during easter term', 'phone': '01223338800', 'postcode': 'cb23hu', 'pricerange': 'free', 'type': 'college'}, {'address': 'park street', 'area': 'centre', 'entrance fee': '?', 'id': '2', 'location': [52.208699, 0.12006], 'name': 'adc theatre', 'openhours': '?', 'phone': '01223300085', 'postcode': 'cb58as', 'pricerange': '?', 'type': 'theatre'}, {'address': 'herschel road', 'area': 'west', 'entrance fee': 'free', 'id': '23', 'location': [52.2040527777778, 0.104480555555556], 'name': 'clare hall', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223332360', 'postcode': 'cb39al', 'pricerange': 'free', 'type': 'college'}, {'address': 'the plough, green end, fen ditton,', 'area': 'east', 'entrance fee': '?', 'id': '8', 'location': [52.21247, 0.15619], 'name': 'camboats', 'openhours': '?', 'phone': '01223902112', 'postcode': 'cb58sx', 'pricerange': '?', 'type': 'boat'}, {'address': 'gonville place', 'area': 'centre', 'entrance fee': '?', 'id': '49', 'location': [52.201275, 0.129935], 'name': 'parkside pools', 'openhours': '?', 'phone': '01223446100', 'postcode': 'cb11ly', 'pricerange': '?', 'type': 'swimmingpool'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi, I'm looking to book an attraction in the city centre. I'm interested in a nightclub. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I'd be happy to help you with that. I found one nightclub in the city centre that might interest you. The Kambar, located at 1 Wheeler Street, has an entrance fee of 5 pounds and is open from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not. The id of this nightclub is 36. Would you like to book this one or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'clifton way', 'area': 'south', 'entrance fee': '?', 'id': '71', 'location': [52.190325, 0.135755], 'name': 'the junction', 'openhours': '?', 'phone': '01223511511', 'postcode': 'cb17gx', 'pricerange': '?', 'type': 'theatre'}, {'address': 'clifton way', 'area': 'south', 'entrance fee': '?', 'id': '71', 'location': [52.190325, 0.135755], 'name': 'the junction', 'openhours': '?', 'phone': '01223511511', 'postcode': 'cb17gx', 'pricerange': '?', 'type': 'theatre'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi, I'm looking to book an attraction in the city centre. I'm interested in a nightclub. Can you suggest some options for me?\\ \tt \\ \tt I'd be happy to help you with that. I found one nightclub in the city centre that might interest you. The Kambar, located at 1 Wheeler Street, has an entrance fee of 5 pounds and is open from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not. The id of this nightclub is 36. Would you like to book this one or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "1 Wheeler Street", "entrance fee": "5 pounds", "id": "36", "name": "The Kambar", "openhours": "from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not", "type": "nightclub"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '1 Wheeler Street', 'entrance fee': '5 pounds', 'id': '36', 'name': 'The Kambar', 'openhours': 'from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not', 'type': 'nightclub'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 I'd be happy to help you with that. I found one nightclub in the city centre that might interest you. The Kambar, located at 1 Wheeler Street, has an entrance fee of 5 pounds and is open from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not. The id of this nightclub is 36. Would you like to book this one or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds like a good option, but I'd like to know a bit more about it. Do you have a phone number for The Kambar? And are there any events scheduled for the night I'm planning to go? Also, could you look for a few more options, just in case? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds like a good option, but I'd like to know a bit more about it. Do you have a phone number for The Kambar? And are there any events scheduled for the night I'm planning to go? Also, could you look for a few more options, just in case? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I can try to find more information for you. The phone number for The Kambar is 01223842725. As for events, I don't have real-time information, but I can suggest checking with them directly for their schedule.\\ \tt \\ \tt As for more options, I've checked and it seems that The Kambar is the only nightclub in the city centre that I have information on. If you'd like to consider other types of attractions, I can certainly try to suggest some alternatives. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'clifton way', 'area': 'south', 'entrance fee': '?', 'id': '71', 'location': [52.190325, 0.135755], 'name': 'the junction', 'openhours': '?', 'phone': '01223511511', 'postcode': 'cb17gx', 'pricerange': '?', 'type': 'theatre'}, {'address': 'clifton way', 'area': 'south', 'entrance fee': '?', 'id': '71', 'location': [52.190325, 0.135755], 'name': 'the junction', 'openhours': '?', 'phone': '01223511511', 'postcode': 'cb17gx', 'pricerange': '?', 'type': 'theatre'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds like a good option, but I'd like to know a bit more about it. Do you have a phone number for The Kambar? And are there any events scheduled for the night I'm planning to go? Also, could you look for a few more options, just in case?\\ \tt \\ \tt I can try to find more information for you. The phone number for The Kambar is 01223842725. As for events, I don't have real-time information, but I can suggest checking with them directly for their schedule.\\ \tt \\ \tt As for more options, I've checked and it seems that The Kambar is the only nightclub in the city centre that I have information on. If you'd like to consider other types of attractions, I can certainly try to suggest some alternatives. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"name": "The Kambar", "phone": "01223842725"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': '1 Wheeler Street', 'entrance fee': '5 pounds', 'id': '36', 'name': 'The Kambar', 'openhours': 'from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not', 'type': 'nightclub', 'phone': '01223842725'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 I can try to find more information for you. The phone number for The Kambar is 01223842725. As for events, I don't have real-time information, but I can suggest checking with them directly for their schedule.\\ \tt \\ \tt As for more options, I've checked and it seems that The Kambar is the only nightclub in the city centre that I have information on. If you'd like to consider other types of attractions, I can certainly try to suggest some alternatives. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 I think I'll stick with a nightclub for now. Since The Kambar is the only option in the city centre, I'll go with that one. The address is 1 Wheeler Street, and the phone number is 01223842725, right? And the id is 36. I'm happy with that. 36. FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: i think i'll stick with a nightclub for now. since the kambar is the only option in the city centre, i'll go with that one. the address is 1 wheeler street, and the phone number is 01223842725, right? and the id is 36. i'm happy with that. 36. fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': '1 Wheeler Street', 'entrance fee': '5 pounds', 'id': '36', 'name': 'The Kambar', 'openhours': 'from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not', 'type': 'nightclub', 'phone': '01223842725'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

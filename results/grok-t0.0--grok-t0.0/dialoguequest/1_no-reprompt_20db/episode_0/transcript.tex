@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'area': 'east', 'type': 'museum'}\\ \tt \\ \tt Make sure to get:\\ \tt ['name', 'openhours']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi there! I'm looking to book a visit to a museum in the east area. Could you help me find one? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': "6 saint edward's passage", 'area': 'centre', 'entrance fee': '?', 'id': '10', 'location': [52.2034781571435, 0.119176917855308], 'name': 'cambridge arts theatre', 'openhours': '?', 'phone': '01223503333', 'postcode': 'cb23pj', 'pricerange': '?', 'type': 'theatre'}, {'address': 'the old pumping station, cheddars lane', 'area': 'east', 'entrance fee': '5 pounds', 'id': '14', 'location': [52.21247, 0.15619], 'name': 'cambridge museum of technology', 'openhours': 'it opens on sunday from 2:00 p.m. to 5:00 p.m.', 'phone': '01223368650', 'postcode': 'cb58ld', 'pricerange': 'expensive', 'type': 'museum'}, {'address': 'bateman street', 'area': 'centre', 'entrance fee': '4 pounds', 'id': '15', 'location': [52.19525, 0.126], 'name': 'cambridge university botanic gardens', 'openhours': 'it opens from 10:00 a.m. to 6:00 p.m. from april to september, from 10:00 a.m. to 5:00 p.m. in february march and october, and from 10:00 a.m. to 4:00 p.m. from november to january', 'phone': '01223336265', 'postcode': 'cb21jf', 'pricerange': 'moderate', 'type': 'park'}, {'address': "storey's way", 'area': 'west', 'entrance fee': 'free', 'id': '20', 'location': [52.2128888888889, 0.103127777777778], 'name': 'churchill college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223336233', 'postcode': 'cb30ds', 'pricerange': 'free', 'type': 'college'}, {'address': 'jedburgh court, kings hedges', 'area': 'north', 'entrance fee': '?', 'id': '39', 'location': [52.23171, 0.122415], 'name': 'kings hedges learner pool', 'openhours': '?', 'phone': '01223353248', 'postcode': 'cb42xh', 'pricerange': '?', 'type': 'swimmingpool'}, {'address': 'clifton way', 'area': 'south', 'entrance fee': '?', 'id': '71', 'location': [52.190325, 0.135755], 'name': 'the junction', 'openhours': '?', 'phone': '01223511511', 'postcode': 'cb17gx', 'pricerange': '?', 'type': 'theatre'}, {'address': '1 wheeler street', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '36', 'location': [52.204192, 0.119187], 'name': 'kambar', 'openhours': 'it opens from 10:00 p.m. to 4:00 a.m. depending on whether there is an event on or not', 'phone': '01223842725', 'postcode': 'cb23qb', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': '6 trinity street', 'area': 'centre', 'entrance fee': 'free', 'id': '13', 'location': [52.206084, 0.118268], 'name': 'cambridge contemporary art', 'openhours': 'it opens from 11:00 a.m. to 4:00 p.m. on sunday, and from 09:00 a.m. to 5:30 p.m. from monday to saturday', 'phone': '01223324222', 'postcode': 'cb21su', 'pricerange': 'free', 'type': 'museum'}, {'address': "king's parade", 'area': 'centre', 'entrance fee': 'free', 'id': '58', 'location': [52.202839, 0.116394], 'name': "saint catharine's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223338300', 'postcode': 'cb21rl', 'pricerange': 'free', 'type': 'college'}, {'address': 'trinity lane', 'area': 'west', 'entrance fee': '2.50 pounds', 'id': '22', 'location': [52.2048527777778, 0.115422222222222], 'name': 'clare college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223333200', 'postcode': 'cb21tl', 'pricerange': 'moderate', 'type': 'college'}, {'address': '1-6 corn exchange street', 'area': 'centre', 'entrance fee': '4 pounds', 'id': '64', 'location': [52.203878, 0.12044], 'name': 'soul tree nightclub', 'openhours': 'it opens from 9:30 p.m. to 02:00 a.m. from sunday to tuesday, from 9:00 p.m. to 02:00 a.m. on wednesday, and from 9:00 p.m. to 02:30 a.m. from thursday to saturday', 'phone': '01223477900', 'postcode': 'cb23qf', 'pricerange': 'cheap', 'type': 'nightclub'}, {'address': 'wandlebury ring, gog magog hills, babraham', 'area': 'south', 'entrance fee': 'free', 'id': '76', 'location': [52.119551, 0.181018], 'name': 'wandlebury country park', 'openhours': 'always', 'phone': '01223243830', 'postcode': 'cb223ae', 'pricerange': 'free', 'type': 'park'}, {'address': 'sidgwick avenue', 'area': 'west', 'entrance fee': 'free', 'id': '46', 'location': [52.20987, 0.111565], 'name': 'museum of classical archaeology', 'openhours': 'it opens from 10:00 a.m. to 5:00 p.m. monday to friday', 'phone': '01223335153', 'postcode': 'cb39da', 'pricerange': 'free', 'type': 'museum'}, {'address': 'herschel road', 'area': 'west', 'entrance fee': 'free', 'id': '23', 'location': [52.2040527777778, 0.104480555555556], 'name': 'clare hall', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223332360', 'postcode': 'cb39al', 'pricerange': 'free', 'type': 'college'}, {'address': 'fulbourn', 'area': 'east', 'entrance fee': 'free', 'id': '29', 'location': [52.183498, 0.22186], 'name': 'gallery at twelve a high street', 'openhours': '?', 'phone': '01223295264', 'postcode': 'cb15dh', 'pricerange': 'free', 'type': 'museum'}, {'address': 'cherry hinton road', 'area': 'east', 'entrance fee': '?', 'id': '17', 'location': [52.186045, 0.157515], 'name': 'cherry hinton hall and grounds', 'openhours': '?', 'phone': '01223446104', 'postcode': 'cb18dw', 'pricerange': '?', 'type': 'entertainment'}, {'address': '23 high street, fen ditton', 'area': 'west', 'entrance fee': 'free', 'id': '41', 'location': [52.222053, 0.095086], 'name': 'lynne strover gallery', 'openhours': 'it opens from 10:00 a.m. to 5:00 p.m. thursday to saturday', 'phone': '01223295264', 'postcode': 'cb30aq', 'pricerange': 'free', 'type': 'museum'}, {'address': 'jesus lane', 'area': 'centre', 'entrance fee': 'free', 'id': '34', 'location': [52.209353, 0.125342], 'name': 'jesus college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223339485', 'postcode': 'cb58bl', 'pricerange': 'free', 'type': 'college'}, {'address': 'the plough, green end, fen ditton,', 'area': 'east', 'entrance fee': '?', 'id': '8', 'location': [52.21247, 0.15619], 'name': 'camboats', 'openhours': '?', 'phone': '01223902112', 'postcode': 'cb58sx', 'pricerange': '?', 'type': 'boat'}, {'address': 'trinity street', 'area': 'centre', 'entrance fee': 'free', 'id': '30', 'location': [52.205861, 0.117972], 'name': 'gonville and caius college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223332400', 'postcode': 'cb21ta', 'pricerange': 'free', 'type': 'college'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi there! I'm looking to book a visit to a museum in the east area. Could you help me find one? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! I'd recommend visiting the **Cambridge Museum of Technology**. It's located in the east area at the old pumping station on Cheddars Lane, with the postcode CB5 8LD. The entrance fee is 5 pounds, and it's considered an expensive option. It opens on Sundays from 2:00 p.m. to 5:00 p.m. The ID for this museum is **14**. Would you like to know more about it or perhaps book a visit? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'granta place, mill lane', 'area': 'centre', 'entrance fee': '?', 'id': '61', 'location': [52.200975, 0.116298], 'name': 'scudamores punting co', 'openhours': '?', 'phone': '01223359750', 'postcode': 'cb21rs', 'pricerange': '?', 'type': 'boat'}, {'address': 'granta place, mill lane', 'area': 'centre', 'entrance fee': '?', 'id': '61', 'location': [52.200975, 0.116298], 'name': 'scudamores punting co', 'openhours': '?', 'phone': '01223359750', 'postcode': 'cb21rs', 'pricerange': '?', 'type': 'boat'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi there! I'm looking to book a visit to a museum in the east area. Could you help me find one?\\ \tt \\ \tt Certainly! I'd recommend visiting the **Cambridge Museum of Technology**. It's located in the east area at the old pumping station on Cheddars Lane, with the postcode CB5 8LD. The entrance fee is 5 pounds, and it's considered an expensive option. It opens on Sundays from 2:00 p.m. to 5:00 p.m. The ID for this museum is **14**. Would you like to know more about it or perhaps book a visit? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "the old pumping station, cheddars lane", "area": "east", "entrance fee": "5 pounds", "id": "14", "name": "Cambridge Museum of Technology", "openhours": "it opens on Sundays from 2:00 p.m. to 5:00 p.m.", "postcode": "CB5 8LD", "pricerange": "expensive", "type": "museum"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'the old pumping station, cheddars lane', 'area': 'east', 'entrance fee': '5 pounds', 'id': '14', 'name': 'Cambridge Museum of Technology', 'openhours': 'it opens on Sundays from 2:00 p.m. to 5:00 p.m.', 'postcode': 'CB5 8LD', 'pricerange': 'expensive', 'type': 'museum'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! I'd recommend visiting the **Cambridge Museum of Technology**. It's located in the east area at the old pumping station on Cheddars Lane, with the postcode CB5 8LD. The entrance fee is 5 pounds, and it's considered an expensive option. It opens on Sundays from 2:00 p.m. to 5:00 p.m. The ID for this museum is **14**. Would you like to know more about it or perhaps book a visit? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds interesting! Could you tell me the opening hours for the Cambridge Museum of Technology? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds interesting! Could you tell me the opening hours for the Cambridge Museum of Technology? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 The Cambridge Museum of Technology opens on Sundays from 2:00 p.m. to 5:00 p.m. Would you like to book a visit for this Sunday? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'granta place, mill lane', 'area': 'centre', 'entrance fee': '?', 'id': '61', 'location': [52.200975, 0.116298], 'name': 'scudamores punting co', 'openhours': '?', 'phone': '01223359750', 'postcode': 'cb21rs', 'pricerange': '?', 'type': 'boat'}, {'address': 'granta place, mill lane', 'area': 'centre', 'entrance fee': '?', 'id': '61', 'location': [52.200975, 0.116298], 'name': 'scudamores punting co', 'openhours': '?', 'phone': '01223359750', 'postcode': 'cb21rs', 'pricerange': '?', 'type': 'boat'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds interesting! Could you tell me the opening hours for the Cambridge Museum of Technology?\\ \tt \\ \tt The Cambridge Museum of Technology opens on Sundays from 2:00 p.m. to 5:00 p.m. Would you like to book a visit for this Sunday? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"name": "Cambridge Museum of Technology", "openhours": "it opens on Sundays from 2:00 p.m. to 5:00 p.m."}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'the old pumping station, cheddars lane', 'area': 'east', 'entrance fee': '5 pounds', 'id': '14', 'name': 'Cambridge Museum of Technology', 'openhours': 'it opens on Sundays from 2:00 p.m. to 5:00 p.m.', 'postcode': 'CB5 8LD', 'pricerange': 'expensive', 'type': 'museum'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 The Cambridge Museum of Technology opens on Sundays from 2:00 p.m. to 5:00 p.m. Would you like to book a visit for this Sunday? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Yes, I'd like to book a visit for this Sunday. Please go ahead and book it for me. **14** FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: yes, i'd like to book a visit for this sunday. please go ahead and book it for me. **14** fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': 'the old pumping station, cheddars lane', 'area': 'east', 'entrance fee': '5 pounds', 'id': '14', 'name': 'Cambridge Museum of Technology', 'openhours': 'it opens on Sundays from 2:00 p.m. to 5:00 p.m.', 'postcode': 'CB5 8LD', 'pricerange': 'expensive', 'type': 'museum'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+  
+
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for reprompt_20db, episode 4 with mistral-large-instruct-t0.0--mistral-large-instruct-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>You are a customer who wants to make a booking.<br/><br/>You want to book a hotel. The assistant is helping you with that task and will suggest suitable options to you.<br/><br/>You need a hotel to be:<br/>{&#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;}<br/><br/>Make sure to get:<br/>[&#x27;address&#x27;, &#x27;name&#x27;]<br/><br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Make sure to never use any markup and only respond in natural language!<br/><br/>Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.<br/></p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 0</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>Sure, I&#x27;m looking for a hotel in the east area that has internet access. Could you please suggest some options?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>You are an assistant who is assisting someone with making a booking.<br/><br/>Make sure that you provide them with all relevant information.<br/>In case you need some more information, ask them.<br/>Suggest one option which fits the request.<br/>You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!<br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.<br/><br/>Relevant data: [{&#x27;address&#x27;: &#x27;52 gilbert road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;6&#x27;, &#x27;location&#x27;: [52.2309912, 0.1295545], &#x27;name&#x27;: &#x27;archway house&#x27;, &#x27;phone&#x27;: &#x27;01223575314&#x27;, &#x27;postcode&#x27;: &#x27;cb43pe&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;70&#x27;, &#x27;single&#x27;: &#x27;40&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;74 chesterton road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;7&#x27;, &#x27;location&#x27;: [52.2309912, 0.1295545], &#x27;name&#x27;: &#x27;ashley hotel&#x27;, &#x27;phone&#x27;: &#x27;01223350059&#x27;, &#x27;postcode&#x27;: &#x27;cb41er&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;85&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;2&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;56 saint barnabas road&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;2&#x27;, &#x27;location&#x27;: [52.1986444444444, 0.138133333333333], &#x27;name&#x27;: &#x27;alexander bed and breakfast&#x27;, &#x27;phone&#x27;: &#x27;01223525725&#x27;, &#x27;postcode&#x27;: &#x27;cb12de&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;50&#x27;, &#x27;single&#x27;: &#x27;40&#x27;}, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;517a coldham lane&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;3&#x27;, &#x27;location&#x27;: [52.1963733, 0.1987426], &#x27;name&#x27;: &#x27;allenbell&#x27;, &#x27;phone&#x27;: &#x27;01223210353&#x27;, &#x27;postcode&#x27;: &#x27;cb13js&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;60&#x27;, &#x27;family&#x27;: &#x27;90&#x27;, &#x27;single&#x27;: &#x27;35&#x27;}, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;63 milton road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;no&#x27;, &#x27;parking&#x27;: &#x27;no&#x27;, &#x27;id&#x27;: &#x27;4&#x27;, &#x27;location&#x27;: [52.2173388888889, 0.127638888888889], &#x27;name&#x27;: &#x27;alpha-milton guest house&#x27;, &#x27;phone&#x27;: &#x27;01223311625&#x27;, &#x27;postcode&#x27;: &#x27;cb41xa&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;80&#x27;, &#x27;single&#x27;: &#x27;45&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;kingfisher way, hinchinbrook business park, huntingdon&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;22&#x27;, &#x27;location&#x27;: [52.3386166666667, -0.210897222222222], &#x27;name&#x27;: &#x27;huntingdon marriott hotel&#x27;, &#x27;phone&#x27;: &#x27;01480446000&#x27;, &#x27;postcode&#x27;: &#x27;pe296fl&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;145&#x27;, &#x27;family&#x27;: &#x27;145&#x27;, &#x27;single&#x27;: &#x27;125&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;172 chesterton road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;23&#x27;, &#x27;location&#x27;: [52.2157138888889, 0.133519444444444], &#x27;name&#x27;: &#x27;kirkwood house&#x27;, &#x27;phone&#x27;: &#x27;01223306283&#x27;, &#x27;postcode&#x27;: &#x27;cb41da&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;130&#x27;, &#x27;single&#x27;: &#x27;50&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;15-17 norman way, coldhams business park&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;16&#x27;, &#x27;location&#x27;: [52.1956472222222, 0.167444444444444], &#x27;name&#x27;: &#x27;express by holiday inn cambridge&#x27;, &#x27;phone&#x27;: &#x27;01223866800&#x27;, &#x27;postcode&#x27;: &#x27;cb13lh&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;90&#x27;, &#x27;family&#x27;: &#x27;90&#x27;, &#x27;single&#x27;: &#x27;90&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;2&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;328a histon road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;13&#x27;, &#x27;location&#x27;: [52.227589, 0.112288], &#x27;name&#x27;: &#x27;city centre north b and b&#x27;, &#x27;phone&#x27;: &#x27;01223312843&#x27;, &#x27;postcode&#x27;: &#x27;cb43ht&#x27;, &#x27;price&#x27;: {&#x27;single&#x27;: &#x27;40&#x27;}, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;stars&#x27;: &#x27;0&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;710 newmarket road&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;8&#x27;, &#x27;location&#x27;: [52.2176534, 0.1747439], &#x27;name&#x27;: &#x27;autumn house&#x27;, &#x27;phone&#x27;: &#x27;01223575122&#x27;, &#x27;postcode&#x27;: &#x27;cb58rs&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;60&#x27;, &#x27;family&#x27;: &#x27;90&#x27;, &#x27;single&#x27;: &#x27;40&#x27;}, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;78-80 milton road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;21&#x27;, &#x27;location&#x27;: [52.2309912, 0.1295545], &#x27;name&#x27;: &#x27;home from home&#x27;, &#x27;phone&#x27;: &#x27;01223323555&#x27;, &#x27;postcode&#x27;: &#x27;cb41la&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;105&#x27;, &#x27;single&#x27;: &#x27;50&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;62 gilbert road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;no&#x27;, &#x27;id&#x27;: &#x27;9&#x27;, &#x27;location&#x27;: [52.2309912, 0.1295545], &#x27;name&#x27;: &#x27;avalon&#x27;, &#x27;phone&#x27;: &#x27;01223353071&#x27;, &#x27;postcode&#x27;: &#x27;cb43pd&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;65&#x27;, &#x27;single&#x27;: &#x27;45&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;regent street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;30&#x27;, &#x27;location&#x27;: [52.19942, 0.12722], &#x27;name&#x27;: &#x27;university arms hotel&#x27;, &#x27;phone&#x27;: &#x27;01223351241&#x27;, &#x27;postcode&#x27;: &#x27;cb21ad&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;124&#x27;, &#x27;family&#x27;: &#x27;144&#x27;, &#x27;single&#x27;: &#x27;104&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;152 chesterton road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;32&#x27;, &#x27;location&#x27;: [52.2309912, 0.1295545], &#x27;name&#x27;: &#x27;worth house&#x27;, &#x27;phone&#x27;: &#x27;01223316074&#x27;, &#x27;postcode&#x27;: &#x27;cb41da&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;60&#x27;, &#x27;family&#x27;: &#x27;85&#x27;, &#x27;single&#x27;: &#x27;49&#x27;}, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;156 chesterton road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;19&#x27;, &#x27;location&#x27;: [52.2309912, 0.1295545], &#x27;name&#x27;: &#x27;hamilton lodge&#x27;, &#x27;phone&#x27;: &#x27;01223365664&#x27;, &#x27;postcode&#x27;: &#x27;cb41da&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;73&#x27;, &#x27;family&#x27;: &#x27;85&#x27;, &#x27;single&#x27;: &#x27;50&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;96 barton road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;20&#x27;, &#x27;location&#x27;: [52.2283801, 0.0782873], &#x27;name&#x27;: &#x27;hobsons house&#x27;, &#x27;phone&#x27;: &#x27;01223304906&#x27;, &#x27;postcode&#x27;: &#x27;cb39lh&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;110&#x27;, &#x27;single&#x27;: &#x27;59&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;144 thornton road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;17&#x27;, &#x27;location&#x27;: [52.226235, 0.091796], &#x27;name&#x27;: &#x27;finches bed and breakfast&#x27;, &#x27;phone&#x27;: &#x27;01223276653&#x27;, &#x27;postcode&#x27;: &#x27;cb30nd&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;50&#x27;, &#x27;single&#x27;: &#x27;50&#x27;}, &#x27;pricerange&#x27;: &#x27;cheap&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;sleeperz hotel, station road&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;no&#x27;, &#x27;id&#x27;: &#x27;14&#x27;, &#x27;location&#x27;: [52.194866, 0.134223], &#x27;name&#x27;: &#x27;cityroomz&#x27;, &#x27;phone&#x27;: &#x27;01223304050&#x27;, &#x27;postcode&#x27;: &#x27;cb12tz&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;67&#x27;, &#x27;family&#x27;: &#x27;77&#x27;, &#x27;single&#x27;: &#x27;47&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;0&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;gonville place&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;18&#x27;, &#x27;location&#x27;: [52.201275, 0.129935], &#x27;name&#x27;: &#x27;gonville hotel&#x27;, &#x27;phone&#x27;: &#x27;01223366611&#x27;, &#x27;postcode&#x27;: &#x27;cb11ly&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;95&#x27;, &#x27;family&#x27;: &#x27;119&#x27;, &#x27;single&#x27;: &#x27;79&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;warkworth terrace&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;31&#x27;, &#x27;location&#x27;: [52.1963733, 0.1987426], &#x27;name&#x27;: &#x27;warkworth house&#x27;, &#x27;phone&#x27;: &#x27;01223363682&#x27;, &#x27;postcode&#x27;: &#x27;cb11ee&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;95&#x27;, &#x27;single&#x27;: &#x27;55&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}]<br/></p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Sure, I&#x27;m looking for a hotel in the east area that has internet access. Could you please suggest some options?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Certainly! One option that fits your criteria is the &quot;warkworth house.&quot; It is located in the east area and offers internet access. The ID for this hotel is &#x27;31&#x27;. Would you like more details about this hotel or should I proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;kingfisher way, hinchinbrook business park, huntingdon&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;22&#x27;, &#x27;location&#x27;: [52.3386166666667, -0.210897222222222], &#x27;name&#x27;: &#x27;huntingdon marriott hotel&#x27;, &#x27;phone&#x27;: &#x27;01480446000&#x27;, &#x27;postcode&#x27;: &#x27;pe296fl&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;145&#x27;, &#x27;family&#x27;: &#x27;145&#x27;, &#x27;single&#x27;: &#x27;125&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;kingfisher way, hinchinbrook business park, huntingdon&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;22&#x27;, &#x27;location&#x27;: [52.3386166666667, -0.210897222222222], &#x27;name&#x27;: &#x27;huntingdon marriott hotel&#x27;, &#x27;phone&#x27;: &#x27;01480446000&#x27;, &#x27;postcode&#x27;: &#x27;pe296fl&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;145&#x27;, &#x27;family&#x27;: &#x27;145&#x27;, &#x27;single&#x27;: &#x27;125&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>Sure, I&#x27;m looking for a hotel in the east area that has internet access. Could you please suggest some options?<br/><br/>Certainly! One option that fits your criteria is the &quot;warkworth house.&quot; It is located in the east area and offers internet access. The ID for this hotel is &#x27;31&#x27;. Would you like more details about this hotel or should I proceed with the booking?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;name&quot;: &quot;warkworth house&quot;, &quot;id&quot;: &quot;31&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;name&#x27;: &#x27;warkworth house&#x27;, &#x27;id&#x27;: &#x27;31&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>Certainly! One option that fits your criteria is the &quot;warkworth house.&quot; It is located in the east area and offers internet access. The ID for this hotel is &#x27;31&#x27;. Would you like more details about this hotel or should I proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 1</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>That sounds good. Could you please provide the address of the Warkworth House?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>That sounds good. Could you please provide the address of the Warkworth House?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Certainly! The address of the Warkworth House is &#x27;warkworth terrace&#x27;. Would you like any more information or assistance with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;kingfisher way, hinchinbrook business park, huntingdon&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;22&#x27;, &#x27;location&#x27;: [52.3386166666667, -0.210897222222222], &#x27;name&#x27;: &#x27;huntingdon marriott hotel&#x27;, &#x27;phone&#x27;: &#x27;01480446000&#x27;, &#x27;postcode&#x27;: &#x27;pe296fl&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;145&#x27;, &#x27;family&#x27;: &#x27;145&#x27;, &#x27;single&#x27;: &#x27;125&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;kingfisher way, hinchinbrook business park, huntingdon&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;22&#x27;, &#x27;location&#x27;: [52.3386166666667, -0.210897222222222], &#x27;name&#x27;: &#x27;huntingdon marriott hotel&#x27;, &#x27;phone&#x27;: &#x27;01480446000&#x27;, &#x27;postcode&#x27;: &#x27;pe296fl&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;145&#x27;, &#x27;family&#x27;: &#x27;145&#x27;, &#x27;single&#x27;: &#x27;125&#x27;}, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>That sounds good. Could you please provide the address of the Warkworth House?<br/><br/>Certainly! The address of the Warkworth House is &#x27;warkworth terrace&#x27;. Would you like any more information or assistance with the booking?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;name&quot;: &quot;Warkworth House&quot;, &quot;address&quot;: &quot;warkworth terrace&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;name&#x27;: &#x27;Warkworth House&#x27;, &#x27;id&#x27;: &#x27;31&#x27;, &#x27;address&#x27;: &#x27;warkworth terrace&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>Certainly! The address of the Warkworth House is &#x27;warkworth terrace&#x27;. Would you like any more information or assistance with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 2</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>Thank you for the information. I&#x27;d like to go ahead and book the Warkworth House, ID 31. FULFILLED</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master: fulfilled" class="msg gm-gm">
+        <p>Ending game...</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>final choice: thank you for the information. i&#x27;d like to go ahead and book the warkworth house, id 31. fulfilled</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Log final suggestion:{&#x27;name&#x27;: &#x27;Warkworth House&#x27;, &#x27;id&#x27;: &#x27;31&#x27;, &#x27;address&#x27;: &#x27;warkworth terrace&#x27;}</p>
+    </div>
+
+    <div speaker="Game Master: end" class="msg gm-gm">
+        <p>Game finished.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

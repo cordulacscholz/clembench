@@ -1,0 +1,353 @@
+game,model,experiment,metric,mean,std,var,median,max,min,skew
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Aborted,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Average Char Count A,115.96600000000001,26.40496973425015,697.2224266666665,118.83,162.0,73.33,0.20596225921565073
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Average Char Count B,267.55,83.42676429060401,6960.025,248.75,462.0,194.0,1.4816474494824172
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Average Sentence Count A,9.681999999999999,1.6934435659658422,2.867751111111108,9.5,13.78,8.22,1.6972109231624075
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Average Sentence Count B,14.636000000000001,2.1992129905440665,4.836537777777776,15.129999999999999,17.75,10.85,-0.3756142609481704
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Average Word Count A,21.177,4.945044770047868,24.453467777777778,20.665,31.0,13.67,0.6397404610958193
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Average Word Count B,47.7,14.606315224739074,213.34444444444446,44.25,84.0,33.5,1.891857875928991
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Conversational turns A,3.1,0.7378647873726218,0.5444444444444445,3.0,5.0,2.0,1.9084299581774173
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Conversational turns B,2.1,0.7378647873726218,0.5444444444444445,2.0,4.0,1.0,1.9084299581774173
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Lose,0.3,0.48304589153964794,0.23333333333333334,0.0,1.0,0.0,1.035098339013531
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Main Score,80.66666666666666,33.18857456236229,1101.4814814814813,99.0,100.0,0.0,-1.9567069971807522
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Parsed Request Count,7.3,2.2135943621178655,4.9,7.0,13.0,4.0,1.9084299581774187
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Played,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Request Count,7.3,2.2135943621178655,4.9,7.0,13.0,4.0,1.9084299581774187
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Request Success Ratio,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Success,0.7,0.48304589153964794,0.23333333333333334,1.0,1.0,0.0,-1.035098339013531
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Summarisation Penatly,1.2,1.8135294011647258,3.2888888888888888,1.0,6.0,0.0,2.4254631029547404
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Task Success Rate,0.8166666666666667,0.3374742788552765,0.1138888888888889,1.0,1.0,0.0,-1.939322744641267
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Text Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,Violated Request Count,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,0_no-reprompt_5db,n Turns,3.1,0.7378647873726218,0.5444444444444445,3.0,5.0,2.0,1.9084299581774173
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Aborted,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Average Char Count A,127.99600000000001,29.05592393223034,844.2467155555557,119.83500000000001,193.8,101.33,1.5940461215306365
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Average Char Count B,299.543,78.07613834513646,6095.883378888887,294.55,438.0,188.5,0.38297389879597
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Average Sentence Count A,10.998000000000001,3.6876424266279764,13.598706666666668,9.57,20.12,7.88,1.9811998800059796
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Average Sentence Count B,18.130000000000003,4.80232813909624,23.062355555555555,16.625,30.47,14.0,2.168019876828135
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Average Word Count A,23.162,5.275380554993166,27.829640000000005,21.25,35.2,18.0,1.5845496871225895
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Average Word Count B,54.053,14.432605100951106,208.30008999999987,52.6,85.0,36.5,0.9737858082983756
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Conversational turns A,3.7,2.3118054512532935,5.344444444444445,3.0,10.0,2.0,2.6817067137821793
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Conversational turns B,2.8,2.6161889160464775,6.844444444444444,2.0,10.0,1.0,2.7848578674984537
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Lose,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592707
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Main Score,76.1,30.38845216017687,923.4580246913582,82.33333333333333,100.0,0.0,-1.9794331711157758
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Parsed Request Count,9.3,7.543208866258444,56.89999999999999,7.0,30.0,4.0,2.7543717500535054
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Played,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Request Count,9.3,7.543208866258444,56.89999999999999,7.0,30.0,4.0,2.7543717500535054
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Request Success Ratio,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Success,0.4,0.5163977794943222,0.26666666666666666,0.0,1.0,0.0,0.48412291827592707
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Summarisation Penatly,1.4,2.503331114069145,6.266666666666667,0.0,6.0,0.0,1.5553743567496159
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Task Success Rate,0.775,0.30944494314741383,0.09575617283950619,0.8333333333333333,1.0,0.0,-2.00444676289161
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Text Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,Violated Request Count,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,1_no-reprompt_20db,n Turns,3.8,2.6161889160464775,6.844444444444444,3.0,11.0,2.0,2.7848578674984537
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Aborted,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Average Char Count A,106.724,18.80895247836342,353.7766933333334,99.46000000000001,140.0,87.33,0.6132392264930783
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Average Char Count B,241.63299999999998,51.43032180641213,2645.078001111111,237.5,339.0,188.0,0.698009655048028
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Average Sentence Count A,9.953999999999999,1.191247711901732,1.4190711111111118,9.815,11.83,7.94,-0.151729790822271
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Average Sentence Count B,15.037,2.8927843181113784,8.368201111111112,14.5,21.08,11.53,0.8429475871039663
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Average Word Count A,19.768,3.778302970029445,14.275573333333325,18.875,27.0,14.67,0.6082399198567743
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Average Word Count B,43.649,10.318401523491902,106.46941,41.25,66.33,33.0,1.1719228563352282
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Conversational turns A,3.3,0.48304589153964794,0.23333333333333334,3.0,4.0,3.0,1.0350983390135327
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Conversational turns B,2.3,0.48304589153964794,0.23333333333333334,2.0,3.0,2.0,1.0350983390135327
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Lose,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592685
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Main Score,76.36666666666666,30.636639889251946,938.6037037037034,83.33333333333333,100.0,0.0,-1.9481424479368097
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Parsed Request Count,7.9,1.4491376746189437,2.0999999999999996,7.0,10.0,7.0,1.0350983390135304
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Played,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Request Count,7.9,1.4491376746189437,2.0999999999999996,7.0,10.0,7.0,1.0350983390135304
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Request Success Ratio,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Success,0.4,0.5163977794943222,0.26666666666666666,0.0,1.0,0.0,0.48412291827592685
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Summarisation Penatly,0.7,1.3374935098492586,1.788888888888889,0.0,4.0,0.0,2.0758212993802596
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Task Success Rate,0.7666666666666666,0.3088209357708288,0.09537037037037037,0.8333333333333333,1.0,0.0,-1.9164130744153556
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Text Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,Violated Request Count,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,2_reprompt_5db,n Turns,3.3,0.48304589153964794,0.23333333333333334,3.0,4.0,3.0,1.0350983390135327
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Aborted,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Average Char Count A,147.341,71.332315016096,5088.299165555555,118.125,319.5,76.33,1.794232168171372
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Average Char Count B,247.80699999999996,73.96467190490337,5470.772690000002,263.58500000000004,334.5,64.33,-1.7986718248995652
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Average Sentence Count A,10.372,2.686119878188611,7.215239999999999,9.875,15.56,7.53,0.8291811382305284
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Average Sentence Count B,15.773,2.957570511979948,8.74722333333333,14.96,20.2,11.92,0.38848907865418375
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Average Word Count A,25.806,11.849679976925769,140.4149155555555,21.04,53.9,14.33,1.710339118665442
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Average Word Count B,43.777,11.827470895241204,139.88906777777777,46.0,53.5,12.0,-2.5309686722830205
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Conversational turns A,3.9,2.2335820757001272,4.988888888888889,3.0,10.0,2.0,2.698233534139259
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Conversational turns B,3.0,2.5385910352879697,6.4444444444444455,2.0,10.0,1.0,2.8015812183432183
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Lose,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592696
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Main Score,70.23333333333333,38.54035883666963,1485.3592592592593,79.16666666666666,100.0,0.0,-1.4461117530263314
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Parsed Request Count,9.9,7.309810759064376,53.433333333333316,7.0,30.0,4.0,2.7712096467011724
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Played,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Request Count,10.0,7.615773105863909,58.0,7.0,31.0,4.0,2.8015812183432183
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Request Success Ratio,0.9967741935483871,0.010200895677962509,0.00010405827263267418,1.0,1.0,0.967741935483871,-3.162277660168396
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Success,0.4,0.5163977794943222,0.26666666666666666,0.0,1.0,0.0,0.48412291827592696
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Summarisation Penatly,0.9,1.5951314818673865,2.5444444444444443,0.0,5.0,0.0,2.2544034205793437
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Task Success Rate,0.7083333333333333,0.38938460469100517,0.15162037037037035,0.7916666666666666,1.0,0.0,-1.433559776491912
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Text Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,Violated Request Count,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,grok-t0.0--grok-t0.0,3_reprompt_20db,n Turns,4.0,2.5385910352879693,6.444444444444445,3.0,11.0,2.0,2.8015812183432183
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Aborted,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Average Char Count A,173.95999999999998,30.148524563124703,908.9335333333335,175.75,227.33,122.0,-0.051837960737645364
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Average Char Count B,324.142,84.30180554281017,7106.794417777779,315.5,434.0,200.67,0.06633189077889623
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Average Sentence Count A,14.269,2.3483916481995357,5.514943333333332,15.23,16.62,9.88,-1.0044103657589731
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Average Sentence Count B,16.716,2.603946577366321,6.780537777777779,16.075,23.12,13.85,1.7505337150028686
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Average Word Count A,32.669,5.991426188961839,35.89718777777779,33.335,42.67,23.0,-0.16871492411560063
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Average Word Count B,59.1,15.59272551188178,243.1330888888889,58.25,84.0,36.33,0.13342051259296955
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Conversational turns A,3.6,0.9660917830792958,0.9333333333333331,3.5,5.0,2.0,0.11090339346573504
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Conversational turns B,2.6,0.9660917830792958,0.9333333333333331,2.5,4.0,1.0,0.11090339346573504
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Lose,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592685
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Main Score,72.66666666666666,19.898153380062883,395.93650793650795,66.66666666666666,100.0,50.0,0.4308448491385806
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Parsed Request Count,8.8,2.898275349237888,8.4,8.5,13.0,4.0,0.11090339346573462
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Played,0.8,0.4216370213557839,0.17777777777777778,1.0,1.0,0.0,-1.7787811838447132
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Request Count,9.0,2.6666666666666665,7.111111111111111,9.0,13.0,5.0,0.3076171875
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Request Success Ratio,0.9675,0.07075976571784592,0.005006944444444442,1.0,1.0,0.8,-2.044874891411136
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Success,0.2,0.42163702135578396,0.1777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Summarisation Penatly,0.2,0.6324555320336759,0.4000000000000001,0.0,2.0,0.0,3.162277660168379
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Task Success Rate,0.5833333333333333,0.35355339059327373,0.12499999999999997,0.6666666666666666,1.0,0.0,-0.7420256345784748
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Text Fail,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,Violated Request Count,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,0_no-reprompt_5db,n Turns,3.6,0.9660917830792958,0.9333333333333331,3.5,5.0,2.0,0.11090339346573504
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Aborted,0.5,0.5270462766947299,0.2777777777777778,0.5,1.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Average Char Count A,174.22899999999998,12.23663302456103,149.73518777777764,178.33499999999998,195.67,153.71,-0.12773190629434322
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Average Char Count B,401.25,137.19459934300946,18822.35808888889,447.16499999999996,529.0,145.67,-1.3202563311548186
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Average Sentence Count A,14.518,2.4762597243064435,6.1318622222222245,14.594999999999999,18.07,10.62,-0.08337445174161481
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Average Sentence Count B,19.834,4.0458653792071075,16.36902666666667,19.1,27.17,14.57,0.5708731768848083
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Average Word Count A,32.68,2.6514398604028973,7.030133333333335,33.25,35.67,28.14,-0.5808517483460592
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Average Word Count B,75.334,25.72074873629373,661.5569155555554,85.83500000000001,99.0,27.17,-1.3801851675905201
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Conversational turns A,3.2,1.4757295747452437,2.177777777777778,3.0,7.0,2.0,2.167727506842828
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Conversational turns B,2.2,1.4757295747452437,2.177777777777778,2.0,6.0,1.0,2.167727506842828
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Lose,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Main Score,95.86666666666666,7.07735041444812,50.08888888888898,98.0,100.0,83.33333333333333,-2.125246203198713
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Parsed Request Count,7.6,4.427188724235731,19.6,7.0,19.0,4.0,2.1677275068428288
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Played,0.5,0.5270462766947299,0.2777777777777778,0.5,1.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Request Count,8.1,4.1486276177925525,17.211111111111112,7.0,19.0,5.0,2.350758326655897
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Request Success Ratio,0.915,0.09368979548370131,0.008777777777777778,0.9375,1.0,0.8,-0.27359341815261345
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Success,0.4,0.5163977794943222,0.26666666666666666,0.0,1.0,0.0,0.48412291827592707
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Summarisation Penatly,0.4,0.8432740427115678,0.7111111111111111,0.0,2.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Task Success Rate,0.4833333333333333,0.5118955333239753,0.26203703703703707,0.41666666666666663,1.0,0.0,0.031063095955181683
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Text Fail,0.5,0.5270462766947299,0.2777777777777778,0.5,1.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,Violated Request Count,0.5,0.5270462766947299,0.2777777777777778,0.5,1.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,1_no-reprompt_20db,n Turns,3.2,1.4757295747452437,2.177777777777778,3.0,7.0,2.0,2.167727506842828
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Aborted,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Average Char Count A,170.813,43.59579109399335,1900.5930011111097,152.08499999999998,264.4,123.33,1.2178171676448355
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Average Char Count B,348.425,99.25647700668092,9851.84822777778,336.75,507.33,205.67,0.2313055538717604
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Average Sentence Count A,13.533000000000001,2.5386569064938427,6.444778888888887,13.440000000000001,19.75,11.08,1.7327928470291223
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Average Sentence Count B,17.309,2.8189140935237216,7.946276666666666,17.4,21.62,13.0,-0.18970651864960067
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Average Word Count A,31.939999999999998,7.948457572244933,63.177977777777805,29.25,47.6,22.33,0.9673602300933458
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Average Word Count B,63.416,17.540943342173286,307.6846933333333,62.625,93.33,38.33,0.22272064887948298
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Conversational turns A,3.7,1.0593499054713802,1.1222222222222222,3.5,5.0,2.0,0.04205829935456368
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Conversational turns B,2.7,1.0593499054713802,1.1222222222222222,2.5,4.0,1.0,0.04205829935456368
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Lose,0.7,0.48304589153964794,0.23333333333333334,1.0,1.0,0.0,-1.035098339013531
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Main Score,80.14814814814814,14.129471869416848,199.64197530864203,83.33333333333333,100.0,50.0,-1.2182779925536529
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Parsed Request Count,9.1,3.178049716414141,10.100000000000001,8.5,13.0,4.0,0.042058299354564524
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Played,0.9,0.31622776601683794,0.09999999999999999,1.0,1.0,0.0,-3.162277660168379
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Request Count,9.7,2.8693785622209798,8.233333333333336,9.0,14.0,7.0,0.41129530932522285
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Request Success Ratio,0.9337662337662337,0.156168493668129,0.02438859841457244,1.0,1.0,0.5,-2.9025313640611268
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Success,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Summarisation Penatly,1.2,3.794733192202055,14.399999999999999,0.0,12.0,0.0,3.162277660168379
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Task Success Rate,0.7333333333333333,0.2960647243216495,0.0876543209876543,0.8333333333333333,1.0,0.0,-1.9504680608454614
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Text Fail,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,Violated Request Count,0.6,1.2649110640673518,1.6,0.0,4.0,0.0,2.6022909911802286
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,2_reprompt_5db,n Turns,3.7,1.0593499054713802,1.1222222222222222,3.5,5.0,2.0,0.04205829935456368
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Aborted,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Average Char Count A,179.971,37.60473505941624,1414.116098888889,174.75,236.0,113.5,0.003464845264580443
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Average Char Count B,342.16999999999996,121.75730660256538,14824.841711111112,339.81,585.0,162.0,0.5387850472810796
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Average Sentence Count A,13.456999999999999,1.7972883896457892,3.2302455555555545,13.225,16.83,11.04,0.3996931311728007
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Average Sentence Count B,17.228,2.311780458626832,5.344328888888885,17.465,21.74,14.08,0.48768139288713647
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Average Word Count A,33.523,6.880321455668574,47.33882333333333,32.765,44.0,21.5,-0.04387395819679287
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Average Word Count B,62.073,22.46072970517407,504.4843788888889,59.45,107.0,28.33,0.5684885643171571
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Conversational turns A,4.0,1.7638342073763937,3.111111111111111,4.0,8.0,2.0,1.2148858061010874
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Conversational turns B,3.0,1.7638342073763937,3.111111111111111,3.0,7.0,1.0,1.2148858061010874
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Lose,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592685
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Main Score,75.79166666666666,19.786910456077404,391.52182539682536,79.16666666666666,100.0,50.0,-0.15880744133182192
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Parsed Request Count,10.0,5.291502622129181,28.0,10.0,22.0,4.0,1.2148858061010874
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Played,0.8,0.4216370213557839,0.17777777777777778,1.0,1.0,0.0,-1.7787811838447132
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Request Count,10.9,4.771442828607157,22.766666666666666,10.0,23.0,7.0,2.0718676310966937
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Request Success Ratio,0.8956521739130435,0.20896721462083329,0.0436672967863894,1.0,1.0,0.5,-1.7609136008832498
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Success,0.2,0.42163702135578396,0.1777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Summarisation Penatly,0.2,0.6324555320336759,0.4000000000000001,0.0,2.0,0.0,3.162277660168379
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Task Success Rate,0.6083333333333333,0.3644080266357249,0.1327932098765432,0.7083333333333333,1.0,0.0,-0.8805761524390215
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Text Fail,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,Violated Request Count,0.9,1.66332999331662,2.7666666666666666,0.0,4.0,0.0,1.6442556618502224
+dialoguequest,llama-70b_uni-t0.0--llama-70b_uni-t0.0,3_reprompt_20db,n Turns,4.0,1.7638342073763937,3.111111111111111,4.0,8.0,2.0,1.2148858061010874
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Aborted,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Average Char Count A,128.216,18.694856809056095,349.497671111111,124.0,155.33,105.0,0.44508946225022844
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Average Char Count B,254.95,41.242810821335205,1700.9694444444444,245.5,313.0,199.0,0.1510120832137898
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Average Sentence Count A,10.698,1.2086613347924318,1.4608622222222227,10.57,12.61,8.5,-0.21487452370781832
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Average Sentence Count B,11.407,2.2074422101407576,4.872801111111113,11.29,16.85,9.0,1.7244065386459322
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Average Word Count A,22.383,3.763089894694992,14.160845555555566,21.25,28.67,18.33,0.8095826682692325
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Average Word Count B,43.6,7.233410137841088,52.32222222222222,42.5,56.0,34.5,0.4015530052566265
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Conversational turns A,2.7,0.48304589153964794,0.23333333333333334,3.0,3.0,2.0,-1.0350983390135327
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Conversational turns B,1.7,0.48304589153964794,0.23333333333333334,2.0,2.0,1.0,-1.0350983390135313
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Lose,0.7,0.48304589153964794,0.23333333333333334,1.0,1.0,0.0,-1.0350983390135313
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Main Score,44.2,47.474541585627044,2253.8320987654315,33.33333333333333,100.0,0.0,0.11843223708378964
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Parsed Request Count,6.1,1.4491376746189437,2.0999999999999996,7.0,7.0,4.0,-1.0350983390135304
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Played,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Request Count,6.1,1.4491376746189437,2.0999999999999996,7.0,7.0,4.0,-1.0350983390135304
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Request Success Ratio,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Success,0.3,0.48304589153964794,0.23333333333333334,0.0,1.0,0.0,1.0350983390135313
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Summarisation Penatly,0.9,1.66332999331662,2.7666666666666666,0.0,4.0,0.0,1.6442556618502222
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Task Success Rate,0.45,0.48464063305698635,0.2348765432098765,0.3333333333333333,1.0,0.0,0.13421489590202998
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Text Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,Violated Request Count,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,0_no-reprompt_5db,n Turns,2.7,0.48304589153964794,0.23333333333333334,3.0,3.0,2.0,-1.0350983390135327
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Aborted,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Average Char Count A,120.48299999999999,16.61586126433281,276.0868455555555,120.16499999999999,148.67,91.67,-0.08337042656184099
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Average Char Count B,274.7,72.96277589748533,5323.566666666666,251.5,441.0,195.5,1.4287856575645166
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Average Sentence Count A,10.846,1.242168355023675,1.542982222222223,10.44,13.75,9.72,1.6491689535844636
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Average Sentence Count B,11.312000000000001,1.6854066439751432,2.840595555555555,11.635,13.6,8.6,-0.2327315349215334
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Average Word Count A,21.249000000000002,3.137488202722397,9.843832222222217,21.25,26.33,16.67,0.06158682528171829
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Average Word Count B,48.6,16.09485770190108,259.0444444444445,43.25,88.0,32.0,1.8078086360988461
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Conversational turns A,2.7,0.48304589153964794,0.23333333333333334,3.0,3.0,2.0,-1.0350983390135327
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Conversational turns B,1.7,0.48304589153964794,0.23333333333333334,2.0,2.0,1.0,-1.035098339013531
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Lose,0.7,0.48304589153964794,0.23333333333333334,1.0,1.0,0.0,-1.035098339013531
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Main Score,31.48148148148148,47.466687473986276,2253.086419753086,0.0,100.0,0.0,0.894986854537926
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Parsed Request Count,6.1,1.4491376746189437,2.0999999999999996,7.0,7.0,4.0,-1.0350983390135304
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Played,0.9,0.31622776601683794,0.09999999999999999,1.0,1.0,0.0,-3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Request Count,6.2,1.3165611772087666,1.7333333333333332,7.0,7.0,4.0,-1.183152241352553
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Request Success Ratio,0.9800000000000001,0.06324555320336758,0.003999999999999999,1.0,1.0,0.8,-3.1622776601683835
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Success,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Summarisation Penatly,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Task Success Rate,0.2833333333333333,0.45845957857283903,0.21018518518518517,0.0,1.0,0.0,1.071390914858454
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Text Fail,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,Violated Request Count,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,1_no-reprompt_20db,n Turns,2.7,0.48304589153964794,0.23333333333333334,3.0,3.0,2.0,-1.0350983390135327
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Aborted,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Average Char Count A,113.85,26.550079723671896,704.9067333333335,108.5,153.33,74.33,0.2144080560471378
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Average Char Count B,257.4,44.31503381722982,1963.8222222222223,248.75,335.0,209.0,0.661190161781998
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Average Sentence Count A,10.225999999999999,1.261781808924718,1.5920933333333331,10.030000000000001,11.86,8.11,-0.16860763701126774
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Average Sentence Count B,11.293000000000001,1.067333645638097,1.1392011111111109,11.195,13.24,9.67,0.288175827156684
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Average Word Count A,20.148,4.456510343805391,19.860484444444445,18.83,27.0,13.33,0.2804587826807922
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Average Word Count B,44.4,8.448537019968473,71.37777777777778,43.75,58.0,34.5,0.457344190143534
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Conversational turns A,2.8,0.42163702135578385,0.17777777777777773,3.0,3.0,2.0,-1.7787811838447123
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Conversational turns B,1.8,0.4216370213557839,0.17777777777777778,2.0,2.0,1.0,-1.7787811838447136
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Lose,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592696
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Main Score,61.96666666666666,38.08517095817715,1450.4802469135802,74.0,99.0,0.0,-0.8313736203917419
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Parsed Request Count,6.4,1.2649110640673518,1.6,7.0,7.0,4.0,-1.7787811838447145
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Played,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Request Count,6.4,1.2649110640673518,1.6,7.0,7.0,4.0,-1.7787811838447145
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Request Success Ratio,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Success,0.4,0.5163977794943222,0.26666666666666666,0.0,1.0,0.0,0.48412291827592696
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Summarisation Penatly,2.2,2.973961069759395,8.844444444444445,1.0,8.0,0.0,1.1836404108670298
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Task Success Rate,0.6416666666666666,0.4007130989302957,0.16057098765432098,0.75,1.0,0.0,-0.7587986233173836
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Text Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,Violated Request Count,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,2_reprompt_5db,n Turns,2.8,0.42163702135578385,0.17777777777777773,3.0,3.0,2.0,-1.7787811838447123
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Aborted,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Average Char Count A,122.75999999999999,20.39231554613976,415.84653333333324,125.08500000000001,151.67,95.67,0.0522320843094919
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Average Char Count B,253.183,46.801714130526825,2190.400445555554,255.5,316.33,170.5,-0.39758236067425906
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Average Sentence Count A,10.382,1.3795715921175593,1.9032177777777772,9.98,12.31,8.56,0.2158468026405603
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Average Sentence Count B,10.709999999999999,1.4825428605383835,2.197933333333333,10.495000000000001,13.36,8.75,0.5622882479434226
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Average Word Count A,21.392000000000003,3.624067083019052,13.133862222222218,22.0,27.0,16.75,0.030927063521777792
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Average Word Count B,43.2,8.866903505608809,78.62197777777777,45.085,57.0,27.5,-0.3007211955255427
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Conversational turns A,3.1,0.5676462121975467,0.32222222222222224,3.0,4.0,2.0,0.09112037889021184
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Conversational turns B,2.1,0.5676462121975466,0.3222222222222222,2.0,3.0,1.0,0.09112037889021184
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Lose,0.9,0.31622776601683794,0.09999999999999999,1.0,1.0,0.0,-3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Main Score,32.1,42.23100785786858,1783.458024691358,0.0,98.0,0.0,0.6190623719536262
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Parsed Request Count,7.3,1.7029386365926402,2.9000000000000004,7.0,10.0,4.0,0.09112037889021275
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Played,1.0,0.0,0.0,1.0,1.0,1.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Request Count,7.4,1.8973665961010275,3.5999999999999996,7.0,11.0,4.0,0.49776592798946656
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Request Success Ratio,0.990909090909091,0.028747978728803424,0.0008264462809917341,1.0,1.0,0.9090909090909092,-3.1622776601683857
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Success,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Summarisation Penatly,0.4,0.8432740427115679,0.7111111111111112,0.0,2.0,0.0,1.7787811838447127
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Task Success Rate,0.325,0.42754322574044273,0.18279320987654318,0.0,1.0,0.0,0.6212667828616051
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Text Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,Violated Request Count,0.1,0.31622776601683794,0.1,0.0,1.0,0.0,3.162277660168379
+dialoguequest,mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,3_reprompt_20db,n Turns,3.1,0.5676462121975467,0.32222222222222224,3.0,4.0,2.0,0.09112037889021184
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Aborted,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Average Char Count A,471.5,101.01066929345191,10203.155311111108,451.0,660.0,321.33,0.8360679546892449
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Average Char Count B,465.2,202.72315550468767,41096.67777777778,482.75,704.0,0.0,-1.314931760985943
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Average Sentence Count A,16.134,5.3733275434211984,28.872648888888893,13.95,29.19,11.07,1.850019787931415
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Average Sentence Count B,20.096,14.631107044011856,214.06929333333335,15.780000000000001,47.33,0.0,1.1823208841329564
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Average Word Count A,83.8,15.666304251127285,245.43308888888885,80.5,110.0,57.67,0.4370450342578651
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Average Word Count B,84.0,35.99459836018609,1295.611111111111,93.5,125.0,0.0,-1.501572444895416
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Conversational turns A,2.2,0.6324555320336759,0.39999999999999997,2.0,3.0,1.0,-0.13176156917368348
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Conversational turns B,1.2,0.6324555320336759,0.39999999999999997,1.0,2.0,0.0,-0.1317615691736822
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Lose,0.3,0.48304589153964794,0.23333333333333334,0.0,1.0,0.0,1.0350983390135313
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Main Score,71.91666666666667,44.75923244302665,2003.388888888889,97.0,100.0,0.0,-1.3741361072630742
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Parsed Request Count,4.6,1.8973665961010275,3.5999999999999996,4.0,7.0,1.0,-0.13176156917368184
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Played,0.8,0.4216370213557839,0.17777777777777778,1.0,1.0,0.0,-1.7787811838447132
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Request Count,4.8,1.6865480854231356,2.8444444444444446,4.0,7.0,2.0,0.21539928398119618
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Request Success Ratio,0.93,0.1636391694484477,0.026777777777777775,1.0,1.0,0.5,-2.502723338459327
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Success,0.5,0.5270462766947299,0.2777777777777778,0.5,1.0,0.0,0.0
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Summarisation Penatly,1.0,1.3333333333333333,1.7777777777777775,0.5,4.0,0.0,1.40625
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Task Success Rate,0.5833333333333333,0.5046083923495819,0.25462962962962954,0.9166666666666666,1.0,0.0,-0.4503942675516926
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Text Fail,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,Violated Request Count,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,0_no-reprompt_5db,n Turns,2.2,0.6324555320336759,0.39999999999999997,2.0,3.0,1.0,-0.13176156917368348
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Aborted,0.3,0.48304589153964794,0.23333333333333334,0.0,1.0,0.0,1.0350983390135313
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Average Char Count A,391.233,198.26903327717787,39310.60955666666,383.5,768.0,0.0,-0.06277139623668031
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Average Char Count B,441.883,190.3889300032378,36247.944667777774,490.75,655.0,0.0,-1.4901843231468825
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Average Sentence Count A,13.35,5.692462853048172,32.404133333333334,13.66,22.42,0.0,-1.1918587317830531
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Average Sentence Count B,21.496,14.506898895200019,210.45011555555553,15.165,50.33,0.0,0.6979972676970502
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Average Word Count A,70.409,33.60201298533566,1129.0952766666667,69.67,125.5,0.0,-0.5326931769432477
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Average Word Count B,79.833,33.782293208786825,1141.2433344444444,88.75,114.0,0.0,-1.6181869309445214
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Conversational turns A,2.3,1.0593499054713802,1.1222222222222222,2.0,4.0,0.0,-0.7430299552639663
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Conversational turns B,1.4,0.8432740427115678,0.7111111111111111,1.0,3.0,0.0,0.3891083839660314
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Lose,0.1,0.31622776601683794,0.10000000000000002,0.0,1.0,0.0,3.162277660168379
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Main Score,81.42857142857143,36.40447382239873,1325.2857142857142,96.0,100.0,0.0,-2.5058143309581014
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Parsed Request Count,5.1,2.7264140062238043,7.433333333333334,4.0,10.0,0.0,-0.007401433586844542
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Played,0.7,0.48304589153964794,0.23333333333333334,1.0,1.0,0.0,-1.035098339013531
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Request Count,5.4,2.590581230363393,6.711111111111112,4.5,10.0,1.0,0.21473613110770573
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Request Success Ratio,0.8675,0.31270548799504977,0.09778472222222222,1.0,1.0,0.0,-2.892738851668535
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Success,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592685
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Summarisation Penatly,3.2,5.452828012447608,29.73333333333333,1.5,18.0,0.0,2.655058703903221
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Task Success Rate,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592685
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Text Fail,0.3,0.48304589153964794,0.23333333333333334,0.0,1.0,0.0,1.0350983390135313
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,Violated Request Count,0.3,0.48304589153964794,0.23333333333333334,0.0,1.0,0.0,1.0350983390135313
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,1_no-reprompt_20db,n Turns,2.4,0.8432740427115678,0.711111111111111,2.0,4.0,1.0,0.3891083839660314
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Aborted,0.1,0.31622776601683794,0.09999999999999999,0.0,1.0,0.0,3.162277660168379
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Average Char Count A,380.082,128.72383624557565,16569.826017777777,389.25,551.5,204.4,-0.04884753491346152
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Average Char Count B,382.443,235.3200318266358,55375.51737888889,461.75,644.0,0.0,-0.8614934002089291
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Average Sentence Count A,13.192000000000002,2.7816813460767054,7.737751111111111,12.645,20.17,9.78,1.8630744991477086
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Average Sentence Count B,12.22,6.736560282847949,45.38124444444444,14.245000000000001,18.43,0.0,-1.4030800724400496
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Average Word Count A,68.455,22.07294032167995,487.21469444444455,69.25,99.5,39.3,0.03403391844195165
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Average Word Count B,69.83,42.515880693114084,1807.600111111111,85.25,119.0,0.0,-0.8940888763423691
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Conversational turns A,2.9,2.64365067451978,6.988888888888889,2.0,10.0,1.0,2.569975569216601
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Conversational turns B,2.0,2.9439202887759492,8.666666666666668,1.0,10.0,0.0,2.6782706769189475
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Lose,0.2,0.4216370213557839,0.17777777777777778,0.0,1.0,0.0,1.7787811838447127
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Main Score,75.88888888888889,43.224542925415776,1868.361111111111,99.0,100.0,0.0,-1.5819173063678662
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Parsed Request Count,6.9,8.530338015967871,72.76666666666667,4.0,30.0,1.0,2.6455386038304733
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Played,0.9,0.31622776601683794,0.09999999999999999,1.0,1.0,0.0,-3.1622776601683795
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Request Count,7.4,8.235424835563872,67.82222222222222,4.0,30.0,2.0,2.7832442978105343
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Request Success Ratio,0.8699999999999999,0.2830390628713837,0.0801111111111111,1.0,1.0,0.2,-2.0448748914111343
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Success,0.7,0.48304589153964794,0.23333333333333334,1.0,1.0,0.0,-1.0350983390135313
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Summarisation Penatly,1.7,4.083843505544474,16.677777777777777,0.0,13.0,0.0,2.876008806604909
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Task Success Rate,0.7,0.48304589153964794,0.23333333333333334,1.0,1.0,0.0,-1.0350983390135313
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Text Fail,0.1,0.31622776601683794,0.09999999999999999,0.0,1.0,0.0,3.162277660168379
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,Violated Request Count,0.5,1.2692955176439848,1.6111111111111114,0.0,4.0,0.0,2.8525190586767315
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,2_reprompt_5db,n Turns,3.0,2.9439202887759492,8.666666666666668,2.0,11.0,1.0,2.6782706769189475
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Aborted,0.1,0.31622776601683794,0.09999999999999999,0.0,1.0,0.0,3.162277660168379
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Average Char Count A,385.82,91.58139767441857,8387.152399999999,410.35,497.0,249.67,-0.41966077098777366
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Average Char Count B,442.925,194.28773228556318,37747.72291666667,459.5,667.0,0.0,-1.303148885944055
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Average Sentence Count A,14.440999999999999,3.433755475666063,11.79067666666667,13.864999999999998,19.96,9.88,0.5350342534927665
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Average Sentence Count B,16.722,8.989911382581404,80.81850666666668,14.614999999999998,32.08,0.0,0.04939014276071633
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Average Word Count A,67.437,14.305426359718656,204.64522333333332,72.35,82.5,46.67,-0.5790520487702295
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Average Word Count B,77.875,33.02382347134666,1090.5729166666667,83.5,114.0,0.0,-1.5261820119251313
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Conversational turns A,2.6,1.07496769977314,1.1555555555555557,2.5,5.0,1.0,1.0197086353247424
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Conversational turns B,1.6,1.07496769977314,1.1555555555555557,1.5,4.0,0.0,1.0197086353247424
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,JSON Fail,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Lose,0.3,0.48304589153964794,0.23333333333333334,0.0,1.0,0.0,1.035098339013531
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Main Score,64.77777777777777,48.67693955503411,2369.4444444444443,96.0,100.0,0.0,-0.8427885596876848
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Parsed Request Count,5.8,3.2249030993194197,10.399999999999999,5.5,13.0,1.0,1.019708635324743
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Played,0.9,0.31622776601683794,0.09999999999999999,1.0,1.0,0.0,-3.162277660168379
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Request Count,6.3,2.8303906287138374,8.011111111111113,6.0,13.0,4.0,1.5671003840720854
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Request Success Ratio,0.9075,0.25167494467621876,0.06334027777777776,1.0,1.0,0.2,-3.03064371867688
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Success,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592685
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Summarisation Penatly,2.2,3.0840089349921005,9.511111111111111,1.5,10.0,0.0,2.0671146337052773
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Task Success Rate,0.6,0.5163977794943222,0.26666666666666666,1.0,1.0,0.0,-0.48412291827592685
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Text Fail,0.1,0.31622776601683794,0.09999999999999999,0.0,1.0,0.0,3.162277660168379
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,Violated Request Count,0.5,1.2692955176439846,1.6111111111111112,0.0,4.0,0.0,2.8525190586767315
+dialoguequest,qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,3_reprompt_20db,n Turns,2.6,1.07496769977314,1.1555555555555557,2.5,5.0,1.0,1.0197086353247424

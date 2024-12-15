@@ -1,0 +1,5 @@
+,"-, clemscore","all, Average % Played","all, Average Quality Score","dialoguequest, % Played","dialoguequest, Quality Score","dialoguequest, Quality Score (std)"
+grok-t0.0--grok-t0.0,80.25,97.5,82.31,97.5,82.31,31.25
+llama-70b_uni-t0.0--llama-70b_uni-t0.0,69.5,75.0,92.67,75.0,92.67,11.99
+mistral-large-instruct-t0.0--mistral-large-instruct-t0.0,87.66,97.5,89.91,97.5,89.91,26.86
+qwen2.5-72b-instruct-t0.0--qwen2.5-72b-instruct-t0.0,65.19,87.5,74.5,87.5,74.5,40.14

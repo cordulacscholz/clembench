@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'type': 'architecture', 'area': 'centre'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'phone']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Sure, I can help you find an architectural attraction in the city centre. Could you tell me a bit more about what you're looking for? For example, are you interested in historical buildings, modern architecture, or something specific like a museum or a landmark? Also, do you have a preferred date and time for your visit? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'wheeler street', 'area': 'centre', 'entrance fee': '?', 'id': '66', 'location': [52.20431, 0.119215], 'name': 'the cambridge corn exchange', 'openhours': '?', 'phone': '01223357851', 'postcode': 'cb23qe', 'pricerange': '?', 'type': 'theatre'}, {'address': 'wandlebury ring, gog magog hills, babraham', 'area': 'south', 'entrance fee': 'free', 'id': '76', 'location': [52.119551, 0.181018], 'name': 'wandlebury country park', 'openhours': 'always', 'phone': '01223243830', 'postcode': 'cb223ae', 'pricerange': 'free', 'type': 'park'}, {'address': 'jesus lane', 'area': 'centre', 'entrance fee': 'free', 'id': '3', 'location': [52.2078083333333, 0.125616666666667], 'name': 'all saints church', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m., at other times the key can be borrowed from a nearby key holder.', 'phone': '01223452587', 'postcode': 'cb58bs', 'pricerange': 'free', 'type': 'architecture'}, {'address': "gwydir street, no. 5 dale's brewery", 'area': 'centre', 'entrance fee': 'free', 'id': '79', 'location': [52.2002, 0.1385], 'name': 'williams art and antiques', 'openhours': 'it opens from 11:00 a.m. to 6:00 p.m. from tuesday to friday, from 11:00 a.m. to 5:00 p.m. on saturday and sunday, and it is closed on monday', 'phone': '01223311687', 'postcode': 'cb12lj', 'pricerange': 'free', 'type': 'museum'}, {'address': 'market street', 'area': 'centre', 'entrance fee': 'free', 'id': '32', 'location': [52.2057694444444, 0.120033333333333], 'name': 'holy trinity church', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m.', 'phone': '01223355397', 'postcode': 'cb23nz', 'pricerange': 'free', 'type': 'architecture'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Sure, I can help you find an architectural attraction in the city centre. Could you tell me a bit more about what you're looking for? For example, are you interested in historical buildings, modern architecture, or something specific like a museum or a landmark? Also, do you have a preferred date and time for your visit? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Sure, I can help with that. Since you're interested in an architectural attraction in the city centre, one option that fits your request is All Saints Church. It's located on Jesus Lane and is free to enter. The church opens normally daily from 9 a.m. to 5 p.m., and at other times, the key can be borrowed from a nearby key holder. The phone number is 01223452587, and the postcode is CB58BS. The ID for this location is 3. Does this sound good to you, or would you like more options? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '2-3 castle street', 'area': 'west', 'entrance fee': '3.50 pounds', 'id': '9', 'location': [52.210766, 0.114795], 'name': 'cambridge and county folk museum', 'openhours': 'it opens from monday to saturday, 10 a.m. to 5 p.m. while on sunday it opens from 2 p.m. to 5 p.m.', 'phone': '01223355159', 'postcode': 'cb30aq', 'pricerange': 'moderate', 'type': 'museum'}, {'address': '2-3 castle street', 'area': 'west', 'entrance fee': '3.50 pounds', 'id': '9', 'location': [52.210766, 0.114795], 'name': 'cambridge and county folk museum', 'openhours': 'it opens from monday to saturday, 10 a.m. to 5 p.m. while on sunday it opens from 2 p.m. to 5 p.m.', 'phone': '01223355159', 'postcode': 'cb30aq', 'pricerange': 'moderate', 'type': 'museum'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Sure, I can help you find an architectural attraction in the city centre. Could you tell me a bit more about what you're looking for? For example, are you interested in historical buildings, modern architecture, or something specific like a museum or a landmark? Also, do you have a preferred date and time for your visit?\\ \tt \\ \tt Sure, I can help with that. Since you're interested in an architectural attraction in the city centre, one option that fits your request is All Saints Church. It's located on Jesus Lane and is free to enter. The church opens normally daily from 9 a.m. to 5 p.m., and at other times, the key can be borrowed from a nearby key holder. The phone number is 01223452587, and the postcode is CB58BS. The ID for this location is 3. Does this sound good to you, or would you like more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "jesus lane", "area": "centre", "entrance fee": "free", "id": "3", "location": [52.2078083333333, 0.125616666666667], "name": "all saints church", "openhours": "it opens normally daily from 9 a.m. to 5 p.m., at other times the key can be borrowed from a nearby key holder.", "phone": "01223452587", "postcode": "cb58bs", "pricerange": "free", "type": "architecture"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'jesus lane', 'area': 'centre', 'entrance fee': 'free', 'id': '3', 'location': [52.2078083333333, 0.125616666666667], 'name': 'all saints church', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m., at other times the key can be borrowed from a nearby key holder.', 'phone': '01223452587', 'postcode': 'cb58bs', 'pricerange': 'free', 'type': 'architecture'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Sure, I can help with that. Since you're interested in an architectural attraction in the city centre, one option that fits your request is All Saints Church. It's located on Jesus Lane and is free to enter. The church opens normally daily from 9 a.m. to 5 p.m., and at other times, the key can be borrowed from a nearby key holder. The phone number is 01223452587, and the postcode is CB58BS. The ID for this location is 3. Does this sound good to you, or would you like more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 All Saints Church sounds like a great option! I'm interested in historical buildings, and the location in the city centre is perfect. Could you confirm the opening hours and the phone number again, please? I want to make sure I have all the details correct for my visit. If everything is fine, I'll go ahead with this booking. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 All Saints Church sounds like a great option! I'm interested in historical buildings, and the location in the city centre is perfect. Could you confirm the opening hours and the phone number again, please? I want to make sure I have all the details correct for my visit. If everything is fine, I'll go ahead with this booking. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! All Saints Church is located on Jesus Lane in the city centre. It is free to enter and opens normally daily from 9 a.m. to 5 p.m. If you need to visit at other times, the key can be borrowed from a nearby key holder. The phone number for the church is 01223452587, and the postcode is CB58BS. The ID for this location is 3. Everything seems to be in order for your visit. If you have any more questions or need further assistance, feel free to ask! 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': '2-3 castle street', 'area': 'west', 'entrance fee': '3.50 pounds', 'id': '9', 'location': [52.210766, 0.114795], 'name': 'cambridge and county folk museum', 'openhours': 'it opens from monday to saturday, 10 a.m. to 5 p.m. while on sunday it opens from 2 p.m. to 5 p.m.', 'phone': '01223355159', 'postcode': 'cb30aq', 'pricerange': 'moderate', 'type': 'museum'}, {'address': '2-3 castle street', 'area': 'west', 'entrance fee': '3.50 pounds', 'id': '9', 'location': [52.210766, 0.114795], 'name': 'cambridge and county folk museum', 'openhours': 'it opens from monday to saturday, 10 a.m. to 5 p.m. while on sunday it opens from 2 p.m. to 5 p.m.', 'phone': '01223355159', 'postcode': 'cb30aq', 'pricerange': 'moderate', 'type': 'museum'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt All Saints Church sounds like a great option! I'm interested in historical buildings, and the location in the city centre is perfect. Could you confirm the opening hours and the phone number again, please? I want to make sure I have all the details correct for my visit. If everything is fine, I'll go ahead with this booking.\\ \tt \\ \tt Certainly! All Saints Church is located on Jesus Lane in the city centre. It is free to enter and opens normally daily from 9 a.m. to 5 p.m. If you need to visit at other times, the key can be borrowed from a nearby key holder. The phone number for the church is 01223452587, and the postcode is CB58BS. The ID for this location is 3. Everything seems to be in order for your visit. If you have any more questions or need further assistance, feel free to ask! 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "jesus lane", "area": "centre", "entrance fee": "free", "id": "3", "location": [52.2078083333333, 0.125616666666667], "name": "all saints church", "openhours": "it opens normally daily from 9 a.m. to 5 p.m. if you need to visit at other times, the key can be borrowed from a nearby key holder.", "phone": "01223452587", "postcode": "cb58bs", "pricerange": "free", "type": "architecture"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'jesus lane', 'area': 'centre', 'entrance fee': 'free', 'id': '3', 'location': [52.2078083333333, 0.125616666666667], 'name': 'all saints church', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. if you need to visit at other times, the key can be borrowed from a nearby key holder.', 'phone': '01223452587', 'postcode': 'cb58bs', 'pricerange': 'free', 'type': 'architecture'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! All Saints Church is located on Jesus Lane in the city centre. It is free to enter and opens normally daily from 9 a.m. to 5 p.m. If you need to visit at other times, the key can be borrowed from a nearby key holder. The phone number for the church is 01223452587, and the postcode is CB58BS. The ID for this location is 3. Everything seems to be in order for your visit. If you have any more questions or need further assistance, feel free to ask! 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That's perfect, thank you! I have all the details I need for my visit to All Saints Church. The opening hours from 9 a.m. to 5 p.m. and the phone number 01223452587 are noted, along with the postcode CB58BS. I'll go ahead with this booking. ID 3 is the one I'll choose. Everything is FULFILLED. Thanks for your help! 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: that's perfect, thank you! i have all the details i need for my visit to all saints church. the opening hours from 9 a.m. to 5 p.m. and the phone number 01223452587 are noted, along with the postcode cb58bs. i'll go ahead with this booking. id 3 is the one i'll choose. everything is fulfilled. thanks for your help! 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': 'jesus lane', 'area': 'centre', 'entrance fee': 'free', 'id': '3', 'location': [52.2078083333333, 0.125616666666667], 'name': 'all saints church', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. if you need to visit at other times, the key can be borrowed from a nearby key holder.', 'phone': '01223452587', 'postcode': 'cb58bs', 'pricerange': 'free', 'type': 'architecture'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+  
+
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for reprompt_5db, episode 4 with mistral-large-instruct-t0.0--mistral-large-instruct-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>You are a customer who wants to make a booking.<br/><br/>You want to book a hotel. The assistant is helping you with that task and will suggest suitable options to you.<br/><br/>You need a hotel to be:<br/>{&#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}<br/><br/>Make sure to get:<br/>[&#x27;postcode&#x27;, &#x27;name&#x27;, &#x27;phone&#x27;]<br/><br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Make sure to never use any markup and only respond in natural language!<br/><br/>Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.<br/></p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 0</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>Sure, I&#x27;d like to book a hotel with parking available. Could you suggest some options for me?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>You are an assistant who is assisting someone with making a booking.<br/><br/>Make sure that you provide them with all relevant information.<br/>In case you need some more information, ask them.<br/>Suggest one option which fits the request.<br/>You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!<br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.<br/><br/>Relevant data: [{&#x27;address&#x27;: &#x27;124 tenison road&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;no&#x27;, &#x27;id&#x27;: &#x27;0&#x27;, &#x27;location&#x27;: [52.1963733, 0.1987426], &#x27;name&#x27;: &#x27;a and b guest house&#x27;, &#x27;phone&#x27;: &#x27;01223315702&#x27;, &#x27;postcode&#x27;: &#x27;cb12dp&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;70&#x27;, &#x27;family&#x27;: &#x27;90&#x27;, &#x27;single&#x27;: &#x27;50&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;138 perne road&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;12&#x27;, &#x27;location&#x27;: [52.1935027777778, 0.155355555555556], &#x27;name&#x27;: &#x27;carolina bed and breakfast&#x27;, &#x27;phone&#x27;: &#x27;01223247015&#x27;, &#x27;postcode&#x27;: &#x27;cb13nx&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;100&#x27;, &#x27;single&#x27;: &#x27;45&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;96 barton road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;20&#x27;, &#x27;location&#x27;: [52.2283801, 0.0782873], &#x27;name&#x27;: &#x27;hobsons house&#x27;, &#x27;phone&#x27;: &#x27;01223304906&#x27;, &#x27;postcode&#x27;: &#x27;cb39lh&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;110&#x27;, &#x27;single&#x27;: &#x27;59&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;74 chesterton road&#x27;, &#x27;area&#x27;: &#x27;north&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;7&#x27;, &#x27;location&#x27;: [52.2309912, 0.1295545], &#x27;name&#x27;: &#x27;ashley hotel&#x27;, &#x27;phone&#x27;: &#x27;01223350059&#x27;, &#x27;postcode&#x27;: &#x27;cb41er&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;85&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;2&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;hotel&#x27;}, {&#x27;address&#x27;: &#x27;151 hills road&#x27;, &#x27;area&#x27;: &#x27;south&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;11&#x27;, &#x27;location&#x27;: [52.1725982, 0.1112224], &#x27;name&#x27;: &#x27;bridge guest house&#x27;, &#x27;phone&#x27;: &#x27;01223247942&#x27;, &#x27;postcode&#x27;: &#x27;cb28rj&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;90&#x27;, &#x27;single&#x27;: &#x27;50&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}]<br/></p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Sure, I&#x27;d like to book a hotel with parking available. Could you suggest some options for me?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Certainly! One option that fits your requirement is the &quot;Carolina Bed and Breakfast.&quot; It is located at 138 Perne Road in the east area, offers internet access, and has parking available. The prices are moderate, with a double room costing £75, a family room at £100, and a single room at £45. It is a 4-star guesthouse and takes bookings. The ID for this property is 12. Would you like more information or to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;96 barton road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;20&#x27;, &#x27;location&#x27;: [52.2283801, 0.0782873], &#x27;name&#x27;: &#x27;hobsons house&#x27;, &#x27;phone&#x27;: &#x27;01223304906&#x27;, &#x27;postcode&#x27;: &#x27;cb39lh&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;110&#x27;, &#x27;single&#x27;: &#x27;59&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;96 barton road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;20&#x27;, &#x27;location&#x27;: [52.2283801, 0.0782873], &#x27;name&#x27;: &#x27;hobsons house&#x27;, &#x27;phone&#x27;: &#x27;01223304906&#x27;, &#x27;postcode&#x27;: &#x27;cb39lh&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;110&#x27;, &#x27;single&#x27;: &#x27;59&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>Sure, I&#x27;d like to book a hotel with parking available. Could you suggest some options for me?<br/><br/>Certainly! One option that fits your requirement is the &quot;Carolina Bed and Breakfast.&quot; It is located at 138 Perne Road in the east area, offers internet access, and has parking available. The prices are moderate, with a double room costing £75, a family room at £100, and a single room at £45. It is a 4-star guesthouse and takes bookings. The ID for this property is 12. Would you like more information or to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;address&quot;: &quot;138 perne road&quot;, &quot;area&quot;: &quot;east&quot;, &quot;internet&quot;: &quot;yes&quot;, &quot;parking&quot;: &quot;yes&quot;, &quot;id&quot;: &quot;12&quot;, &quot;name&quot;: &quot;carolina bed and breakfast&quot;, &quot;price&quot;: {&quot;double&quot;: &quot;75&quot;, &quot;family&quot;: &quot;100&quot;, &quot;single&quot;: &quot;45&quot;}, &quot;pricerange&quot;: &quot;moderate&quot;, &quot;stars&quot;: &quot;4&quot;, &quot;takesbookings&quot;: &quot;yes&quot;, &quot;type&quot;: &quot;guesthouse&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;address&#x27;: &#x27;138 perne road&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;12&#x27;, &#x27;name&#x27;: &#x27;carolina bed and breakfast&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;100&#x27;, &#x27;single&#x27;: &#x27;45&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>Certainly! One option that fits your requirement is the &quot;Carolina Bed and Breakfast.&quot; It is located at 138 Perne Road in the east area, offers internet access, and has parking available. The prices are moderate, with a double room costing £75, a family room at £100, and a single room at £45. It is a 4-star guesthouse and takes bookings. The ID for this property is 12. Would you like more information or to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 1</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>That sounds good. Could you please provide the postcode, the full name of the hotel, and their phone number?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>That sounds good. Could you please provide the postcode, the full name of the hotel, and their phone number?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>Certainly! The postcode for the Carolina Bed and Breakfast is CB13NX, the full name is &quot;Carolina Bed and Breakfast,&quot; and their phone number is 01223247015. Would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;96 barton road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;20&#x27;, &#x27;location&#x27;: [52.2283801, 0.0782873], &#x27;name&#x27;: &#x27;hobsons house&#x27;, &#x27;phone&#x27;: &#x27;01223304906&#x27;, &#x27;postcode&#x27;: &#x27;cb39lh&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;110&#x27;, &#x27;single&#x27;: &#x27;59&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}, {&#x27;address&#x27;: &#x27;96 barton road&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;20&#x27;, &#x27;location&#x27;: [52.2283801, 0.0782873], &#x27;name&#x27;: &#x27;hobsons house&#x27;, &#x27;phone&#x27;: &#x27;01223304906&#x27;, &#x27;postcode&#x27;: &#x27;cb39lh&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;110&#x27;, &#x27;single&#x27;: &#x27;59&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;3&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>That sounds good. Could you please provide the postcode, the full name of the hotel, and their phone number?<br/><br/>Certainly! The postcode for the Carolina Bed and Breakfast is CB13NX, the full name is &quot;Carolina Bed and Breakfast,&quot; and their phone number is 01223247015. Would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;postcode&quot;: &quot;CB13NX&quot;, &quot;name&quot;: &quot;Carolina Bed and Breakfast&quot;, &quot;phone&quot;: &quot;01223247015&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;address&#x27;: &#x27;138 perne road&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;12&#x27;, &#x27;name&#x27;: &#x27;Carolina Bed and Breakfast&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;100&#x27;, &#x27;single&#x27;: &#x27;45&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;, &#x27;postcode&#x27;: &#x27;CB13NX&#x27;, &#x27;phone&#x27;: &#x27;01223247015&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>Certainly! The postcode for the Carolina Bed and Breakfast is CB13NX, the full name is &quot;Carolina Bed and Breakfast,&quot; and their phone number is 01223247015. Would you like to proceed with the booking?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 2</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>Yes, I&#x27;d like to proceed with the booking for the Carolina Bed and Breakfast. The ID is 12. FULFILLED.</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master: fulfilled" class="msg gm-gm">
+        <p>Ending game...</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>final choice: yes, i&#x27;d like to proceed with the booking for the carolina bed and breakfast. the id is 12. fulfilled.</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Log final suggestion:{&#x27;address&#x27;: &#x27;138 perne road&#x27;, &#x27;area&#x27;: &#x27;east&#x27;, &#x27;internet&#x27;: &#x27;yes&#x27;, &#x27;parking&#x27;: &#x27;yes&#x27;, &#x27;id&#x27;: &#x27;12&#x27;, &#x27;name&#x27;: &#x27;Carolina Bed and Breakfast&#x27;, &#x27;price&#x27;: {&#x27;double&#x27;: &#x27;75&#x27;, &#x27;family&#x27;: &#x27;100&#x27;, &#x27;single&#x27;: &#x27;45&#x27;}, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;stars&#x27;: &#x27;4&#x27;, &#x27;takesbookings&#x27;: &#x27;yes&#x27;, &#x27;type&#x27;: &#x27;guesthouse&#x27;, &#x27;postcode&#x27;: &#x27;CB13NX&#x27;, &#x27;phone&#x27;: &#x27;01223247015&#x27;}</p>
+    </div>
+
+    <div speaker="Game Master: end" class="msg gm-gm">
+        <p>Game finished.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

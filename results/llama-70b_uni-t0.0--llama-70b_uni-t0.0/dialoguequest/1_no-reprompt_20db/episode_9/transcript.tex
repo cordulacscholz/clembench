@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'type': 'park', 'area': 'south'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'name', 'address']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Hi, I'm looking to book an attraction. I'm particularly interested in visiting a park, and I'd like it to be located in the south area. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': "king's parade", 'area': 'centre', 'entrance fee': 'free', 'id': '38', 'location': [52.204289, 0.117269], 'name': "king's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223331100', 'postcode': 'cb21st', 'pricerange': 'free', 'type': 'college'}, {'address': '1 station road', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '24', 'location': [52.195173, 0.131644], 'name': 'club salsa', 'openhours': 'it opens at the university social club from 9:30 p.m. to 11:30 p.m. on wednesday, and from 10:00 p.m. to 01:00 a.m. on friday', 'phone': '07782218745', 'postcode': 'cb12jb', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': '10 king s parade', 'area': 'centre', 'entrance fee': 'free', 'id': '52', 'location': [52.2034781571435, 0.119176917855308], 'name': 'primavera', 'openhours': 'it opens from 11:00 a.m. to 4:30 p.m. on sunday, from 10:00 a.m. to 5:00 p.m. from monday to friday, and from 10:00 a.m. to 5:30 p.m. on saturday', 'phone': '01223357708', 'postcode': 'cb21sj', 'pricerange': 'free', 'type': 'museum'}, {'address': '98 king street', 'area': 'centre', 'entrance fee': 'free', 'id': '5', 'location': [52.207409, 0.126738], 'name': 'broughton house gallery', 'openhours': '?', 'phone': '01223314960', 'postcode': 'cb11ln', 'pricerange': 'free', 'type': 'museum'}, {'address': 'herschel road', 'area': 'west', 'entrance fee': 'free', 'id': '23', 'location': [52.2040527777778, 0.104480555555556], 'name': 'clare hall', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223332360', 'postcode': 'cb39al', 'pricerange': 'free', 'type': 'college'}, {'address': "king's parade", 'area': 'centre', 'entrance fee': 'free', 'id': '58', 'location': [52.202839, 0.116394], 'name': "saint catharine's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223338300', 'postcode': 'cb21rl', 'pricerange': 'free', 'type': 'college'}, {'address': 'pool way, whitehill road, off newmarket road', 'area': 'east', 'entrance fee': '?', 'id': '1', 'location': [52.208789, 0.154883], 'name': 'abbey pool and astroturf pitch', 'openhours': '?', 'phone': '01223902088', 'postcode': 'cb58nt', 'pricerange': '?', 'type': 'swimmingpool'}, {'address': 'cherry hinton hall, cherry hinton road', 'area': 'east', 'entrance fee': 'free', 'id': '18', 'location': [52.186045, 0.157515], 'name': 'cherry hinton water play', 'openhours': 'it opens from may to september', 'phone': '01223446100', 'postcode': 'cb18dw', 'pricerange': 'free', 'type': 'park'}, {'address': 'trumpington street', 'area': 'centre', 'entrance fee': 'free', 'id': '50', 'location': [52.202611, 0.120658], 'name': 'pembroke college', 'openhours': 'any time except may and june', 'phone': '01223338100', 'postcode': 'cb21rf', 'pricerange': 'free', 'type': 'college'}, {'address': 'between victoria road and the river', 'area': 'north', 'entrance fee': '?', 'id': '35', 'location': [52.220328, 0.115149], 'name': 'jesus green outdoor pool', 'openhours': '?', 'phone': '01223302579', 'postcode': 'cb43px', 'pricerange': '?', 'type': 'swimmingpool'}, {'address': 'unit su43, grande arcade, saint andrews street', 'area': 'centre', 'entrance fee': 'free', 'id': '16', 'location': [52.204788, 0.1214], 'name': 'castle galleries', 'openhours': 'it opens from 09:00 a.m. to 6:00 p.m. every day except wednesday when it opens from 09:00 a.m. to 8:00 p.m., and sunday when it opens from 11:00 a.m. to 5:00 p.m.', 'phone': '01223307402', 'postcode': 'cb23bj', 'pricerange': 'free', 'type': 'museum'}, {'address': 'unit 8, viking way, bar hill', 'area': 'west', 'entrance fee': '?', 'id': '77', 'location': [52.254, 0.016478], 'name': 'whale of a time', 'openhours': 'it opens from 09:30 a.m. to 6:00 p.m. daily', 'phone': '01954781018', 'postcode': 'cb238el', 'pricerange': '?', 'type': 'entertainment'}, {'address': "little saint mary's lane", 'area': 'centre', 'entrance fee': 'free', 'id': '40', 'location': [52.2005111111111, 0.119883333333333], 'name': "little saint mary's church", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m.', 'phone': '01223366202', 'postcode': 'cb21qy', 'pricerange': 'free', 'type': 'architecture'}, {'address': 'fen causeway, newnham road,', 'area': 'south', 'entrance fee': 'free', 'id': '62', 'location': [52.17674, 0.14559], 'name': "sheep's green and lammas land park fen causeway", 'openhours': 'it is open from may to sept', 'phone': '01223302580', 'postcode': 'cb22ad', 'pricerange': 'free', 'type': 'park'}, {'address': '251a chesterton road', 'area': 'centre', 'entrance fee': '?', 'id': '67', 'location': [52.211939, 0.118661], 'name': 'the cambridge punter', 'openhours': '?', 'phone': '07807718591', 'postcode': 'cb41as', 'pricerange': '?', 'type': 'boat'}, {'address': 'wollaston road', 'area': 'centre', 'entrance fee': 'free', 'id': '33', 'location': [52.200692, 0.133253], 'name': 'hughes hall', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223334898', 'postcode': 'cb12ew', 'pricerange': 'free', 'type': 'college'}, {'address': 'market square', 'area': 'centre', 'entrance fee': '2 pounds', 'id': '31', 'location': [52.2049472222222, 0.118222222222222], 'name': "great saint mary's church", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m.', 'phone': '01223350914', 'postcode': 'cb23pq', 'pricerange': 'cheap', 'type': 'architecture'}, {'address': 'lensfield road', 'area': 'centre', 'entrance fee': 'free', 'id': '60', 'location': [52.19806, 0.123185], 'name': 'scott polar museum', 'openhours': 'it opens from 10:00 a.m. to 4:00 p.m. from tuesday to saturday', 'phone': '01223336540', 'postcode': 'cb21er', 'pricerange': 'free', 'type': 'museum'}, {'address': 'colville road, cherry hinton', 'area': 'east', 'entrance fee': '?', 'id': '68', 'location': [52.186715, 0.17882], 'name': 'the cherry hinton village centre', 'openhours': 'it opens from 09:00 a.m. to 8:00 p.m. on sunday, and from 09:00 a.m. to 10:00 p.m. from monday to saturday', 'phone': '01223576412', 'postcode': 'cb19ej', 'pricerange': '?', 'type': 'mutliple sports'}, {'address': 'cambridge passenger cruisers, jubilee house', 'area': 'north', 'entrance fee': '?', 'id': '55', 'location': [52.229515, 0.111645], 'name': 'riverboat georgina', 'openhours': '?', 'phone': '01223902091', 'postcode': 'cb43ax', 'pricerange': '?', 'type': 'boat'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Hi, I'm looking to book an attraction. I'm particularly interested in visiting a park, and I'd like it to be located in the south area. Can you suggest some options for me? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 I'd be happy to help you find a park in the south area. Based on our information, I found one option that fits your request.\\ \tt \\ \tt I suggest visiting "Sheep's Green and Lammas Land Park Fen Causeway" (id: 62). It's located in the south area, and the entrance fee is free. The park is open from May to September.\\ \tt \\ \tt Would you like to book a visit to this park, or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': "storey's way", 'area': 'west', 'entrance fee': 'free', 'id': '20', 'location': [52.2128888888889, 0.103127777777778], 'name': 'churchill college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223336233', 'postcode': 'cb30ds', 'pricerange': 'free', 'type': 'college'}, {'address': "storey's way", 'area': 'west', 'entrance fee': 'free', 'id': '20', 'location': [52.2128888888889, 0.103127777777778], 'name': 'churchill college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223336233', 'postcode': 'cb30ds', 'pricerange': 'free', 'type': 'college'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Hi, I'm looking to book an attraction. I'm particularly interested in visiting a park, and I'd like it to be located in the south area. Can you suggest some options for me?\\ \tt \\ \tt I'd be happy to help you find a park in the south area. Based on our information, I found one option that fits your request.\\ \tt \\ \tt I suggest visiting "Sheep's Green and Lammas Land Park Fen Causeway" (id: 62). It's located in the south area, and the entrance fee is free. The park is open from May to September.\\ \tt \\ \tt Would you like to book a visit to this park, or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "fen causeway, newnham road,", "area": "south", "entrance fee": "free", "id": "62", "name": "Sheep's Green and Lammas Land Park Fen Causeway", "openhours": "it is open from may to sept", "postcode": "cb22ad", "pricerange": "free", "type": "park"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'fen causeway, newnham road,', 'area': 'south', 'entrance fee': 'free', 'id': '62', 'name': "Sheep's Green and Lammas Land Park Fen Causeway", 'openhours': 'it is open from may to sept', 'postcode': 'cb22ad', 'pricerange': 'free', 'type': 'park'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 I'd be happy to help you find a park in the south area. Based on our information, I found one option that fits your request.\\ \tt \\ \tt I suggest visiting "Sheep's Green and Lammas Land Park Fen Causeway" (id: 62). It's located in the south area, and the entrance fee is free. The park is open from May to September.\\ \tt \\ \tt Would you like to book a visit to this park, or would you like me to look for more options? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds like a great option, but before I make a decision, could you please provide me with the postcode, name, and address of the park? I'd like to make sure it's exactly what I'm looking for. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds like a great option, but before I make a decision, could you please provide me with the postcode, name, and address of the park? I'd like to make sure it's exactly what I'm looking for. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 The park I suggested is "Sheep's Green and Lammas Land Park Fen Causeway" (id: 62). Here are the details you requested:\\ \tt \\ \tt * Postcode: cb22ad\\ \tt * Name: Sheep's Green and Lammas Land Park Fen Causeway\\ \tt * Address: fen causeway, newnham road,\\ \tt \\ \tt Let me know if you'd like to book a visit or if you'd like me to look for more options. 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': "storey's way", 'area': 'west', 'entrance fee': 'free', 'id': '20', 'location': [52.2128888888889, 0.103127777777778], 'name': 'churchill college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223336233', 'postcode': 'cb30ds', 'pricerange': 'free', 'type': 'college'}, {'address': "storey's way", 'area': 'west', 'entrance fee': 'free', 'id': '20', 'location': [52.2128888888889, 0.103127777777778], 'name': 'churchill college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223336233', 'postcode': 'cb30ds', 'pricerange': 'free', 'type': 'college'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds like a great option, but before I make a decision, could you please provide me with the postcode, name, and address of the park? I'd like to make sure it's exactly what I'm looking for.\\ \tt \\ \tt The park I suggested is "Sheep's Green and Lammas Land Park Fen Causeway" (id: 62). Here are the details you requested:\\ \tt \\ \tt * Postcode: cb22ad\\ \tt * Name: Sheep's Green and Lammas Land Park Fen Causeway\\ \tt * Address: fen causeway, newnham road,\\ \tt \\ \tt Let me know if you'd like to book a visit or if you'd like me to look for more options. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "fen causeway, newnham road,", "id": "62", "name": "Sheep's Green and Lammas Land Park Fen Causeway", "postcode": "cb22ad"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'fen causeway, newnham road,', 'area': 'south', 'entrance fee': 'free', 'id': '62', 'name': "Sheep's Green and Lammas Land Park Fen Causeway", 'openhours': 'it is open from may to sept', 'postcode': 'cb22ad', 'pricerange': 'free', 'type': 'park'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 The park I suggested is "Sheep's Green and Lammas Land Park Fen Causeway" (id: 62). Here are the details you requested:\\ \tt \\ \tt * Postcode: cb22ad\\ \tt * Name: Sheep's Green and Lammas Land Park Fen Causeway\\ \tt * Address: fen causeway, newnham road,\\ \tt \\ \tt Let me know if you'd like to book a visit or if you'd like me to look for more options. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Thank you for providing the details. I think I've found what I'm looking for. I'd like to book a visit to "Sheep's Green and Lammas Land Park Fen Causeway" with id: 62. FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: thank you for providing the details. i think i've found what i'm looking for. i'd like to book a visit to "sheep's green and lammas land park fen causeway" with id: 62. fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': 'fen causeway, newnham road,', 'area': 'south', 'entrance fee': 'free', 'id': '62', 'name': "Sheep's Green and Lammas Land Park Fen Causeway", 'openhours': 'it is open from may to sept', 'postcode': 'cb22ad', 'pricerange': 'free', 'type': 'park'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

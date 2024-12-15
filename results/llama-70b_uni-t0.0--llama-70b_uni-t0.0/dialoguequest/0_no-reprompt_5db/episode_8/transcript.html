@@ -1,0 +1,314 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* This CSS is an adaptation from the answer by Roko C. Buljan in https://stackoverflow.com/a/71155446 */ 
+
+* {margin: 0; box-sizing: border-box;}
+
+body {background-color: rgb(157, 152, 150);}
+
+  /* dialogue header */
+
+.top-info {
+  text-align: center;
+  --rad: 20px;
+  --rad-sm: 3px;
+  font: 20px/1.5 sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  background: #3f3e3e;
+  color: #fff;
+}
+
+.chat {
+    --rad: 20px;
+    --rad-sm: 3px;
+    font: 16px/1.5 sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+  }
+  
+  .msg {
+    position: relative;
+    max-width: 75%;
+    padding: 7px 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* 5 levels, two players to/from game master and meta messages form game master */
+
+  .msg.b-gm {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #874aaf;
+    color: #fff;
+    margin-left: 60%;
+  }
+
+  .msg.a-gm {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #f39109;
+    color: #fff;
+    margin-right: 60%;
+  }
+  
+  .msg.gm-a {
+    border-radius: var(--rad) var(--rad-sm) var(--rad-sm) var(--rad);
+    background: #c4c3c3;    
+    color: #0c0c0c;
+    margin-right: 40%;
+    margin-left: 20%;
+  }
+
+  .msg.gm-b {
+    border-radius: var(--rad-sm) var(--rad) var(--rad) var(--rad-sm);
+    background: #c4c3c3;
+    color: #0c0c0c;
+    margin-right: 20%;
+    margin-left: 40%;
+  }
+
+  .msg.gm-gm {
+    background: #f1f1f1;
+    color: #373636;
+    margin-left: 40%;
+    margin-right: 40%;
+    font-size: 0.8rem;
+
+  }
+  
+  /* speaker labels */
+  
+  .msg::before {
+    content: attr(speaker);
+    font-size: 0.8rem;
+    position: absolute;
+    bottom: 100%;
+    color: #888;
+    white-space: nowrap;
+
+  }
+  
+  .msg.b-gm::before {
+    right: 15px;
+  }
+
+  .msg.gm-a::before {
+    right: 15px;
+  }
+
+  .msg.a-gm::before {
+    left: 15px;
+  }
+
+  .msg.gm-b::before {
+    left: 15px;
+  }
+
+  .msg.gm-gm::before {
+    left: 0px;
+  }
+  
+
+    </style>
+</head>
+<body>
+
+<br/>
+
+<div class="top-info">
+    <p>Interaction Transcript for no-reprompt_5db, episode 8 with llama-70b_uni-t0.0--llama-70b_uni-t0.0.</p>
+</div>
+
+<br/>
+
+<div class="chat">
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>You are a customer who wants to make a booking.<br/><br/>You want to book a restaurant. The assistant is helping you with that task and will suggest suitable options to you.<br/><br/>You need a restaurant to be:<br/>{&#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;}<br/><br/>Make sure to get:<br/>[&#x27;postcode&#x27;, &#x27;phone&#x27;, &#x27;food&#x27;]<br/><br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Make sure to never use any markup and only respond in natural language!<br/><br/>Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.<br/></p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 0</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>I&#x27;m looking to book a restaurant in the city centre. Can you suggest some options that fit within a moderate price range?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>You are an assistant who is assisting someone with making a booking.<br/><br/>Make sure that you provide them with all relevant information.<br/>In case you need some more information, ask them.<br/>Suggest one option which fits the request.<br/>You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!<br/>Keep the dialogue and the way you give and ask for information as natural as possible.<br/>Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.<br/><br/>Relevant data: [{&#x27;address&#x27;: &#x27;Crowne Plaza Hotel 20 Downing Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;14742&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20342, 0.12171], &#x27;name&#x27;: &#x27;bloomsbury restaurant&#x27;, &#x27;phone&#x27;: &#x27;08719429180&#x27;, &#x27;postcode&#x27;: &#x27;cb23dt&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;signature&#x27;: &#x27;coconut and red chilli monkfish&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;17 Hills Road City Centre&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;chinese&#x27;, &#x27;id&#x27;: &#x27;19222&#x27;, &#x27;introduction&#x27;: &#x27;sesame restaurant and bar offers a wide variety of traditional chinese cuisine for lunch or dinner with wifi access and a television screen in the basement&#x27;, &#x27;location&#x27;: [52.197154, 0.129511], &#x27;name&#x27;: &#x27;sesame restaurant and bar&#x27;, &#x27;phone&#x27;: &#x27;01223358899&#x27;, &#x27;postcode&#x27;: &#x27;cb21nw&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;31 Newnham Road Newnham&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19254&#x27;, &#x27;introduction&#x27;: &#x27;indian house serve a variety of indian dishes to eat in or take away they also have a selection of english dishes on their menu&#x27;, &#x27;location&#x27;: [52.199012, 0.113196], &#x27;name&#x27;: &#x27;india house&#x27;, &#x27;phone&#x27;: &#x27;01223461661&#x27;, &#x27;postcode&#x27;: &#x27;cb39ey&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;83 Regent Street&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;modern european&#x27;, &#x27;id&#x27;: &#x27;3697&#x27;, &#x27;introduction&#x27;: &#x27;de luca cucina bar in the heart of cambridge is a stylish spot to enjoy food, wine, cocktails and coffee all in a vibrant atmosphere. The cocktail bar at the front is perfect for coffee and light meals in the day and cocktails in the evening. An open kitchen provides real excitement with head chef darren kiegher and his team preparing simply delicious italian food using locally sourced ingredients.&#x27;, &#x27;location&#x27;: [52.2002, 0.1268], &#x27;name&#x27;: &#x27;de luca cucina and bar&#x27;, &#x27;phone&#x27;: &#x27;01223356666&#x27;, &#x27;postcode&#x27;: &#x27;cb21aw&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;, &#x27;signature&#x27;: &#x27;roasted barbary duck breast served with sweet potato wedges and mange tout with a red wine sauce&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;1 Kings Parade&#x27;, &#x27;area&#x27;: &#x27;centre&#x27;, &#x27;food&#x27;: &#x27;british&#x27;, &#x27;id&#x27;: &#x27;6941&#x27;, &#x27;introduction&#x27;: &#x27;&#x27;, &#x27;location&#x27;: [52.20439, 0.11784], &#x27;name&#x27;: &#x27;the cambridge chop house&#x27;, &#x27;phone&#x27;: &#x27;01223359506&#x27;, &#x27;postcode&#x27;: &#x27;cb21sj&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;signature&#x27;: &#x27;lamb barnsley chop potato and garlic bake greens and gravy&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/></p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>I&#x27;m looking to book a restaurant in the city centre. Can you suggest some options that fit within a moderate price range?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>I&#x27;d be happy to help you with that. Based on your request, I found a few options in the city centre that fit within a moderate price range.<br/><br/>One option that stands out is the &quot;bloomsbury restaurant&quot; located at Crowne Plaza Hotel 20 Downing Street. It serves international cuisine and has a moderate price range. The id for this restaurant is 14742.<br/><br/>Would you like me to suggest more options or would you like to know more about this one?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;41518 Castle Street City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19250&#x27;, &#x27;introduction&#x27;: &#x27;maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request&#x27;, &#x27;location&#x27;: [52.212444, 0.112823], &#x27;name&#x27;: &#x27;maharajah tandoori restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223358399&#x27;, &#x27;postcode&#x27;: &#x27;cb30ah&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;41518 Castle Street City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19250&#x27;, &#x27;introduction&#x27;: &#x27;maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request&#x27;, &#x27;location&#x27;: [52.212444, 0.112823], &#x27;name&#x27;: &#x27;maharajah tandoori restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223358399&#x27;, &#x27;postcode&#x27;: &#x27;cb30ah&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>I&#x27;m looking to book a restaurant in the city centre. Can you suggest some options that fit within a moderate price range?<br/><br/>I&#x27;d be happy to help you with that. Based on your request, I found a few options in the city centre that fit within a moderate price range.<br/><br/>One option that stands out is the &quot;bloomsbury restaurant&quot; located at Crowne Plaza Hotel 20 Downing Street. It serves international cuisine and has a moderate price range. The id for this restaurant is 14742.<br/><br/>Would you like me to suggest more options or would you like to know more about this one?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;address&quot;: &quot;Crowne Plaza Hotel 20 Downing Street&quot;, &quot;food&quot;: &quot;international&quot;, &quot;id&quot;: &quot;14742&quot;, &quot;name&quot;: &quot;bloomsbury restaurant&quot;, &quot;pricerange&quot;: &quot;moderate&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;address&#x27;: &#x27;Crowne Plaza Hotel 20 Downing Street&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;14742&#x27;, &#x27;name&#x27;: &#x27;bloomsbury restaurant&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>I&#x27;d be happy to help you with that. Based on your request, I found a few options in the city centre that fit within a moderate price range.<br/><br/>One option that stands out is the &quot;bloomsbury restaurant&quot; located at Crowne Plaza Hotel 20 Downing Street. It serves international cuisine and has a moderate price range. The id for this restaurant is 14742.<br/><br/>Would you like me to suggest more options or would you like to know more about this one?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 1</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>That sounds interesting. Can you tell me a bit more about the Bloomsbury Restaurant? What&#x27;s the postcode, and do you have a phone number I can use to contact them? Also, what kind of international cuisine do they serve?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>That sounds interesting. Can you tell me a bit more about the Bloomsbury Restaurant? What&#x27;s the postcode, and do you have a phone number I can use to contact them? Also, what kind of international cuisine do they serve?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>I can provide you with more information about the Bloomsbury Restaurant. The postcode for the Bloomsbury Restaurant is cb23dt, and the phone number is 08719429180. As for the cuisine, it serves international food, and one of its signature dishes is coconut and red chilli monkfish.</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;41518 Castle Street City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19250&#x27;, &#x27;introduction&#x27;: &#x27;maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request&#x27;, &#x27;location&#x27;: [52.212444, 0.112823], &#x27;name&#x27;: &#x27;maharajah tandoori restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223358399&#x27;, &#x27;postcode&#x27;: &#x27;cb30ah&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;41518 Castle Street City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19250&#x27;, &#x27;introduction&#x27;: &#x27;maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request&#x27;, &#x27;location&#x27;: [52.212444, 0.112823], &#x27;name&#x27;: &#x27;maharajah tandoori restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223358399&#x27;, &#x27;postcode&#x27;: &#x27;cb30ah&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>That sounds interesting. Can you tell me a bit more about the Bloomsbury Restaurant? What&#x27;s the postcode, and do you have a phone number I can use to contact them? Also, what kind of international cuisine do they serve?<br/><br/>I can provide you with more information about the Bloomsbury Restaurant. The postcode for the Bloomsbury Restaurant is cb23dt, and the phone number is 08719429180. As for the cuisine, it serves international food, and one of its signature dishes is coconut and red chilli monkfish.</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;phone&quot;: &quot;08719429180&quot;, &quot;postcode&quot;: &quot;cb23dt&quot;, &quot;food&quot;: &quot;international&quot;, &quot;signature&quot;: &quot;coconut and red chilli monkfish&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;address&#x27;: &#x27;Crowne Plaza Hotel 20 Downing Street&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;14742&#x27;, &#x27;name&#x27;: &#x27;bloomsbury restaurant&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>I can provide you with more information about the Bloomsbury Restaurant. The postcode for the Bloomsbury Restaurant is cb23dt, and the phone number is 08719429180. As for the cuisine, it serves international food, and one of its signature dishes is coconut and red chilli monkfish.</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 2</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>That sounds delicious. I think I&#x27;ve got enough information about the Bloomsbury Restaurant. I&#x27;d like to book it. The id is 14742, right?</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>That sounds delicious. I think I&#x27;ve got enough information about the Bloomsbury Restaurant. I&#x27;d like to book it. The id is 14742, right?</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>The id for the Bloomsbury Restaurant is indeed 14742. I&#x27;ll go ahead and assist you with the booking.</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 2 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master to Player 2" class="msg gm-b">
+        <p>Please create a JSON object using only the text provided below in &quot;TEXT TO SUMMARISE&quot;. Use the text exactly as it is written without adding any background information.<br/><br/>Data Extraction Rules:<br/>- Extract only from &quot;TEXT TO SUMMARISE&quot;: Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.<br/>- Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.<br/>- Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.<br/>- ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.<br/><br/>Response Structure:<br/>- Start directly with the JSON code, adhering exactly to the format below.<br/>- Use double quotes for all JSON strings. Do not add comments or any additional explanation.<br/>- Do not use markup (```json), start directly with the json code ([{&quot;name&quot;: ...}])<br/><br/>EXAMPLE structure:<br/>[{&#x27;address&#x27;: &#x27;41518 Castle Street City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19250&#x27;, &#x27;introduction&#x27;: &#x27;maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request&#x27;, &#x27;location&#x27;: [52.212444, 0.112823], &#x27;name&#x27;: &#x27;maharajah tandoori restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223358399&#x27;, &#x27;postcode&#x27;: &#x27;cb30ah&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}, {&#x27;address&#x27;: &#x27;41518 Castle Street City Centre&#x27;, &#x27;area&#x27;: &#x27;west&#x27;, &#x27;food&#x27;: &#x27;indian&#x27;, &#x27;id&#x27;: &#x27;19250&#x27;, &#x27;introduction&#x27;: &#x27;maharajah tandoori restaurant serve a variety of indian and tandoori dishes at their restaurant catering for private parties of up to 40 guests is available upon request&#x27;, &#x27;location&#x27;: [52.212444, 0.112823], &#x27;name&#x27;: &#x27;maharajah tandoori restaurant&#x27;, &#x27;phone&#x27;: &#x27;01223358399&#x27;, &#x27;postcode&#x27;: &#x27;cb30ah&#x27;, &#x27;pricerange&#x27;: &#x27;expensive&#x27;, &#x27;type&#x27;: &#x27;restaurant&#x27;}]<br/><br/>TEXT TO SUMMARISE:<br/><br/>That sounds delicious. I think I&#x27;ve got enough information about the Bloomsbury Restaurant. I&#x27;d like to book it. The id is 14742, right?<br/><br/>The id for the Bloomsbury Restaurant is indeed 14742. I&#x27;ll go ahead and assist you with the booking.</p>
+    </div>
+
+    <div speaker="Player 2 to Game Master" class="msg b-gm">
+        <p>[{&quot;id&quot;: &quot;14742&quot;}]</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>json successfully parsed</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>update game state</p>
+    </div>
+
+    <div speaker="Game Master: Game state" class="msg gm-gm">
+        <p>updated game state: [{&#x27;address&#x27;: &#x27;Crowne Plaza Hotel 20 Downing Street&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;14742&#x27;, &#x27;name&#x27;: &#x27;bloomsbury restaurant&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;}]</p>
+    </div>
+
+    <div speaker="Game Master to Player 1" class="msg gm-a">
+        <p>The id for the Bloomsbury Restaurant is indeed 14742. I&#x27;ll go ahead and assist you with the booking.</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Current turn: 3</p>
+    </div>
+
+    <div speaker="Player 1 to Game Master" class="msg a-gm">
+        <p>I&#x27;d like to confirm the booking for the Bloomsbury Restaurant with id 14742. FULFILLED</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Response Player 1 successfully parsed.</p>
+    </div>
+
+    <div speaker="Game Master: fulfilled" class="msg gm-gm">
+        <p>Ending game...</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>final choice: i&#x27;d like to confirm the booking for the bloomsbury restaurant with id 14742. fulfilled</p>
+    </div>
+
+    <div speaker="Game Master: metadata" class="msg gm-gm">
+        <p>Log final suggestion:{&#x27;address&#x27;: &#x27;Crowne Plaza Hotel 20 Downing Street&#x27;, &#x27;food&#x27;: &#x27;international&#x27;, &#x27;id&#x27;: &#x27;14742&#x27;, &#x27;name&#x27;: &#x27;bloomsbury restaurant&#x27;, &#x27;pricerange&#x27;: &#x27;moderate&#x27;}</p>
+    </div>
+
+    <div speaker="Game Master: end" class="msg gm-gm">
+        <p>Game finished.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

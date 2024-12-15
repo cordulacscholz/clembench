@@ -1,0 +1,276 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'area': 'centre', 'type': 'museum'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'phone', 'openhours']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Sure, I can help you find a museum in the city centre. Let me check the options available for you. \\ \tt \\ \tt I found a couple of museums that might interest you. The first one is the City Art Museum, which is located right in the heart of the city. It has a rich collection of contemporary and historical art. The second option is the Science and History Museum, which is also centrally located and offers a mix of interactive exhibits and historical artifacts.\\ \tt \\ \tt Would you like more details on either of these options, such as their postcodes, phone numbers, and opening hours? 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': 'cambridge leisure park, clifton way', 'area': 'south', 'entrance fee': '?', 'id': '65', 'location': [52.18568, 0.144638], 'name': 'tenpin', 'openhours': '?', 'phone': '08715501010', 'postcode': 'cb17dy', 'pricerange': '?', 'type': 'entertainment'}, {'address': 'lensfield road', 'area': 'centre', 'entrance fee': 'free', 'id': '60', 'location': [52.19806, 0.123185], 'name': 'scott polar museum', 'openhours': 'it opens from 10:00 a.m. to 4:00 p.m. from tuesday to saturday', 'phone': '01223336540', 'postcode': 'cb21er', 'pricerange': 'free', 'type': 'museum'}, {'address': '22 sidney street', 'area': 'south', 'entrance fee': '?', 'id': '73', 'location': [52.1725982, 0.1112224], 'name': 'the place', 'openhours': 'it opens from 10:30 p.m. to 03:30 a.m. on tuesday, from 10:00 p.m. to 02:30 a.m. on thursday, from 10:00 p.m. to 04:00 a.m. on friday and saturday, and from 10:00 p.m. to 02:00 a.m. on sunday', 'phone': '01223324600', 'postcode': 'cb23hg', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': '8 market passage', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '69', 'location': [52.206144, 0.120283], 'name': 'the fez club', 'openhours': 'it opens on monday from 9 p.m. to 2 a.m.. it is closed on tuesday. from wednesday to saturday it opens from 9 p.m. to 2 a.m. and it is closed on sunday', 'phone': '01223519224', 'postcode': 'cb23hx', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': "saint andrew's street", 'area': 'centre', 'entrance fee': 'free', 'id': '27', 'location': [52.203572, 0.123778], 'name': 'emmanuel college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223334200', 'postcode': 'cb23ap', 'pricerange': 'free', 'type': 'college'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Sure, I can help you find a museum in the city centre. Let me check the options available for you. \\ \tt \\ \tt I found a couple of museums that might interest you. The first one is the City Art Museum, which is located right in the heart of the city. It has a rich collection of contemporary and historical art. The second option is the Science and History Museum, which is also centrally located and offers a mix of interactive exhibits and historical artifacts.\\ \tt \\ \tt Would you like more details on either of these options, such as their postcodes, phone numbers, and opening hours? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 It seems there was a mix-up. Based on the information I have, the only museum in the city centre is the Scott Polar Museum. It's located on Lensfield Road and is free to enter. The museum opens from 10:00 a.m. to 4:00 p.m. from Tuesday to Saturday. The postcode is CB21ER, and you can reach them at 01223336540 for any additional information. The museum's ID is 60.\\ \tt \\ \tt Would you like to proceed with booking a visit to the Scott Polar Museum, or do you need more details on this option? 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'clifton way', 'area': 'south', 'entrance fee': '?', 'id': '71', 'location': [52.190325, 0.135755], 'name': 'the junction', 'openhours': '?', 'phone': '01223511511', 'postcode': 'cb17gx', 'pricerange': '?', 'type': 'theatre'}, {'address': 'clifton way', 'area': 'south', 'entrance fee': '?', 'id': '71', 'location': [52.190325, 0.135755], 'name': 'the junction', 'openhours': '?', 'phone': '01223511511', 'postcode': 'cb17gx', 'pricerange': '?', 'type': 'theatre'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Sure, I can help you find a museum in the city centre. Let me check the options available for you. \\ \tt \\ \tt I found a couple of museums that might interest you. The first one is the City Art Museum, which is located right in the heart of the city. It has a rich collection of contemporary and historical art. The second option is the Science and History Museum, which is also centrally located and offers a mix of interactive exhibits and historical artifacts.\\ \tt \\ \tt Would you like more details on either of these options, such as their postcodes, phone numbers, and opening hours?\\ \tt \\ \tt It seems there was a mix-up. Based on the information I have, the only museum in the city centre is the Scott Polar Museum. It's located on Lensfield Road and is free to enter. The museum opens from 10:00 a.m. to 4:00 p.m. from Tuesday to Saturday. The postcode is CB21ER, and you can reach them at 01223336540 for any additional information. The museum's ID is 60.\\ \tt \\ \tt Would you like to proceed with booking a visit to the Scott Polar Museum, or do you need more details on this option? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "Lensfield Road", "area": "centre", "entrance fee": "free", "id": "60", "location": [], "name": "Scott Polar Museum", "openhours": "it opens from 10:00 a.m. to 4:00 p.m. from Tuesday to Saturday", "phone": "01223336540", "postcode": "CB21ER", "pricerange": "free", "type": "museum"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'Lensfield Road', 'area': 'centre', 'entrance fee': 'free', 'id': '60', 'location': [], 'name': 'Scott Polar Museum', 'openhours': 'it opens from 10:00 a.m. to 4:00 p.m. from Tuesday to Saturday', 'phone': '01223336540', 'postcode': 'CB21ER', 'pricerange': 'free', 'type': 'museum'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 It seems there was a mix-up. Based on the information I have, the only museum in the city centre is the Scott Polar Museum. It's located on Lensfield Road and is free to enter. The museum opens from 10:00 a.m. to 4:00 p.m. from Tuesday to Saturday. The postcode is CB21ER, and you can reach them at 01223336540 for any additional information. The museum's ID is 60.\\ \tt \\ \tt Would you like to proceed with booking a visit to the Scott Polar Museum, or do you need more details on this option? 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Thank you for the detailed information! The Scott Polar Museum sounds like a great choice. I'm happy to proceed with booking a visit there.\\ \tt \\ \tt To confirm, the Scott Polar Museum is located at Lensfield Road, in the city centre, with the postcode CB21ER. It's open from 10:00 a.m. to 4:00 p.m. on Tuesdays to Saturdays, and the phone number is 01223336540. The museum's ID is 60.\\ \tt \\ \tt Is there anything else I need to know before we finalize the booking? If everything is correct, I'll go ahead and book the visit. FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: thank you for the detailed information! the scott polar museum sounds like a great choice. i'm happy to proceed with booking a visit there.\\ \tt \\ \tt to confirm, the scott polar museum is located at lensfield road, in the city centre, with the postcode cb21er. it's open from 10:00 a.m. to 4:00 p.m. on tuesdays to saturdays, and the phone number is 01223336540. the museum's id is 60.\\ \tt \\ \tt is there anything else i need to know before we finalize the booking? if everything is correct, i'll go ahead and book the visit. fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': 'Lensfield Road', 'area': 'centre', 'entrance fee': 'free', 'id': '60', 'location': [], 'name': 'Scott Polar Museum', 'openhours': 'it opens from 10:00 a.m. to 4:00 p.m. from Tuesday to Saturday', 'phone': '01223336540', 'postcode': 'CB21ER', 'pricerange': 'free', 'type': 'museum'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}

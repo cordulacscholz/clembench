@@ -1,0 +1,420 @@
+
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{supertabular}
+
+\begin{document}
+
+\newcounter{utterance}
+
+\twocolumn
+
+{ \footnotesize  \setcounter{utterance}{1}
+\setlength{\tabcolsep}{0pt}
+\begin{supertabular}{c@{$\;$}|p{.15\linewidth}@{}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}p{.15\linewidth}}
+
+    \# & $\;$A & \multicolumn{4}{c}{Game Master} & $\;\:$B\\
+    \hline 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 You are a customer who wants to make a booking.\\ \tt \\ \tt You want to book an attraction. The assistant is helping you with that task and will suggest suitable options to you.\\ \tt \\ \tt You need an attraction to be:\\ \tt {'area': 'west', 'type': 'college'}\\ \tt \\ \tt Make sure to get:\\ \tt ['postcode', 'address', 'openhours']\\ \tt \\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Make sure to never use any markup and only respond in natural language!\\ \tt \\ \tt Once you have received all information which is relevant, choose one option and include its id in your utterance. If you are content with the answer provided and it fits all your requirements, add the string FULFILLED to your final answer.\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 0 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Sure, I can help you with that. Could you tell me a bit more about what you're looking for in a college attraction? For example, are you interested in a particular type of college, like a historic one or a modern university? And do you have a preferred day or time you'd like to visit? This will help me narrow down the options for you. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 You are an assistant who is assisting someone with making a booking.\\ \tt \\ \tt Make sure that you provide them with all relevant information.\\ \tt In case you need some more information, ask them.\\ \tt Suggest one option which fits the request.\\ \tt You will find the relevant data below. Stick to the information given and do not invent anything which is not in the data. Important: Be sure to always include the id of the item you suggest!\\ \tt Keep the dialogue and the way you give and ask for information as natural as possible.\\ \tt Answer in natural language only, do not use any markup. Be sure to always end your sentences with a closing punctuation mark.\\ \tt \\ \tt Relevant data: [{'address': "saint john's street", 'area': 'centre', 'entrance fee': '2.50 pounds', 'id': '59', 'location': [52.208803, 0.117411], 'name': "saint john's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223338600', 'postcode': 'cb21tp', 'pricerange': 'moderate', 'type': 'college'}, {'address': '23 high street, fen ditton', 'area': 'west', 'entrance fee': 'free', 'id': '41', 'location': [52.222053, 0.095086], 'name': 'lynne strover gallery', 'openhours': 'it opens from 10:00 a.m. to 5:00 p.m. thursday to saturday', 'phone': '01223295264', 'postcode': 'cb30aq', 'pricerange': 'free', 'type': 'museum'}, {'address': 'cambridge leisure park, clifton way', 'area': 'south', 'entrance fee': '?', 'id': '21', 'location': [52.1901222222222, 0.136991666666667], 'name': 'cineworld cinema', 'openhours': '?', 'phone': '00872208000', 'postcode': 'cb17dy', 'pricerange': '?', 'type': 'cinema'}, {'address': 'unit 8, viking way, bar hill', 'area': 'west', 'entrance fee': '?', 'id': '77', 'location': [52.254, 0.016478], 'name': 'whale of a time', 'openhours': 'it opens from 09:30 a.m. to 6:00 p.m. daily', 'phone': '01954781018', 'postcode': 'cb238el', 'pricerange': '?', 'type': 'entertainment'}, {'address': 'silver street', 'area': 'west', 'entrance fee': '2.50 pounds', 'id': '53', 'location': [52.2018, 0.114239], 'name': "queens' college", 'openhours': 'monday to sunday 10 a.m. to 4:30 p.m.', 'phone': '01223335511', 'postcode': 'cb39et', 'pricerange': 'moderate', 'type': 'college'}, {'address': 'unit su43, grande arcade, saint andrews street', 'area': 'centre', 'entrance fee': 'free', 'id': '16', 'location': [52.204788, 0.1214], 'name': 'castle galleries', 'openhours': 'it opens from 09:00 a.m. to 6:00 p.m. every day except wednesday when it opens from 09:00 a.m. to 8:00 p.m., and sunday when it opens from 11:00 a.m. to 5:00 p.m.', 'phone': '01223307402', 'postcode': 'cb23bj', 'pricerange': 'free', 'type': 'museum'}, {'address': 'the old pumping station, cheddars lane', 'area': 'east', 'entrance fee': '5 pounds', 'id': '14', 'location': [52.21247, 0.15619], 'name': 'cambridge museum of technology', 'openhours': 'it opens on sunday from 2:00 p.m. to 5:00 p.m.', 'phone': '01223368650', 'postcode': 'cb58ld', 'pricerange': 'expensive', 'type': 'museum'}, {'address': '6 trinity street', 'area': 'centre', 'entrance fee': 'free', 'id': '13', 'location': [52.206084, 0.118268], 'name': 'cambridge contemporary art', 'openhours': 'it opens from 11:00 a.m. to 4:00 p.m. on sunday, and from 09:00 a.m. to 5:30 p.m. from monday to saturday', 'phone': '01223324222', 'postcode': 'cb21su', 'pricerange': 'free', 'type': 'museum'}, {'address': 'bateman street', 'area': 'centre', 'entrance fee': '4 pounds', 'id': '15', 'location': [52.19525, 0.126], 'name': 'cambridge university botanic gardens', 'openhours': 'it opens from 10:00 a.m. to 6:00 p.m. from april to september, from 10:00 a.m. to 5:00 p.m. in february march and october, and from 10:00 a.m. to 4:00 p.m. from november to january', 'phone': '01223336265', 'postcode': 'cb21jf', 'pricerange': 'moderate', 'type': 'park'}, {'address': "king's parade", 'area': 'centre', 'entrance fee': 'free', 'id': '38', 'location': [52.204289, 0.117269], 'name': "king's college", 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223331100', 'postcode': 'cb21st', 'pricerange': 'free', 'type': 'college'}, {'address': 'the plough, green end, fen ditton,', 'area': 'east', 'entrance fee': '?', 'id': '8', 'location': [52.21247, 0.15619], 'name': 'camboats', 'openhours': '?', 'phone': '01223902112', 'postcode': 'cb58sx', 'pricerange': '?', 'type': 'boat'}, {'address': '1 station road', 'area': 'centre', 'entrance fee': '5 pounds', 'id': '24', 'location': [52.195173, 0.131644], 'name': 'club salsa', 'openhours': 'it opens at the university social club from 9:30 p.m. to 11:30 p.m. on wednesday, and from 10:00 p.m. to 01:00 a.m. on friday', 'phone': '07782218745', 'postcode': 'cb12jb', 'pricerange': 'moderate', 'type': 'nightclub'}, {'address': 'herschel road', 'area': 'west', 'entrance fee': 'free', 'id': '23', 'location': [52.2040527777778, 0.104480555555556], 'name': 'clare hall', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223332360', 'postcode': 'cb39al', 'pricerange': 'free', 'type': 'college'}, {'address': "saint andrew's street", 'area': 'centre', 'entrance fee': 'free', 'id': '27', 'location': [52.203572, 0.123778], 'name': 'emmanuel college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223334200', 'postcode': 'cb23ap', 'pricerange': 'free', 'type': 'college'}, {'address': '251a chesterton road', 'area': 'centre', 'entrance fee': '?', 'id': '67', 'location': [52.211939, 0.118661], 'name': 'the cambridge punter', 'openhours': '?', 'phone': '07807718591', 'postcode': 'cb41as', 'pricerange': '?', 'type': 'boat'}, {'address': 'magdalene street', 'area': 'west', 'entrance fee': 'free', 'id': '42', 'location': [52.210403, 0.115803], 'name': 'magdalene college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223332138', 'postcode': 'cb30ag', 'pricerange': 'free', 'type': 'college'}, {'address': "6 saint edward's passage", 'area': 'centre', 'entrance fee': '?', 'id': '10', 'location': [52.2034781571435, 0.119176917855308], 'name': 'cambridge arts theatre', 'openhours': '?', 'phone': '01223503333', 'postcode': 'cb23pj', 'pricerange': '?', 'type': 'theatre'}, {'address': '49 newnham road', 'area': 'west', 'entrance fee': 'free', 'id': '12', 'location': [52.198744, 0.113364], 'name': 'cambridge book and print gallery', 'openhours': 'it opens from 10:00 a.m. to 5:00 p.m. from tuesday to saturday', 'phone': '01223694264', 'postcode': 'cb39ey', 'pricerange': 'free', 'type': 'museum'}, {'address': "storey's way", 'area': 'west', 'entrance fee': 'free', 'id': '20', 'location': [52.2128888888889, 0.103127777777778], 'name': 'churchill college', 'openhours': 'it opens normally daily from 9 a.m. to 5 p.m. except easter term', 'phone': '01223336233', 'postcode': 'cb30ds', 'pricerange': 'free', 'type': 'college'}, {'address': 'pool way, whitehill road, off newmarket road', 'area': 'east', 'entrance fee': '?', 'id': '1', 'location': [52.208789, 0.154883], 'name': 'abbey pool and astroturf pitch', 'openhours': '?', 'phone': '01223902088', 'postcode': 'cb58nt', 'pricerange': '?', 'type': 'swimmingpool'}]\\ \tt  
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Sure, I can help you with that. Could you tell me a bit more about what you're looking for in a college attraction? For example, are you interested in a particular type of college, like a historic one or a modern university? And do you have a preferred day or time you'd like to visit? This will help me narrow down the options for you. 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Sure, I can help with that. Based on your interest in a college attraction, one option that fits your request is "Queens' College" with the ID 53. It is located in the west area of Cambridge and has a moderate price range with an entrance fee of 2.50 pounds. The college opens from Monday to Sunday, 10 a.m. to 4:30 p.m. If you need more information or have specific preferences, let me know! 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'the plough, green end, fen ditton,', 'area': 'east', 'entrance fee': '?', 'id': '8', 'location': [52.21247, 0.15619], 'name': 'camboats', 'openhours': '?', 'phone': '01223902112', 'postcode': 'cb58sx', 'pricerange': '?', 'type': 'boat'}, {'address': 'the plough, green end, fen ditton,', 'area': 'east', 'entrance fee': '?', 'id': '8', 'location': [52.21247, 0.15619], 'name': 'camboats', 'openhours': '?', 'phone': '01223902112', 'postcode': 'cb58sx', 'pricerange': '?', 'type': 'boat'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt Sure, I can help you with that. Could you tell me a bit more about what you're looking for in a college attraction? For example, are you interested in a particular type of college, like a historic one or a modern university? And do you have a preferred day or time you'd like to visit? This will help me narrow down the options for you.\\ \tt \\ \tt Sure, I can help with that. Based on your interest in a college attraction, one option that fits your request is "Queens' College" with the ID 53. It is located in the west area of Cambridge and has a moderate price range with an entrance fee of 2.50 pounds. The college opens from Monday to Sunday, 10 a.m. to 4:30 p.m. If you need more information or have specific preferences, let me know! 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "silver street", "area": "west", "entrance fee": "2.50 pounds", "id": "53", "location": [52.2018, 0.114239], "name": "Queens' College", "openhours": "monday to sunday 10 a.m. to 4:30 p.m.", "phone": "01223335511", "postcode": "cb39et", "pricerange": "moderate", "type": "college"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'silver street', 'area': 'west', 'entrance fee': '2.50 pounds', 'id': '53', 'location': [52.2018, 0.114239], 'name': "Queens' College", 'openhours': 'monday to sunday 10 a.m. to 4:30 p.m.', 'phone': '01223335511', 'postcode': 'cb39et', 'pricerange': 'moderate', 'type': 'college'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Sure, I can help with that. Based on your interest in a college attraction, one option that fits your request is "Queens' College" with the ID 53. It is located in the west area of Cambridge and has a moderate price range with an entrance fee of 2.50 pounds. The college opens from Monday to Sunday, 10 a.m. to 4:30 p.m. If you need more information or have specific preferences, let me know! 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 1 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 That sounds great! Could you please provide me with the postcode and the full address of Queens' College? Also, I'm planning to visit on a Saturday, so it's good to know it's open then. Thanks! 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 That sounds great! Could you please provide me with the postcode and the full address of Queens' College? Also, I'm planning to visit on a Saturday, so it's good to know it's open then. Thanks! 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 Certainly! The full address of Queens' College is Silver Street, and the postcode is CB3 9ET. It's open on Saturdays from 10 a.m. to 4:30 p.m., so you can plan your visit accordingly. Enjoy your time there! 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 2 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\rangle$B]}  
+	 Please create a JSON object using only the text provided below in "TEXT TO SUMMARISE". Use the text exactly as it is written without adding any background information.\\ \tt \\ \tt Data Extraction Rules:\\ \tt - Extract only from "TEXT TO SUMMARISE": Do not use any other knowledge or assumptions to complete the JSON structure. Only the given text should be used to find relevant information. Do NOT use any additional data you might find in the database.\\ \tt - Separate Items: Treat each instance suggested in the text as a separate JSON item in a list.\\ \tt - Use Existing Keys Only: Only use keys provided in the example structure below. If the content does not match any key, exclude it.\\ \tt - ID/Name Requirement: If an ID or name is provided, include it as part of each JSON object. Do not create new keys or values.\\ \tt \\ \tt Response Structure:\\ \tt - Start directly with the JSON code, adhering exactly to the format below.\\ \tt - Use double quotes for all JSON strings. Do not add comments or any additional explanation.\\ \tt - Do not use markup (```json), start directly with the json code ([{"name": ...}])\\ \tt \\ \tt EXAMPLE structure:\\ \tt [{'address': 'the plough, green end, fen ditton,', 'area': 'east', 'entrance fee': '?', 'id': '8', 'location': [52.21247, 0.15619], 'name': 'camboats', 'openhours': '?', 'phone': '01223902112', 'postcode': 'cb58sx', 'pricerange': '?', 'type': 'boat'}, {'address': 'the plough, green end, fen ditton,', 'area': 'east', 'entrance fee': '?', 'id': '8', 'location': [52.21247, 0.15619], 'name': 'camboats', 'openhours': '?', 'phone': '01223902112', 'postcode': 'cb58sx', 'pricerange': '?', 'type': 'boat'}]\\ \tt \\ \tt TEXT TO SUMMARISE:\\ \tt \\ \tt That sounds great! Could you please provide me with the postcode and the full address of Queens' College? Also, I'm planning to visit on a Saturday, so it's good to know it's open then. Thanks!\\ \tt \\ \tt Certainly! The full address of Queens' College is Silver Street, and the postcode is CB3 9ET. It's open on Saturdays from 10 a.m. to 4:30 p.m., so you can plan your visit accordingly. Enjoy your time there! 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{1,0.85,0.72}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$\langle$B]}  
+	 [{"address": "Silver Street", "area": "west", "entrance fee": "2.50 pounds", "id": "53", "location": [52.2018, 0.114239], "name": "Queens' College", "openhours": "monday to sunday 10 a.m. to 4:30 p.m.", "phone": "01223335511", "postcode": "CB3 9ET", "pricerange": "moderate", "type": "college"}] 
+	  } 
+	   } 
+	   } 
+	  \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 json successfully parsed 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 update game state 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 updated game state: [{'address': 'Silver Street', 'area': 'west', 'entrance fee': '2.50 pounds', 'id': '53', 'location': [52.2018, 0.114239], 'name': "Queens' College", 'openhours': 'monday to sunday 10 a.m. to 4:30 p.m.', 'phone': '01223335511', 'postcode': 'CB3 9ET', 'pricerange': 'moderate', 'type': 'college'}] 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.9,0.9,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\langle$GM]}  
+	 Certainly! The full address of Queens' College is Silver Street, and the postcode is CB3 9ET. It's open on Saturdays from 10 a.m. to 4:30 p.m., so you can plan your visit accordingly. Enjoy your time there! 
+	  } 
+	   } 
+	   } 
+	 & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Current turn: 2 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & \multicolumn{4}{p{0.6\linewidth}}{\cellcolor[rgb]{0.8,1,0.9}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [A$\rangle$GM]}  
+	 Perfect, thank you! The address and postcode are exactly what I needed. I'll plan to visit Queens' College on a Saturday, and I'm looking forward to it. I'll go with the option with ID 53. Thanks for your help! FULFILLED 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Response Player 1 successfully parsed. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Ending game... 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 final choice: perfect, thank you! the address and postcode are exactly what i needed. i'll plan to visit queens' college on a saturday, and i'm looking forward to it. i'll go with the option with id 53. thanks for your help! fulfilled 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Log final suggestion:{'address': 'Silver Street', 'area': 'west', 'entrance fee': '2.50 pounds', 'id': '53', 'location': [52.2018, 0.114239], 'name': "Queens' College", 'openhours': 'monday to sunday 10 a.m. to 4:30 p.m.', 'phone': '01223335511', 'postcode': 'CB3 9ET', 'pricerange': 'moderate', 'type': 'college'} 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+    \theutterance \stepcounter{utterance}  
+
+    & & & \multicolumn{2}{p{0.3\linewidth}}{\cellcolor[rgb]{0.95,0.95,0.95}{%
+	\makecell[{{p{\linewidth}}}]{% 
+	  \tt {\tiny [GM$|$GM]}  
+	 Game finished. 
+	  } 
+	   } 
+	   } 
+	 & & \\ 
+ 
+
+\end{supertabular}
+}
+
+\end{document}
